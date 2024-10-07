@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/qt/qml/Distributed_voice_call_WebRTC/">
+    <file alias="Main.qml">D:/UT/CN/CA1/git/CN_CA_1_/Distributed_voice_call_WebRTC/Main.qml</file>
+  </qresource>
+</RCC>
+

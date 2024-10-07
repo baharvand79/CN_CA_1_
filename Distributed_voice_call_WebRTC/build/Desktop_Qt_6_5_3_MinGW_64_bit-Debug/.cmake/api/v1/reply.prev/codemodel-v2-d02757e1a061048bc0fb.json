@@ -1,0 +1,169 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-ef5a2d7c1bbaec69f31d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Distributed_voice_call_WebRTC",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "all_qmllint::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-all_qmllint-Debug-6184e61383fba913189d.json",
+					"name" : "all_qmllint",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "all_qmllint_json::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-all_qmllint_json-Debug-0fc47440bdea73262e7f.json",
+					"name" : "all_qmllint_json",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "all_qmllint_module::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-all_qmllint_module-Debug-da86df8676f597c35894.json",
+					"name" : "all_qmllint_module",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "all_qmltyperegistrations::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-all_qmltyperegistrations-Debug-f7024e467aac339f3c1d.json",
+					"name" : "all_qmltyperegistrations",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appDistributed_voice_call_WebRTC::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appDistributed_voice_call_WebRTC-Debug-8e498b5550f9918aef48.json",
+					"name" : "appDistributed_voice_call_WebRTC",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appDistributed_voice_call_WebRTC_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appDistributed_voice_call_WebRTC_autogen-Debug-e51bc851c43d9f5886e3.json",
+					"name" : "appDistributed_voice_call_WebRTC_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appDistributed_voice_call_WebRTC_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appDistributed_voice_call_WebRTC_autogen_timestamp_deps-Debug-5c9113883d0ff543aa1f.json",
+					"name" : "appDistributed_voice_call_WebRTC_autogen_timestamp_deps",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appDistributed_voice_call_WebRTC_qmlimportscan::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appDistributed_voice_call_WebRTC_qmlimportscan-Debug-da6e5ed867d77cdb0bdd.json",
+					"name" : "appDistributed_voice_call_WebRTC_qmlimportscan",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appDistributed_voice_call_WebRTC_qmllint::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appDistributed_voice_call_WebRTC_qmllint-Debug-6bba63f2f477557b7f5d.json",
+					"name" : "appDistributed_voice_call_WebRTC_qmllint",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appDistributed_voice_call_WebRTC_qmllint_json::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appDistributed_voice_call_WebRTC_qmllint_json-Debug-6d8b0ec033e98067297e.json",
+					"name" : "appDistributed_voice_call_WebRTC_qmllint_json",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appDistributed_voice_call_WebRTC_qmllint_module::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appDistributed_voice_call_WebRTC_qmllint_module-Debug-5be70a5c5ff1b9c178c6.json",
+					"name" : "appDistributed_voice_call_WebRTC_qmllint_module",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appDistributed_voice_call_WebRTC_qmltyperegistration::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appDistributed_voice_call_WebRTC_qmltyperegistration-Debug-9e3ac136e405e2099cdc.json",
+					"name" : "appDistributed_voice_call_WebRTC_qmltyperegistration",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "appDistributed_voice_call_WebRTC_tooling::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-appDistributed_voice_call_WebRTC_tooling-Debug-64816b7308239b81b014.json",
+					"name" : "appDistributed_voice_call_WebRTC_tooling",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "D:/UT/CN/CA1/git/CN_CA_1_/Distributed_voice_call_WebRTC/build/Desktop_Qt_6_5_3_MinGW_64_bit-Debug",
+		"source" : "D:/UT/CN/CA1/git/CN_CA_1_/Distributed_voice_call_WebRTC"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}
