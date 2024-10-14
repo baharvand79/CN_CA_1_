@@ -1,6 +1,7 @@
 # This file is used to ignore files which are generated
 # ----------------------------------------------------------------------------
-
+../build-voice_call_app-Desktop_Qt_5_15_2_MinGW_64_bit-Debug
+../build-voice_call_app-Desktop_Qt_6_5_3_MinGW_64_bit-Debug
 *~
 *.autosave
 *.a

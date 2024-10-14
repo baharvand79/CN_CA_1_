@@ -28,12 +28,13 @@ DISTFILES += \
     main.qml
 # Additional libraries
 # ### libdatachannel
-INCLUDEPATH += D:/UT/CN/CA1/libdatachannel/include
-LIBS += -LD:/UT/CN/CA1/libdatachannel/Windows/Mingw64 -ldatachannel.dll
+INCLUDEPATH += $$PWD/libdatachannel/include
+LIBS += -L$$PWD/libdatachannel/Windows/Mingw64 -ldatachannel.dll
 LIBS += -LC:/Qt/Tools/OpenSSLv3/Win_x64/bin -lcrypto-3-x64 -lssl-3-x64
 LIBS += -lws2_32
 LIBS += -lssp
 
 # ### opus
-INCLUDEPATH += D:/UT/CN/CA1/opus/include
-LIBS += -LD:/UT/CN/CA1/opus/Windows/Mingw64 -lopus
+INCLUDEPATH += $$PWD/opus/include
+LIBS += -L$$PWD/opus/Windows/Mingw64 -lopus
+message($$PWD)
