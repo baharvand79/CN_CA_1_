@@ -1,4 +1,4 @@
-QT += quick qml quickcontrols2 quicklayouts
+QT += quick qml quickcontrols2 quicklayouts multimedia
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -9,6 +9,7 @@ CONFIG += no_keyword
 CXXFLAGS += -fstack-protector
 
 SOURCES += \
+        audioinput.cpp \
         main.cpp \
         webrtc.cpp
 
@@ -26,6 +27,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    audioinput.h \
     webrtc.h
 
 DISTFILES += \
@@ -38,6 +40,6 @@ LIBS += -LC:/Qt/Tools/OpenSSLv3/Win_x64/bin -lcrypto-3-x64 -lssl-3-x64
 LIBS += -lws2_32
 LIBS += -lssp
 
-## ### opus
-#INCLUDEPATH += D:/UT/CN/CA1/opus/include
-#LIBS += -LD:/UT/CN/CA1/opus/Windows/Mingw64 -lopus
+# ### opus
+INCLUDEPATH += D:/UT/CN/CA1/opus/include
+LIBS += -LD:/UT/CN/CA1/git/CN_CA_1_/voice_call_app/opus/Windows/Mingw64 -lopus

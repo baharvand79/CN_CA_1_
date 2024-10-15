@@ -20,16 +20,16 @@ WebRTC::WebRTC(QObject *parent)
     : QObject{parent},
     m_audio("Audio")
 {
-    connect(this, &WebRTC::gatheringComplited, [this] (const QString &peerID) {
+//    connect(this, &WebRTC::gatheringComplited, [this] (const QString &peerID) {
 
-        m_localDescription = descriptionToJson(m_peerConnections[peerID]->localDescription().value());
+//        m_localDescription = descriptionToJson(m_peerConnections[peerID]->localDescription().value());
 //        Q_EMIT localDescriptionGenerated(peerID, m_localDescription);
 
 //        if (m_isOfferer)
 //            Q_EMIT this->offerIsReady(peerID, m_localDescription);
 //        else
 //            Q_EMIT this->answerIsReady(peerID, m_localDescription);
-    });
+//    });
 }
 
 WebRTC::~WebRTC()

@@ -359,6 +359,7 @@ Makefile: ../voice_call_app/voice_call_app.pro C:/Qt/6.5.3/mingw_64/mkspecs/win3
 		C:/Qt/6.5.3/mingw_64/lib/Qt6QuickLayouts.prl \
 		C:/Qt/6.5.3/mingw_64/lib/Qt6Quick.prl \
 		C:/Qt/6.5.3/mingw_64/lib/Qt6OpenGL.prl \
+		C:/Qt/6.5.3/mingw_64/lib/Qt6Multimedia.prl \
 		C:/Qt/6.5.3/mingw_64/lib/Qt6Gui.prl \
 		C:/Qt/6.5.3/mingw_64/lib/Qt6QmlModels.prl \
 		C:/Qt/6.5.3/mingw_64/lib/Qt6Qml.prl \
@@ -657,6 +658,7 @@ C:/Qt/6.5.3/mingw_64/lib/Qt6QuickControls2.prl:
 C:/Qt/6.5.3/mingw_64/lib/Qt6QuickLayouts.prl:
 C:/Qt/6.5.3/mingw_64/lib/Qt6Quick.prl:
 C:/Qt/6.5.3/mingw_64/lib/Qt6OpenGL.prl:
+C:/Qt/6.5.3/mingw_64/lib/Qt6Multimedia.prl:
 C:/Qt/6.5.3/mingw_64/lib/Qt6Gui.prl:
 C:/Qt/6.5.3/mingw_64/lib/Qt6QmlModels.prl:
 C:/Qt/6.5.3/mingw_64/lib/Qt6Qml.prl:
