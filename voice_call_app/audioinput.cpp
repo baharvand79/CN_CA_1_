@@ -28,3 +28,20 @@ AudioInput::AudioInput(QObject *parent)
 
     audioSource->start(this);
 }
+
+qint64 AudioInput::writeData(const char *data, qint64 len)
+{
+    const int maxPacketSize = 4000;
+    unsigned char encodedData[maxPacketSize];
+
+    int encodedBytes = opus_encode(encoder, reinterpret_cast<const opus_int16*>(data), len / 2, encodedData, maxPacketSize);
+
+    if (encodedBytes < 0) {
+        qDebug() << "Opus encoding failed with error:" << encodedBytes;
+        return -1;
+    }
+
+    qDebug() << "Encoded" << encodedBytes << "bytes of audio data.";
+
+    return len;
+}

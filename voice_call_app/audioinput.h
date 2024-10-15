@@ -13,6 +13,8 @@ class AudioInput: public QIODevice
 public:
     AudioInput(QObject *parent = nullptr);
 
+    qint64 writeData(const char *data, qint64 len);
+
 private:
     OpusEncoder *encoder;
     QAudioSource *audioSource;
