@@ -1,11 +1,47 @@
-//#ifndef WEBRTC_H
-//#define WEBRTC_H
+#ifndef WEBRTC_H
+#define WEBRTC_H
 
-//#include <QObject>
-//#include <QMap>
+#include <QObject>
+#include <QMap>
 
 //// Build the datachannellib library and add the include path to .pro file
-//#include <rtc/rtc.hpp>
+#include <rtc/rtc.hpp>
+
+class WebRTC : public QObject
+{
+    Q_OBJECT
+
+public:
+
+    explicit WebRTC(QObject *parent = nullptr);
+    virtual ~WebRTC();
+
+    Q_INVOKABLE void init(const QString &id, bool isOfferer);
+
+
+Q_SIGNALS:
+    void gatheringComplited(const QString &peerID);
+    void localDescriptionGenerated(const QString &peerID, const QString &sdp);
+    void localCandidateGenerated(const QString &peerID, const QString &candidate, const QString &sdpMid);
+    void offerIsReady(const QString &peerID, const QString& description);
+    void answerIsReady(const QString &peerID, const QString& description);
+
+private:
+    QString                                             m_localId;
+    bool                                                m_isOfferer = false;
+    rtc::Configuration                                  m_configure;
+    static inline uint32_t                              m_instanceCounter = 0;
+    static inline uint16_t                              m_sequenceNumber = 0;
+    bool                                                m_gatheringComplited = false;
+    int                                                 m_bitRate = 48000;
+    int                                                 m_payloadType = 111;
+    QString                                             m_localDescription;
+    rtc::Description::Audio                             m_audio;
+    QMap<QString, std::shared_ptr<rtc::PeerConnection>> m_peerConnections;
+
+    QString descriptionToJson(const rtc::Description &description);
+
+};
 
 //class WebRTC : public QObject
 //{
@@ -102,4 +138,4 @@
 //    Q_PROPERTY(int bitRate READ bitRate WRITE setBitRate RESET resetBitRate NOTIFY bitRateChanged FINAL)
 //};
 
-//#endif // WEBRTC_H
+#endif // WEBRTC_H

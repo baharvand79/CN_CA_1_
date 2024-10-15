@@ -1,39 +1,39 @@
-//#include "webrtc.h"
-//#include <QtEndian>
-//#include <QJsonDocument>
+#include "webrtc.h"
+#include <QtEndian>
+#include <QJsonDocument>
 
-//static_assert(true);
+static_assert(true);
 
-//#pragma pack(push, 1)
-//struct RtpHeader {
-//    uint8_t first;
-//    uint8_t marker:1;
-//    uint8_t payloadType:7;
-//    uint16_t sequenceNumber;
-//    uint32_t timestamp;
-//    uint32_t ssrc;
-//};
-//#pragma pack(pop)
+#pragma pack(push, 1)
+struct RtpHeader {
+    uint8_t first;
+    uint8_t marker:1;
+    uint8_t payloadType:7;
+    uint16_t sequenceNumber;
+    uint32_t timestamp;
+    uint32_t ssrc;
+};
+#pragma pack(pop)
 
 
-//WebRTC::WebRTC(QObject *parent)
-//    : QObject{parent},
-//    m_audio("Audio")
-//{
-//    connect(this, &WebRTC::gatheringComplited, [this] (const QString &peerID) {
+WebRTC::WebRTC(QObject *parent)
+    : QObject{parent},
+    m_audio("Audio")
+{
+    connect(this, &WebRTC::gatheringComplited, [this] (const QString &peerID) {
 
-//        m_localDescription = descriptionToJson(m_peerConnections[peerID]->localDescription().value());
+        m_localDescription = descriptionToJson(m_peerConnections[peerID]->localDescription().value());
 //        Q_EMIT localDescriptionGenerated(peerID, m_localDescription);
 
 //        if (m_isOfferer)
 //            Q_EMIT this->offerIsReady(peerID, m_localDescription);
 //        else
 //            Q_EMIT this->answerIsReady(peerID, m_localDescription);
-//    });
-//}
+    });
+}
 
-//WebRTC::~WebRTC()
-//{}
+WebRTC::~WebRTC()
+{}
 
 
 ///**
@@ -42,19 +42,32 @@
 // * ====================================================
 // */
 
-//void WebRTC::init(const QString &id, bool isOfferer)
-//{
-//    // Initialize WebRTC using libdatachannel library
+void WebRTC::init(const QString &id, bool isOfferer)
+{
+    m_localId = id;
+    m_isOfferer = isOfferer;
 
-//    // Create an instance of rtc::Configuration to Set up ICE configuration
+    // *** Config with ICE
+    rtc::Configuration                                  m_configure;
+    m_configure.iceServers.emplace_back("stun:stun.l.google.com:19302");
 
-//    // Add a STUN server to help peers find their public IP addresses
+    // *** no TURN. add it later !!! instead we assume that the user is connected
+    // and increase the peer connections counters by one
+    m_instanceCounter++;
 
-//    // Add a TURN server for relaying media if a direct connection can't be established
 
-//    // Set up the audio stream configuration
+    //// TO DO
+    // Initialize WebRTC using libdatachannel library
 
-//}
+    // Create an instance of rtc::Configuration to Set up ICE configuration
+
+    // Add a STUN server to help peers find their public IP addresses
+
+    // Add a TURN server for relaying media if a direct connection can't be established
+
+    // Set up the audio stream configuration
+
+}
 
 //void WebRTC::addPeer(const QString &peerId)
 //{
