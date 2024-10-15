@@ -45,3 +45,11 @@ qint64 AudioInput::writeData(const char *data, qint64 len)
 
     return len;
 }
+
+qint64 AudioInput::readData(char *data, qint64 len)
+{
+    // This function is required by QIODevice but won't be used in this context
+    Q_UNUSED(data);
+    Q_UNUSED(len);
+    return 0;
+}
