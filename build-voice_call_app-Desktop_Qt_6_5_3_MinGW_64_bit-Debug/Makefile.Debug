@@ -688,7 +688,24 @@ debug/main.o: ../voice_call_app/main.cpp C:/Qt/6.5.3/mingw_64/include/QtGui/QGui
 		C:/Qt/6.5.3/mingw_64/include/QtQml/qqmlregistration.h \
 		C:/Qt/6.5.3/mingw_64/include/QtQmlIntegration/qqmlintegration.h \
 		C:/Qt/6.5.3/mingw_64/include/QtQml/qqmlerror.h \
-		C:/Qt/6.5.3/mingw_64/include/QtQml/qqmlabstracturlinterceptor.h
+		C:/Qt/6.5.3/mingw_64/include/QtQml/qqmlabstracturlinterceptor.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/QCoreApplication \
+		../voice_call_app/audioinput.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/QIODevice \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qiodevice.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioSource \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiosource.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudio.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudioformat.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiodevice.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/QDebug \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/QObject \
+		../voice_call_app/opus/include/opus.h \
+		../voice_call_app/opus/include/opus_types.h \
+		../voice_call_app/opus/include/opus_defines.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\main.o ..\voice_call_app\main.cpp
 
 debug/webrtc.o: ../voice_call_app/webrtc.cpp ../voice_call_app/webrtc.h \
