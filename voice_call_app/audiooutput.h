@@ -2,35 +2,23 @@
 #define AUDIOOUTPUT_H
 
 #include <QObject>
-#include <QIODevice>
-#include <QAudioFormat>
 #include <QAudioSink>
-#include <QMediaDevices>
+#include <QIODevice>
 #include <QMutex>
-#include <QMutexLocker>
-#include <QQueue>
-#include <QDebug>
-#include <opus/include/opus.h>
 
 class AudioOutput : public QObject {
     Q_OBJECT
-
 public:
     explicit AudioOutput(QObject *parent = nullptr);
-    void addData(const QByteArray &data);
-    void play();
+    ~AudioOutput();
 
-signals:
-    void newPacket();
+public slots:
+    void playAudio(const QByteArray &data);
 
 private:
     QAudioSink *audioSink;
-    QAudioFormat audioFormat;
-    QQueue<QByteArray> audioQueue;
+    QIODevice *outputDevice;
     QMutex mutex;
-    OpusDecoder *opusDecoder;
-
-    void processAudio(const QByteArray &data);
 };
 
 #endif // AUDIOOUTPUT_H

@@ -1,26 +1,28 @@
 #ifndef AUDIOINPUT_H
 #define AUDIOINPUT_H
 
-#include <QIODevice>
 #include <QAudioSource>
-#include <QDebug>
+#include <QIODevice>
 #include <QObject>
-#include <opus/include/opus.h>
 
-class AudioInput: public QIODevice
-{
+class AudioInput : public QIODevice {
     Q_OBJECT
 public:
     AudioInput(QObject *parent = nullptr);
+    ~AudioInput();
 
-    qint64 writeData(const char *data, qint64 len);
+    void startCapture();
 
-    qint64 readData(char *data, qint64 len);
+protected:
+    qint64 readData(char *data, qint64 maxlen) override;
+    qint64 writeData(const char *data, qint64 len) override;
+
+signals:
+    void audioCaptured(const QByteArray &data);
 
 private:
-    OpusEncoder *encoder;
     QAudioSource *audioSource;
-    int error;
+    QIODevice *audioDevice;
 };
 
 #endif // AUDIOINPUT_H
