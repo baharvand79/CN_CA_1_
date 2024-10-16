@@ -10,6 +10,7 @@ CXXFLAGS += -fstack-protector
 
 SOURCES += \
         audioinput.cpp \
+        audiooutput.cpp \
         main.cpp \
         webrtc.cpp
 
@@ -28,6 +29,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     audioinput.h \
+    audiooutput.h \
     webrtc.h
 
 DISTFILES += \
