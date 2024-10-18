@@ -2,15 +2,9 @@ debug/audioinput.o
 debug/audiooutput.o
 debug/main.o
 debug/webrtc.o
-debug/SocketIO.o
 debug/sio_client.o
-debug/SocketIO.o
 debug/sio_socket.o
-debug/SocketIO.o
-debug/internal.o
 debug/sio_client_impl.o
-debug/SocketIO.o
-debug/internal.o
 debug/sio_packet.o
 debug/qrc_qml.o
 debug/moc_audioinput.o
