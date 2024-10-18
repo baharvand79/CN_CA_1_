@@ -4,7 +4,7 @@ QT += quick qml quickcontrols2 quicklayouts multimedia
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-CONFIG += c++20
+CONFIG += c++11
 CONFIG += no_keyword
 CXXFLAGS += -fstack-protector
 
@@ -53,7 +53,7 @@ HEADERS += \
  $$PWD/SocketIO/sio_message.h \
  $$PWD/SocketIO/sio_socket.h \
  $$PWD/SocketIO/internal/sio_client_impl.h \
- $$PWD/SocketIO/internal /sio_packet.h
+ $$PWD/SocketIO/internal/sio_packet.h
 SOURCES += \
  $$PWD/SocketIO/sio_client.cpp \
  $$PWD/SocketIO/sio_socket.cpp \
@@ -75,3 +75,10 @@ DEFINES += _WEBSOCKET_CPP11_FUNCTIONAL_
 DEFINES += SIO_TLS
 
 DEFINES += ASIO_STANDALONE
+
+
+# to fix openssl
+INCLUDEPATH += C:/Qt/Tools/OpenSSLv3/Win_x64/include
+#INCLUDEPATH += C:/Qt/Tools/OpenSSLv3/src/include
+
+
