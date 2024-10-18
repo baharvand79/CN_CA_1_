@@ -36,12 +36,42 @@ DISTFILES += \
     main.qml
 # Additional libraries
 # ### libdatachannel
-INCLUDEPATH += D:/UT/CN/CA1/git/CN_CA_1_/voice_call_app/libdatachannel/include
-LIBS += -LD:/UT/CN/CA1/git/CN_CA_1_/voice_call_app/libdatachannel/Windows/Mingw64 -ldatachannel.dll
+INCLUDEPATH += $$PWD/libdatachannel/include
+LIBS += -L$$PWD/libdatachannel/Windows/Mingw64 -ldatachannel.dll
 LIBS += -LC:/Qt/Tools/OpenSSLv3/Win_x64/bin -lcrypto-3-x64 -lssl-3-x64
 LIBS += -lws2_32
 LIBS += -lssp
 
 # ### opus
-INCLUDEPATH += D:/UT/CN/CA1/opus/include
-LIBS += -LD:/UT/CN/CA1/git/CN_CA_1_/voice_call_app/opus/Windows/Mingw64 -lopus
+INCLUDEPATH += $$PWD/opus/include
+LIBS += -L$$PWD/opus/Windows/Mingw64 -lopus
+CXXFLAGS += -fstack-protector
+
+# ### socket io
+HEADERS += \
+ $$PWD/SocketIO/sio_client.h \
+ $$PWD/SocketIO/sio_message.h \
+ $$PWD/SocketIO/sio_socket.h \
+ $$PWD/SocketIO/internal/sio_client_impl.h \
+ $$PWD/SocketIO/internal /sio_packet.h
+SOURCES += \
+ $$PWD/SocketIO/sio_client.cpp \
+ $$PWD/SocketIO/sio_socket.cpp \
+ $$PWD/SocketIO/internal/sio_client_impl.cpp \
+ $$PWD/SocketIO/internal/sio_packet.cpp
+INCLUDEPATH += $$PWD/socket.io-client-cpp/lib/websocketpp
+INCLUDEPATH += $$PWD/socket.io-client-cpp/lib/asio/asio/include
+INCLUDEPATH += $$PWD/socket.io-client-cpp/lib/rapidjson/include
+DEFINES += _WEBSOCKETPP_CPP11_STL_
+DEFINES += _WEBSOCKETPP_CPP11_FUNCTIONAL_
+DEFINES += SIO_TLS
+
+# to fix boost
+DEFINES += BOOST_DATE_TIME_NO_LIB
+DEFINES += BOOST_REGEX_NO_LIB
+DEFINES +=ASIO_STANDLONE
+DEFINES += _WEBSOCKETPP_CPP11_STL_
+DEFINES += _WEBSOCKET_CPP11_FUNCTIONAL_
+DEFINES += SIO_TLS
+
+DEFINES += ASIO_STANDALONE
