@@ -1,25 +1,25 @@
-#include "webrtc.h"
-#include <QtEndian>
-#include <QJsonDocument>
+//#include "webrtc.h"
+//#include <QtEndian>
+//#include <QJsonDocument>
 
-static_assert(true);
+//static_assert(true);
 
-#pragma pack(push, 1)
-struct RtpHeader {
-    uint8_t first;
-    uint8_t marker:1;
-    uint8_t payloadType:7;
-    uint16_t sequenceNumber;
-    uint32_t timestamp;
-    uint32_t ssrc;
-};
-#pragma pack(pop)
+//#pragma pack(push, 1)
+//struct RtpHeader {
+//    uint8_t first;
+//    uint8_t marker:1;
+//    uint8_t payloadType:7;
+//    uint16_t sequenceNumber;
+//    uint32_t timestamp;
+//    uint32_t ssrc;
+//};
+//#pragma pack(pop)
 
 
-WebRTC::WebRTC(QObject *parent)
-    : QObject{parent},
-    m_audio("Audio")
-{
+//WebRTC::WebRTC(QObject *parent)
+//    : QObject{parent},
+//    m_audio("Audio")
+//{
 //    connect(this, &WebRTC::gatheringComplited, [this] (const QString &peerID) {
 
 //        m_localDescription = descriptionToJson(m_peerConnections[peerID]->localDescription().value());
@@ -30,44 +30,44 @@ WebRTC::WebRTC(QObject *parent)
 //        else
 //            Q_EMIT this->answerIsReady(peerID, m_localDescription);
 //    });
-}
+//}
 
-WebRTC::~WebRTC()
-{}
-
-
-///**
-// * ====================================================
-// * ================= public methods ===================
-// * ====================================================
-// */
-
-void WebRTC::init(const QString &id, bool isOfferer)
-{
-    m_localId = id;
-    m_isOfferer = isOfferer;
-
-    // *** Config with ICE
-    rtc::Configuration                                  m_configure;
-    m_configure.iceServers.emplace_back("stun:stun.l.google.com:19302");
-
-    // *** no TURN. add it later !!! instead we assume that the user is connected
-    // and increase the peer connections counters by one
-    m_instanceCounter++;
+//WebRTC::~WebRTC()
+//{}
 
 
-    //// TO DO
-    // Initialize WebRTC using libdatachannel library
+/////**
+//// * ====================================================
+//// * ================= public methods ===================
+//// * ====================================================
+//// */
 
-    // Create an instance of rtc::Configuration to Set up ICE configuration
+//void WebRTC::init(const QString &id, bool isOfferer)
+//{
+////    m_localId = id;
+////    m_isOfferer = isOfferer;
 
-    // Add a STUN server to help peers find their public IP addresses
+////    // *** Config with ICE
+////    rtc::Configuration                                  m_configure;
+////    m_configure.iceServers.emplace_back("stun:stun.l.google.com:19302");
 
-    // Add a TURN server for relaying media if a direct connection can't be established
+////    // *** no TURN. add it later !!! instead we assume that the user is connected
+////    // and increase the peer connections counters by one
+////    m_instanceCounter++;
 
-    // Set up the audio stream configuration
 
-}
+//    //// TO DO
+//    // Initialize WebRTC using libdatachannel library
+
+//    // Create an instance of rtc::Configuration to Set up ICE configuration
+
+//    // Add a STUN server to help peers find their public IP addresses
+
+//    // Add a TURN server for relaying media if a direct connection can't be established
+
+//    // Set up the audio stream configuration
+
+//}
 
 //void WebRTC::addPeer(const QString &peerId)
 //{

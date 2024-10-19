@@ -363,6 +363,7 @@ Makefile: ../voice_call_app/voice_call_app.pro C:/Qt/6.5.3/mingw_64/mkspecs/win3
 		C:/Qt/6.5.3/mingw_64/lib/Qt6Gui.prl \
 		C:/Qt/6.5.3/mingw_64/lib/Qt6QmlModels.prl \
 		C:/Qt/6.5.3/mingw_64/lib/Qt6Qml.prl \
+		C:/Qt/6.5.3/mingw_64/lib/Qt6WebSockets.prl \
 		C:/Qt/6.5.3/mingw_64/lib/Qt6Network.prl \
 		C:/Qt/6.5.3/mingw_64/lib/Qt6Core.prl \
 		C:/Qt/6.5.3/mingw_64/lib/Qt6EntryPoint.prl \
@@ -662,6 +663,7 @@ C:/Qt/6.5.3/mingw_64/lib/Qt6Multimedia.prl:
 C:/Qt/6.5.3/mingw_64/lib/Qt6Gui.prl:
 C:/Qt/6.5.3/mingw_64/lib/Qt6QmlModels.prl:
 C:/Qt/6.5.3/mingw_64/lib/Qt6Qml.prl:
+C:/Qt/6.5.3/mingw_64/lib/Qt6WebSockets.prl:
 C:/Qt/6.5.3/mingw_64/lib/Qt6Network.prl:
 C:/Qt/6.5.3/mingw_64/lib/Qt6Core.prl:
 C:/Qt/6.5.3/mingw_64/lib/Qt6EntryPoint.prl:

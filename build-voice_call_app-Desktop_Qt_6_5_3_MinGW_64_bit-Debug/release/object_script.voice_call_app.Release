@@ -9,4 +9,3 @@ release/sio_packet.o
 release/qrc_qml.o
 release/moc_audioinput.o
 release/moc_audiooutput.o
-release/moc_webrtc.o
