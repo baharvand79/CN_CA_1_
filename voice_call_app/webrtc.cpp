@@ -1,275 +1,262 @@
-//#include "webrtc.h"
-//#include <QtEndian>
-//#include <QJsonDocument>
+#include "webrtc.h"
+#include <QtEndian>
+#include <QJsonDocument>
 
-//static_assert(true);
+static_assert(true);
 
-//#pragma pack(push, 1)
-//struct RtpHeader {
-//    uint8_t first;
-//    uint8_t marker:1;
-//    uint8_t payloadType:7;
-//    uint16_t sequenceNumber;
-//    uint32_t timestamp;
-//    uint32_t ssrc;
-//};
-//#pragma pack(pop)
+#pragma pack(push, 1)
+struct RtpHeader {
+    uint8_t first;
+    uint8_t marker:1;
+    uint8_t payloadType:7;
+    uint16_t sequenceNumber;
+    uint32_t timestamp;
+    uint32_t ssrc;
+};
+#pragma pack(pop)
 
 
-//WebRTC::WebRTC(QObject *parent)
-//    : QObject{parent},
-//    m_audio("Audio")
-//{
-//    connect(this, &WebRTC::gatheringComplited, [this] (const QString &peerID) {
+WebRTC::WebRTC(QObject *parent)
+    : QObject{parent},
+    m_audio("Audio")
+{
+    connect(this, &WebRTC::gatheringComplited, [this] (const QString &peerID) {
 
-//        m_localDescription = descriptionToJson(m_peerConnections[peerID]->localDescription().value());
-//        Q_EMIT localDescriptionGenerated(peerID, m_localDescription);
+        m_localDescription = descriptionToJson(m_peerConnections[peerID]->localDescription().value());
+        Q_EMIT localDescriptionGenerated(peerID, m_localDescription);
 
-//        if (m_isOfferer)
-//            Q_EMIT this->offerIsReady(peerID, m_localDescription);
-//        else
-//            Q_EMIT this->answerIsReady(peerID, m_localDescription);
-//    });
-//}
+        if (m_isOfferer)
+            Q_EMIT this->offerIsReady(peerID, m_localDescription);
+        else
+            Q_EMIT this->answerIsReady(peerID, m_localDescription);
+    });
+}
 
-//WebRTC::~WebRTC()
-//{}
+WebRTC::~WebRTC()
+{}
 
 
-/////**
-//// * ====================================================
-//// * ================= public methods ===================
-//// * ====================================================
-//// */
+/**
+ * ====================================================
+ * ================= public methods ===================
+ * ====================================================
+ */
 
-//void WebRTC::init(const QString &id, bool isOfferer)
-//{
-////    m_localId = id;
-////    m_isOfferer = isOfferer;
+void WebRTC::init(const QString &id, bool isOfferer)
+{
+    // Initialize WebRTC using libdatachannel library
 
-////    // *** Config with ICE
-////    rtc::Configuration                                  m_configure;
-////    m_configure.iceServers.emplace_back("stun:stun.l.google.com:19302");
+    // Create an instance of rtc::Configuration to Set up ICE configuration
 
-////    // *** no TURN. add it later !!! instead we assume that the user is connected
-////    // and increase the peer connections counters by one
-////    m_instanceCounter++;
+    // Add a STUN server to help peers find their public IP addresses
 
+    // Add a TURN server for relaying media if a direct connection can't be established
 
-//    //// TO DO
-//    // Initialize WebRTC using libdatachannel library
+    // Set up the audio stream configuration
 
-//    // Create an instance of rtc::Configuration to Set up ICE configuration
+}
 
-//    // Add a STUN server to help peers find their public IP addresses
+void WebRTC::addPeer(const QString &peerId)
+{
+    // Create and add a new peer connection
 
-//    // Add a TURN server for relaying media if a direct connection can't be established
 
-//    // Set up the audio stream configuration
+    // Set up a callback for when the local description is generated
 
-//}
+    newPeer->onLocalDescription([this, peerId](const rtc::Description &description) {
+        // The local description should be emitted using the appropriate signals based on the peer's role (offerer or answerer)
 
-//void WebRTC::addPeer(const QString &peerId)
-//{
-//    // Create and add a new peer connection
+    });
 
 
-//    // Set up a callback for when the local description is generated
 
-//    newPeer->onLocalDescription([this, peerId](const rtc::Description &description) {
-//        // The local description should be emitted using the appropriate signals based on the peer's role (offerer or answerer)
+    // Set up a callback for handling local ICE candidates
+    newPeer->onLocalCandidate([this, peerId](rtc::Candidate candidate) {
+        // Emit the local candidates using the localCandidateGenerated signal
 
-//    });
+    });
 
 
 
-//    // Set up a callback for handling local ICE candidates
-//    newPeer->onLocalCandidate([this, peerId](rtc::Candidate candidate) {
-//        // Emit the local candidates using the localCandidateGenerated signal
+    // Set up a callback for when the state of the peer connection changes
+    newPeer->onStateChange([this, peerId](rtc::PeerConnection::State state) {
+        // Handle different states like New, Connecting, Connected, Disconnected, etc.
 
-//    });
+    });
 
 
 
-//    // Set up a callback for when the state of the peer connection changes
-//    newPeer->onStateChange([this, peerId](rtc::PeerConnection::State state) {
-//        // Handle different states like New, Connecting, Connected, Disconnected, etc.
+    // Set up a callback for monitoring the gathering state
+    newPeer->onGatheringStateChange([this, peerId](rtc::PeerConnection::GatheringState state) {
+        // When the gathering is complete, emit the gatheringComplited signal
 
-//    });
+    });
 
+    // Set up a callback for handling incoming tracks
+    newPeer->onTrack([this, peerId] (std::shared_ptr<rtc::Track> track) {
+        // handle the incoming media stream, emitting the incommingPacket signal if a stream is received
 
+    });
 
-//    // Set up a callback for monitoring the gathering state
-//    newPeer->onGatheringStateChange([this, peerId](rtc::PeerConnection::GatheringState state) {
-//        // When the gathering is complete, emit the gatheringComplited signal
+    // Add an audio track to the peer connection
+}
 
-//    });
+// Set the local description for the peer's connection
+void WebRTC::generateOfferSDP(const QString &peerId)
+{
 
-//    // Set up a callback for handling incoming tracks
-//    newPeer->onTrack([this, peerId] (std::shared_ptr<rtc::Track> track) {
-//        // handle the incoming media stream, emitting the incommingPacket signal if a stream is received
+}
 
-//    });
+// Generate an answer SDP for the peer
+void WebRTC::generateAnswerSDP(const QString &peerId)
+{
 
-//    // Add an audio track to the peer connection
-//}
+}
 
-//// Set the local description for the peer's connection
-//void WebRTC::generateOfferSDP(const QString &peerId)
-//{
+// Add an audio track to the peer connection
+void WebRTC::addAudioTrack(const QString &peerId, const QString &trackName)
+{
+    // Add an audio track to the peer connection
 
-//}
+    // Handle track events
 
-//// Generate an answer SDP for the peer
-//void WebRTC::generateAnswerSDP(const QString &peerId)
-//{
+    track->onMessage([this, peerId] (rtc::message_variant data) {
 
-//}
+    });
 
-//// Add an audio track to the peer connection
-//void WebRTC::addAudioTrack(const QString &peerId, const QString &trackName)
-//{
-//    // Add an audio track to the peer connection
+    track->onFrame([this] (rtc::binary frame, rtc::FrameInfo info) {
 
-//    // Handle track events
+    });
 
-//    track->onMessage([this, peerId] (rtc::message_variant data) {
+}
 
-//    });
+// Sends audio track data to the peer
 
-//    track->onFrame([this] (rtc::binary frame, rtc::FrameInfo info) {
+void WebRTC::sendTrack(const QString &peerId, const QByteArray &buffer)
+{
 
-//    });
+    // Create the RTP header and initialize an RtpHeader struct
 
-//}
 
-//// Sends audio track data to the peer
+    // Create the RTP packet by appending the RTP header and the payload buffer
 
-//void WebRTC::sendTrack(const QString &peerId, const QByteArray &buffer)
-//{
 
-//    // Create the RTP header and initialize an RtpHeader struct
+    // Send the packet, catch and handle any errors that occur during sending
 
+}
 
-//    // Create the RTP packet by appending the RTP header and the payload buffer
 
+/**
+ * ====================================================
+ * ================= public slots =====================
+ * ====================================================
+ */
 
-//    // Send the packet, catch and handle any errors that occur during sending
+// Set the remote SDP description for the peer that contains metadata about the media being transmitted
+void WebRTC::setRemoteDescription(const QString &peerID, const QString &sdp)
+{
 
-//}
+}
 
+// Add remote ICE candidates to the peer connection
+void WebRTC::setRemoteCandidate(const QString &peerID, const QString &candidate, const QString &sdpMid)
+{
 
-///**
-// * ====================================================
-// * ================= public slots =====================
-// * ====================================================
-// */
+}
 
-//// Set the remote SDP description for the peer that contains metadata about the media being transmitted
-//void WebRTC::setRemoteDescription(const QString &peerID, const QString &sdp)
-//{
 
-//}
+/*
+ * ====================================================
+ * ================= private methods ==================
+ * ====================================================
+ */
 
-//// Add remote ICE candidates to the peer connection
-//void WebRTC::setRemoteCandidate(const QString &peerID, const QString &candidate, const QString &sdpMid)
-//{
+// Utility function to read the rtc::message_variant into a QByteArray
+QByteArray WebRTC::readVariant(const rtc::message_variant &data)
+{
 
-//}
+}
 
+// Utility function to convert rtc::Description to JSON format
+QString WebRTC::descriptionToJson(const rtc::Description &description)
+{
 
-///*
-// * ====================================================
-// * ================= private methods ==================
-// * ====================================================
-// */
+}
 
-//// Utility function to read the rtc::message_variant into a QByteArray
-//QByteArray WebRTC::readVariant(const rtc::message_variant &data)
-//{
+// Retrieves the current bit rate
+int WebRTC::bitRate() const
+{
 
-//}
+}
 
-//// Utility function to convert rtc::Description to JSON format
-//QString WebRTC::descriptionToJson(const rtc::Description &description)
-//{
+// Set a new bit rate and emit the bitRateChanged signal
+void WebRTC::setBitRate(int newBitRate)
+{
 
-//}
+}
 
-//// Retrieves the current bit rate
-//int WebRTC::bitRate() const
-//{
+// Reset the bit rate to its default value
+void WebRTC::resetBitRate()
+{
 
-//}
+}
 
-//// Set a new bit rate and emit the bitRateChanged signal
-//void WebRTC::setBitRate(int newBitRate)
-//{
+// Sets a new payload type and emit the payloadTypeChanged signal
+void WebRTC::setPayloadType(int newPayloadType)
+{
 
-//}
+}
 
-//// Reset the bit rate to its default value
-//void WebRTC::resetBitRate()
-//{
+// Resets the payload type to its default value
+void WebRTC::resetPayloadType()
+{
 
-//}
+}
 
-//// Sets a new payload type and emit the payloadTypeChanged signal
-//void WebRTC::setPayloadType(int newPayloadType)
-//{
+// Retrieve the current SSRC value
+rtc::SSRC WebRTC::ssrc() const
+{
 
-//}
+}
 
-//// Resets the payload type to its default value
-//void WebRTC::resetPayloadType()
-//{
+// Set a new SSRC and emit the ssrcChanged signal
+void WebRTC::setSsrc(rtc::SSRC newSsrc)
+{
 
-//}
+}
 
-//// Retrieve the current SSRC value
-//rtc::SSRC WebRTC::ssrc() const
-//{
+// Reset the SSRC to its default value
+void WebRTC::resetSsrc()
+{
 
-//}
+}
 
-//// Set a new SSRC and emit the ssrcChanged signal
-//void WebRTC::setSsrc(rtc::SSRC newSsrc)
-//{
+// Retrieve the current payload type
+int WebRTC::payloadType() const
+{
 
-//}
+}
 
-//// Reset the SSRC to its default value
-//void WebRTC::resetSsrc()
-//{
 
-//}
+/**
+ * ====================================================
+ * ================= getters setters ==================
+ * ====================================================
+ */
 
-//// Retrieve the current payload type
-//int WebRTC::payloadType() const
-//{
+bool WebRTC::isOfferer() const
+{
 
-//}
+}
 
+void WebRTC::setIsOfferer(bool newIsOfferer)
+{
 
-///**
-// * ====================================================
-// * ================= getters setters ==================
-// * ====================================================
-// */
+}
 
-//bool WebRTC::isOfferer() const
-//{
+void WebRTC::resetIsOfferer()
+{
 
-//}
-
-//void WebRTC::setIsOfferer(bool newIsOfferer)
-//{
-
-//}
-
-//void WebRTC::resetIsOfferer()
-//{
-
-//}
+}
 
 
