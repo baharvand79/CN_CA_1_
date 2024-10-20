@@ -1,7 +1,12 @@
 #include "webrtc.h"
 #include <QtEndian>
 #include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 
+/// ** explanation
+/// $$ later
+/// // TA's comment
 static_assert(true);
 
 #pragma pack(push, 1)
@@ -42,6 +47,7 @@ WebRTC::~WebRTC()
 // * ====================================================
 // */
 
+
 void WebRTC::init(const QString &id, bool isOfferer)
 {
 //    // Initialize WebRTC using libdatachannel library
@@ -59,9 +65,8 @@ void WebRTC::init(const QString &id, bool isOfferer)
     m_localId = id;
     m_isOfferer = isOfferer;
 
-
     m_config.iceServers.push_back({"stun:stun.l.google.com:19302"});  // STUN server
-    // m_config.iceServers.push_back({"turn:turnserver.com:3478", "username", "password"});  // TURN server if necessary
+    m_config.iceServers.push_back({"turn:turnserver.com:3478", "username", "password"});  // TURN server if necessary
     // $$ DON'T FORGET TO FIX IT!
 
     m_audio = rtc::Description::Audio();
@@ -71,16 +76,38 @@ void WebRTC::init(const QString &id, bool isOfferer)
 
 void WebRTC::addPeer(const QString &peerId)
 {
+
+    qDebug() << "Adding peer:" << peerId;
 //     // Create and add a new peer connection
 
+    auto newPeer = std::make_shared<rtc::PeerConnection>(m_config);
+    m_peerConnections.insert(peerId, newPeer);
 
 //    // Set up a callback for when the local description is generated
 
-//    newPeer->onLocalDescription([this, peerId](const rtc::Description &description) {
-//        // The local description should be emitted using the appropriate signals based on the peer's role (offerer or answerer)
+    // **  it's processed or emitted as per your application's logic
+    // **  handle the local description and emit it based on the peer's role.
+    newPeer->onLocalDescription([this, peerId](const rtc::Description &description) {
+        // The local description should be emitted using the appropriate signals based on the peer's role (offerer or answerer)
+        qDebug() << "Local description generated for peer:" << peerId;
+        QString sdp = QString::fromStdString(description.generateSdp());
+         qDebug() << "SDP for peer" << peerId << ":" << sdp;
 
-//    });
+        // Emit signal to indicate that the local description has been generated
+        Q_EMIT localDescriptionGenerated(peerId, sdp);
 
+        // Check the type of description (Offer or Answer)
+        if (description.type() == rtc::Description::Type::Offer) {
+            emit offerIsReady(peerId, sdp);
+            qDebug() << "Offer is ready for peer:" << peerId;
+
+        } else if (description.type() == rtc::Description::Type::Answer) {
+            emit answerIsReady(peerId, sdp);
+            qDebug() << "Answer is ready for peer:" << peerId;
+        }
+
+
+    });
 
 
 //    // Set up a callback for handling local ICE candidates
@@ -112,11 +139,21 @@ void WebRTC::addPeer(const QString &peerId)
 //    });
 
 //    // Add an audio track to the peer connection
+
+
 }
 
 //// Set the local description for the peer's connection
 void WebRTC::generateOfferSDP(const QString &peerId)
 {
+    qDebug() << "Generating SDP offer for peer:" << peerId;
+
+    if (m_peerConnections.contains(peerId)) {
+        m_peerConnections[peerId]->setLocalDescription(rtc::Description::Type::Offer);
+        qDebug() << "Offer SDP generated for peer:" << peerId;
+    } else {
+        qWarning() << "Peer not found:" << peerId;
+    }
 
 }
 
@@ -191,8 +228,7 @@ QByteArray WebRTC::readVariant(const rtc::message_variant &data)
 }
 
 //// Utility function to convert rtc::Description to JSON format
-QString WebRTC::descriptionToJson(const rtc::Description &description)
-{
+QString WebRTC::descriptionToJson(const rtc::Description &description) {
 
 }
 

@@ -7,6 +7,17 @@
 // Build the datachannellib library and add the include path to .pro file
 #include <rtc/rtc.hpp>
 
+struct IceServer {
+    std::string url;      // STUN/TURN server URL
+    std::string username; // Optional for TURN servers
+    std::string password; // Optional for TURN servers
+};
+
+struct PeerConnectionConfig {
+    std::vector<IceServer> iceServers; // Vector of ICE servers
+};
+
+
 class WebRTC : public QObject
 {
     Q_OBJECT
@@ -88,7 +99,8 @@ private:
     rtc::SSRC                                           m_ssrc = 2;
     bool                                                m_isOfferer = false;
     QString                                             m_localId;
-    rtc::Configuration                                  m_config;
+    PeerConnectionConfig m_config;
+    // rtc::Configuration                                  m_config;
     QMap<QString, rtc::Description>                     m_peerSdps;
     QMap<QString, std::shared_ptr<rtc::PeerConnection>> m_peerConnections;
     QMap<QString, std::shared_ptr<rtc::Track>>          m_peerTracks;
