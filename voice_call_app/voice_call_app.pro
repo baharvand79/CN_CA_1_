@@ -9,12 +9,9 @@ CONFIG += no_keyword
 CXXFLAGS += -fstack-protector
 
 SOURCES += \
-        audioinput.cpp \
-        audiooutput.cpp \
-        main.cpp \
-        webrtc.cpp
+        main.cpp
 
-RESOURCES += qml.qrc
+#RESOURCES += qml.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -28,9 +25,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    audioinput.h \
-    audiooutput.h \
-    webrtc.h
+
 
 DISTFILES += \
     main.qml
@@ -47,24 +42,24 @@ INCLUDEPATH += $$PWD/opus/include
 LIBS += -L$$PWD/opus/Windows/Mingw64 -lopus
 CXXFLAGS += -fstack-protector
 
-# ### socket io
-HEADERS += \
- $$PWD/SocketIO/sio_client.h \
- $$PWD/SocketIO/sio_message.h \
- $$PWD/SocketIO/sio_socket.h \
- $$PWD/SocketIO/internal/sio_client_impl.h \
- $$PWD/SocketIO/internal/sio_packet.h
-SOURCES += \
- $$PWD/SocketIO/sio_client.cpp \
- $$PWD/SocketIO/sio_socket.cpp \
- $$PWD/SocketIO/internal/sio_client_impl.cpp \
- $$PWD/SocketIO/internal/sio_packet.cpp
-INCLUDEPATH += $$PWD/socket.io-client-cpp/lib/websocketpp
-INCLUDEPATH += $$PWD/socket.io-client-cpp/lib/asio/asio/include
-INCLUDEPATH += $$PWD/socket.io-client-cpp/lib/rapidjson/include
-DEFINES += _WEBSOCKETPP_CPP11_STL_
-DEFINES += _WEBSOCKETPP_CPP11_FUNCTIONAL_
-DEFINES += SIO_TLS
+## ### socket io
+#HEADERS += \
+# $$PWD/SocketIO/sio_client.h \
+# $$PWD/SocketIO/sio_message.h \
+# $$PWD/SocketIO/sio_socket.h \
+# $$PWD/SocketIO/internal/sio_client_impl.h \
+# $$PWD/SocketIO/internal/sio_packet.h
+#SOURCES += \
+# $$PWD/SocketIO/sio_client.cpp \
+# $$PWD/SocketIO/sio_socket.cpp \
+# $$PWD/SocketIO/internal/sio_client_impl.cpp \
+# $$PWD/SocketIO/internal/sio_packet.cpp
+#INCLUDEPATH += $$PWD/socket.io-client-cpp/lib/websocketpp
+#INCLUDEPATH += $$PWD/socket.io-client-cpp/lib/asio/asio/include
+#INCLUDEPATH += $$PWD/socket.io-client-cpp/lib/rapidjson/include
+#DEFINES += _WEBSOCKETPP_CPP11_STL_
+#DEFINES += _WEBSOCKETPP_CPP11_FUNCTIONAL_
+#DEFINES += SIO_TLS
 
 # to fix boost
 DEFINES += BOOST_DATE_TIME_NO_LIB
