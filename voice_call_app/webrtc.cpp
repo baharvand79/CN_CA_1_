@@ -39,6 +39,13 @@ WebRTC::WebRTC() {
     // Register state change callback
     peerConnection->onStateChange([this](rtc::PeerConnection::State state) {
         qDebug() <<("PeerConnection state changed: " + QString::fromStdString(peerConnectionStateToString(state)));
+
+        // Debugging for TURN interaction: Check if we're falling back to the TURN server
+                if (state == rtc::PeerConnection::State::Failed) {
+                    qDebug() << "PeerConnection failed: TURN server might be needed.";
+                }
+
+
     });
 
     // ICE gathering state change
