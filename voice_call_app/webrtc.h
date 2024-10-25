@@ -4,6 +4,7 @@
 #include "rtc/rtc.hpp"
 #include <QObject>
 #include <QDebug>
+#include "SocketIO/sio_client.h"
 class WebRTC : public QObject {
     Q_OBJECT
 
@@ -19,6 +20,7 @@ class WebRTC : public QObject {
     private:
         std::shared_ptr<rtc::PeerConnection> peerConnection;
         std::shared_ptr<rtc::Track> audioTrack;
+        sio::client socketClient;
 
 };
 
