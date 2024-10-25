@@ -4,7 +4,7 @@ QT += quick qml quickcontrols2 quicklayouts multimedia core gui network websocke
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-CONFIG += c++17
+CONFIG += c++11
 CONFIG += no_keyword
 CXXFLAGS += -fstack-protector
 
@@ -14,11 +14,11 @@ SOURCES += \
 
 #RESOURCES += qml.qrc
 
-## Additional import path used to resolve QML modules in Qt Creator's code model
-#QML_IMPORT_PATH =
+# Additional import path used to resolve QML modules in Qt Creator's code model
+QML_IMPORT_PATH =
 
-## Additional import path used to resolve QML modules just for Qt Quick Designer
-#QML_DESIGNER_IMPORT_PATH =
+# Additional import path used to resolve QML modules just for Qt Quick Designer
+QML_DESIGNER_IMPORT_PATH =
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -30,7 +30,8 @@ HEADERS += \
 
 
 DISTFILES += \
-    main.qml
+    main.qml \
+    signal.js
 # Additional libraries
 # ### libdatachannel
 INCLUDEPATH += $$PWD/libdatachannel/include
@@ -44,24 +45,24 @@ INCLUDEPATH += $$PWD/opus/include
 LIBS += -L$$PWD/opus/Windows/Mingw64 -lopus
 CXXFLAGS += -fstack-protector
 
-## ### socket io
-#HEADERS += \
-# $$PWD/SocketIO/sio_client.h \
-# $$PWD/SocketIO/sio_message.h \
-# $$PWD/SocketIO/sio_socket.h \
-# $$PWD/SocketIO/internal/sio_client_impl.h \
-# $$PWD/SocketIO/internal/sio_packet.h
-#SOURCES += \
-# $$PWD/SocketIO/sio_client.cpp \
-# $$PWD/SocketIO/sio_socket.cpp \
-# $$PWD/SocketIO/internal/sio_client_impl.cpp \
-# $$PWD/SocketIO/internal/sio_packet.cpp
-#INCLUDEPATH += $$PWD/socket.io-client-cpp/lib/websocketpp
-#INCLUDEPATH += $$PWD/socket.io-client-cpp/lib/asio/asio/include
-#INCLUDEPATH += $$PWD/socket.io-client-cpp/lib/rapidjson/include
-#DEFINES += _WEBSOCKETPP_CPP11_STL_
-#DEFINES += _WEBSOCKETPP_CPP11_FUNCTIONAL_
-#DEFINES += SIO_TLS
+# ### socket io
+HEADERS += \
+ $$PWD/SocketIO/sio_client.h \
+ $$PWD/SocketIO/sio_message.h \
+ $$PWD/SocketIO/sio_socket.h \
+ $$PWD/SocketIO/internal/sio_client_impl.h \
+ $$PWD/SocketIO/internal/sio_packet.h
+SOURCES += \
+ $$PWD/SocketIO/sio_client.cpp \
+ $$PWD/SocketIO/sio_socket.cpp \
+ $$PWD/SocketIO/internal/sio_client_impl.cpp \
+ $$PWD/SocketIO/internal/sio_packet.cpp
+INCLUDEPATH += $$PWD/socket.io-client-cpp/lib/websocketpp
+INCLUDEPATH += $$PWD/socket.io-client-cpp/lib/asio/asio/include
+INCLUDEPATH += $$PWD/socket.io-client-cpp/lib/rapidjson/include
+DEFINES += _WEBSOCKETPP_CPP11_STL_
+DEFINES += _WEBSOCKETPP_CPP11_FUNCTIONAL_
+DEFINES += SIO_TLS
 
 # to fix boost
 DEFINES += BOOST_DATE_TIME_NO_LIB
