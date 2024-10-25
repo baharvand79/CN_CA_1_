@@ -9,7 +9,8 @@ CONFIG += no_keyword
 CXXFLAGS += -fstack-protector
 
 SOURCES += \
-        main.cpp
+        main.cpp \
+        webrtc.cpp
 
 #RESOURCES += qml.qrc
 
@@ -25,6 +26,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    webrtc.h
 
 
 DISTFILES += \
