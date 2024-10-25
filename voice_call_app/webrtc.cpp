@@ -23,8 +23,20 @@ WebRTC::WebRTC() {
     });
 
     peerConnection->onLocalCandidate([this](rtc::Candidate candidate) {
-        emit localCandidateGenerated(QString::fromStdString(candidate));
+        QString candidateStr = QString::fromStdString(candidate);
+        emit localCandidateGenerated(candidateStr);
         qDebug() << "Local ICE candidate generated\n";
+
+        // Check the type of candidate (host, srflx, relay)
+            if (candidateStr.contains("typ host")) {
+                qDebug() << "Local host candidate generated: " << candidateStr;
+            } else if (candidateStr.contains("typ srflx")) {
+                qDebug() << "Server reflexive (srflx) candidate generated: " << candidateStr;
+            } else if (candidateStr.contains("typ relay")) {
+                qDebug() << "Relay (TURN) candidate generated: " << candidateStr;
+            } else {
+                qDebug() << "Unknown type of ICE candidate: " << candidateStr;
+            }
     });
 
     // Setup callback for handling incoming tracks
