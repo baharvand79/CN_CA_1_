@@ -80,3 +80,23 @@ void WebRTC::init() {
         }
     });
 }
+
+
+
+
+void WebRTC::createOffer() {
+    peerConnection->setLocalDescription(rtc::Description::Type::Offer);
+    qDebug() << "SDP Offer created";
+}
+
+void WebRTC::setRemoteDescription(const QString& sdp) {
+    peerConnection->setRemoteDescription(rtc::Description(sdp.toStdString()));
+    qDebug() << "Remote SDP set";
+}
+
+void WebRTC::addRemoteCandidate(const QString& candidate) {
+    peerConnection->addRemoteCandidate(rtc::Candidate(candidate.toStdString()));
+    qDebug() << "Remote ICE candidate set";
+}
+
+
