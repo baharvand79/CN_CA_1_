@@ -13,9 +13,9 @@ EQ            = =
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DUNICODE -D_UNICODE -DWIN32 -DMINGW_HAS_SECURE_API=1 -DBOOST_DATE_TIME_NO_LIB -DBOOST_REGEX_NO_LIB -DASIO_STANDLONE -D_WEBSOCKETPP_CPP11_STL_ -D_WEBSOCKET_CPP11_FUNCTIONAL_ -DSIO_TLS -DASIO_STANDALONE -DQT_QML_DEBUG -DQT_NO_DEBUG -DQT_QUICKCONTROLS2_LIB -DQT_QUICKLAYOUTS_LIB -DQT_QUICK_LIB -DQT_OPENGL_LIB -DQT_MULTIMEDIA_LIB -DQT_GUI_LIB -DQT_QMLMODELS_LIB -DQT_QML_LIB -DQT_QMLINTEGRATION_LIB -DQT_WEBSOCKETS_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_NEEDS_QMAIN
+DEFINES       = -DUNICODE -D_UNICODE -DWIN32 -DMINGW_HAS_SECURE_API=1 -DQT_DISABLE_DEPRECATED_BEFORE=0x060000 -DBOOST_DATE_TIME_NO_LIB -DBOOST_REGEX_NO_LIB -DASIO_STANDLONE -D_WEBSOCKETPP_CPP11_STL_ -D_WEBSOCKET_CPP11_FUNCTIONAL_ -DSIO_TLS -DASIO_STANDALONE -DQT_QML_DEBUG -DQT_NO_DEBUG -DQT_QUICKCONTROLS2_LIB -DQT_QUICKLAYOUTS_LIB -DQT_QUICK_LIB -DQT_OPENGL_LIB -DQT_MULTIMEDIA_LIB -DQT_GUI_LIB -DQT_QMLMODELS_LIB -DQT_QML_LIB -DQT_QMLINTEGRATION_LIB -DQT_WEBSOCKETS_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_NEEDS_QMAIN
 CFLAGS        = -fno-keep-inline-dllexport -O2 -Wall -Wextra -Wextra $(DEFINES)
-CXXFLAGS      = -fno-keep-inline-dllexport -O2 -std=gnu++1z -Wall -Wextra -Wextra -fexceptions -mthreads $(DEFINES)
+CXXFLAGS      = -fno-keep-inline-dllexport -O2 -Wall -Wextra -Wextra -fexceptions -mthreads $(DEFINES)
 INCPATH       = -I../voice_call_app -I. -I../voice_call_app/libdatachannel/include -I../voice_call_app/opus/include -IC:/Qt/Tools/OpenSSLv3/Win_x64/include -IC:/Qt/6.5.3/mingw_64/include -IC:/Qt/6.5.3/mingw_64/include/QtQuickControls2 -IC:/Qt/6.5.3/mingw_64/include/QtQuickLayouts -IC:/Qt/6.5.3/mingw_64/include/QtQuick/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtQuick/6.5.3/QtQuick -IC:/Qt/6.5.3/mingw_64/include/QtQuick -IC:/Qt/6.5.3/mingw_64/include/QtOpenGL -IC:/Qt/6.5.3/mingw_64/include/QtGui/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtGui/6.5.3/QtGui -IC:/Qt/6.5.3/mingw_64/include/QtMultimedia -IC:/Qt/6.5.3/mingw_64/include/QtGui -IC:/Qt/6.5.3/mingw_64/include/QtQmlModels/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtQmlModels/6.5.3/QtQmlModels -IC:/Qt/6.5.3/mingw_64/include/QtQmlModels -IC:/Qt/6.5.3/mingw_64/include/QtQml/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtQml/6.5.3/QtQml -IC:/Qt/6.5.3/mingw_64/include/QtQml -IC:/Qt/6.5.3/mingw_64/include/QtQmlIntegration -IC:/Qt/6.5.3/mingw_64/include/QtWebSockets -IC:/Qt/6.5.3/mingw_64/include/QtNetwork -IC:/Qt/6.5.3/mingw_64/include/QtCore/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtCore/6.5.3/QtCore -IC:/Qt/6.5.3/mingw_64/include/QtCore -Irelease -I/include -IC:/Qt/6.5.3/mingw_64/mkspecs/win32-g++ 
 LINKER      =        g++
 LFLAGS        =        -Wl,-s -Wl,-subsystem,windows -mthreads
@@ -115,7 +115,7 @@ compiler_moc_predefs_make_all: release/moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) release/moc_predefs.h
 release/moc_predefs.h: C:/Qt/6.5.3/mingw_64/mkspecs/features/data/dummy.cpp
-	g++ -fno-keep-inline-dllexport -O2 -std=gnu++1z -Wall -Wextra -Wextra -dM -E -o release/moc_predefs.h C:/Qt/6.5.3/mingw_64/mkspecs/features/data/dummy.cpp
+	g++ -fno-keep-inline-dllexport -O2 -Wall -Wextra -Wextra -dM -E -o release/moc_predefs.h C:/Qt/6.5.3/mingw_64/mkspecs/features/data/dummy.cpp
 
 compiler_moc_header_make_all: release/moc_signalingclient.cpp release/moc_signalingserver.cpp release/moc_webrtc.cpp
 compiler_moc_header_clean:
@@ -260,6 +260,52 @@ release/moc_signalingclient.cpp: ../voice_call_app/signalingclient.h \
 		C:/Qt/6.5.3/mingw_64/include/QtWebSockets/qwebsockets_global.h \
 		C:/Qt/6.5.3/mingw_64/include/QtWebSockets/qtwebsocketsexports.h \
 		C:/Qt/6.5.3/mingw_64/include/QtWebSockets/qwebsocketprotocol.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/QJsonObject \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qjsonobject.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qjsonvalue.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qcborvalue.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qcborcommon.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qregularexpression.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/quuid.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/QJsonDocument \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qjsondocument.h \
+		../voice_call_app/webrtc.h \
+		../voice_call_app/libdatachannel/include/rtc/rtc.hpp \
+		../voice_call_app/libdatachannel/include/rtc/rtc.h \
+		../voice_call_app/libdatachannel/include/rtc/version.h \
+		../voice_call_app/libdatachannel/include/rtc/common.hpp \
+		../voice_call_app/libdatachannel/include/rtc/utils.hpp \
+		../voice_call_app/libdatachannel/include/rtc/global.hpp \
+		../voice_call_app/libdatachannel/include/rtc/datachannel.hpp \
+		../voice_call_app/libdatachannel/include/rtc/channel.hpp \
+		../voice_call_app/libdatachannel/include/rtc/reliability.hpp \
+		../voice_call_app/libdatachannel/include/rtc/peerconnection.hpp \
+		../voice_call_app/libdatachannel/include/rtc/candidate.hpp \
+		../voice_call_app/libdatachannel/include/rtc/configuration.hpp \
+		../voice_call_app/libdatachannel/include/rtc/description.hpp \
+		../voice_call_app/libdatachannel/include/rtc/track.hpp \
+		../voice_call_app/libdatachannel/include/rtc/mediahandler.hpp \
+		../voice_call_app/libdatachannel/include/rtc/message.hpp \
+		../voice_call_app/libdatachannel/include/rtc/frameinfo.hpp \
+		../voice_call_app/libdatachannel/include/rtc/websocket.hpp \
+		../voice_call_app/libdatachannel/include/rtc/websocketserver.hpp \
+		../voice_call_app/libdatachannel/include/rtc/av1rtppacketizer.hpp \
+		../voice_call_app/libdatachannel/include/rtc/nalunit.hpp \
+		../voice_call_app/libdatachannel/include/rtc/rtppacketizer.hpp \
+		../voice_call_app/libdatachannel/include/rtc/rtppacketizationconfig.hpp \
+		../voice_call_app/libdatachannel/include/rtc/rtp.hpp \
+		../voice_call_app/libdatachannel/include/rtc/h264rtppacketizer.hpp \
+		../voice_call_app/libdatachannel/include/rtc/h264rtpdepacketizer.hpp \
+		../voice_call_app/libdatachannel/include/rtc/h265rtppacketizer.hpp \
+		../voice_call_app/libdatachannel/include/rtc/h265nalunit.hpp \
+		../voice_call_app/libdatachannel/include/rtc/plihandler.hpp \
+		../voice_call_app/libdatachannel/include/rtc/rembhandler.hpp \
+		../voice_call_app/libdatachannel/include/rtc/pacinghandler.hpp \
+		../voice_call_app/libdatachannel/include/rtc/rtcpnackresponder.hpp \
+		../voice_call_app/libdatachannel/include/rtc/rtcpreceivingsession.hpp \
+		../voice_call_app/libdatachannel/include/rtc/rtcpsrreporter.hpp \
+		../voice_call_app/libdatachannel/include/rtc/rtpdepacketizer.hpp \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/QDebug \
 		release/moc_predefs.h \
 		C:/Qt/6.5.3/mingw_64/bin/moc.exe
 	'C:\Qt\6.5.3\mingw_64\bin\moc.exe' $(DEFINES) --include D:/UT/CN/CA1/git/CN_CA_1_/build-voice_call_app-Desktop_Qt_6_5_3_MinGW_64_bit-Debug/release/moc_predefs.h -IC:/Qt/6.5.3/mingw_64/mkspecs/win32-g++ -ID:/UT/CN/CA1/git/CN_CA_1_/voice_call_app -ID:/UT/CN/CA1/git/CN_CA_1_/voice_call_app/libdatachannel/include -ID:/UT/CN/CA1/git/CN_CA_1_/voice_call_app/opus/include -IC:/Qt/Tools/OpenSSLv3/Win_x64/include -IC:/Qt/6.5.3/mingw_64/include -IC:/Qt/6.5.3/mingw_64/include/QtQuickControls2 -IC:/Qt/6.5.3/mingw_64/include/QtQuickLayouts -IC:/Qt/6.5.3/mingw_64/include/QtQuick/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtQuick/6.5.3/QtQuick -IC:/Qt/6.5.3/mingw_64/include/QtQuick -IC:/Qt/6.5.3/mingw_64/include/QtOpenGL -IC:/Qt/6.5.3/mingw_64/include/QtGui/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtGui/6.5.3/QtGui -IC:/Qt/6.5.3/mingw_64/include/QtMultimedia -IC:/Qt/6.5.3/mingw_64/include/QtGui -IC:/Qt/6.5.3/mingw_64/include/QtQmlModels/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtQmlModels/6.5.3/QtQmlModels -IC:/Qt/6.5.3/mingw_64/include/QtQmlModels -IC:/Qt/6.5.3/mingw_64/include/QtQml/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtQml/6.5.3/QtQml -IC:/Qt/6.5.3/mingw_64/include/QtQml -IC:/Qt/6.5.3/mingw_64/include/QtQmlIntegration -IC:/Qt/6.5.3/mingw_64/include/QtWebSockets -IC:/Qt/6.5.3/mingw_64/include/QtNetwork -IC:/Qt/6.5.3/mingw_64/include/QtCore/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtCore/6.5.3/QtCore -IC:/Qt/6.5.3/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ../voice_call_app/signalingclient.h -o release/moc_signalingclient.cpp
@@ -408,6 +454,15 @@ release/moc_signalingserver.cpp: ../voice_call_app/signalingserver.h \
 		C:/Qt/6.5.3/mingw_64/include/QtWebSockets/qwebsocketserver.h \
 		C:/Qt/6.5.3/mingw_64/include/QtNetwork/QHostAddress \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/QDebug \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/QJsonDocument \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qjsondocument.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qjsonvalue.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qcborvalue.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qcborcommon.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qregularexpression.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/quuid.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/QJsonObject \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qjsonobject.h \
 		release/moc_predefs.h \
 		C:/Qt/6.5.3/mingw_64/bin/moc.exe
 	'C:\Qt\6.5.3\mingw_64\bin\moc.exe' $(DEFINES) --include D:/UT/CN/CA1/git/CN_CA_1_/build-voice_call_app-Desktop_Qt_6_5_3_MinGW_64_bit-Debug/release/moc_predefs.h -IC:/Qt/6.5.3/mingw_64/mkspecs/win32-g++ -ID:/UT/CN/CA1/git/CN_CA_1_/voice_call_app -ID:/UT/CN/CA1/git/CN_CA_1_/voice_call_app/libdatachannel/include -ID:/UT/CN/CA1/git/CN_CA_1_/voice_call_app/opus/include -IC:/Qt/Tools/OpenSSLv3/Win_x64/include -IC:/Qt/6.5.3/mingw_64/include -IC:/Qt/6.5.3/mingw_64/include/QtQuickControls2 -IC:/Qt/6.5.3/mingw_64/include/QtQuickLayouts -IC:/Qt/6.5.3/mingw_64/include/QtQuick/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtQuick/6.5.3/QtQuick -IC:/Qt/6.5.3/mingw_64/include/QtQuick -IC:/Qt/6.5.3/mingw_64/include/QtOpenGL -IC:/Qt/6.5.3/mingw_64/include/QtGui/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtGui/6.5.3/QtGui -IC:/Qt/6.5.3/mingw_64/include/QtMultimedia -IC:/Qt/6.5.3/mingw_64/include/QtGui -IC:/Qt/6.5.3/mingw_64/include/QtQmlModels/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtQmlModels/6.5.3/QtQmlModels -IC:/Qt/6.5.3/mingw_64/include/QtQmlModels -IC:/Qt/6.5.3/mingw_64/include/QtQml/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtQml/6.5.3/QtQml -IC:/Qt/6.5.3/mingw_64/include/QtQml -IC:/Qt/6.5.3/mingw_64/include/QtQmlIntegration -IC:/Qt/6.5.3/mingw_64/include/QtWebSockets -IC:/Qt/6.5.3/mingw_64/include/QtNetwork -IC:/Qt/6.5.3/mingw_64/include/QtCore/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtCore/6.5.3/QtCore -IC:/Qt/6.5.3/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ../voice_call_app/signalingserver.h -o release/moc_signalingserver.cpp
@@ -808,6 +863,15 @@ release/main.o: ../voice_call_app/main.cpp C:/Qt/6.5.3/mingw_64/include/QtGui/QG
 		C:/Qt/6.5.3/mingw_64/include/QtWebSockets/QWebSocketServer \
 		C:/Qt/6.5.3/mingw_64/include/QtWebSockets/qwebsocketserver.h \
 		C:/Qt/6.5.3/mingw_64/include/QtNetwork/QHostAddress \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/QJsonDocument \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qjsondocument.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qjsonvalue.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qcborvalue.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qcborcommon.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qregularexpression.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/quuid.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/QJsonObject \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qjsonobject.h \
 		../voice_call_app/signalingclient.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release/main.o ../voice_call_app/main.cpp
 
@@ -951,6 +1015,51 @@ release/signalingclient.o: ../voice_call_app/signalingclient.cpp ../voice_call_a
 		C:/Qt/6.5.3/mingw_64/include/QtWebSockets/qwebsockets_global.h \
 		C:/Qt/6.5.3/mingw_64/include/QtWebSockets/qtwebsocketsexports.h \
 		C:/Qt/6.5.3/mingw_64/include/QtWebSockets/qwebsocketprotocol.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/QJsonObject \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qjsonobject.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qjsonvalue.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qcborvalue.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qcborcommon.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qregularexpression.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/quuid.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/QJsonDocument \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qjsondocument.h \
+		../voice_call_app/webrtc.h \
+		../voice_call_app/libdatachannel/include/rtc/rtc.hpp \
+		../voice_call_app/libdatachannel/include/rtc/rtc.h \
+		../voice_call_app/libdatachannel/include/rtc/version.h \
+		../voice_call_app/libdatachannel/include/rtc/common.hpp \
+		../voice_call_app/libdatachannel/include/rtc/utils.hpp \
+		../voice_call_app/libdatachannel/include/rtc/global.hpp \
+		../voice_call_app/libdatachannel/include/rtc/datachannel.hpp \
+		../voice_call_app/libdatachannel/include/rtc/channel.hpp \
+		../voice_call_app/libdatachannel/include/rtc/reliability.hpp \
+		../voice_call_app/libdatachannel/include/rtc/peerconnection.hpp \
+		../voice_call_app/libdatachannel/include/rtc/candidate.hpp \
+		../voice_call_app/libdatachannel/include/rtc/configuration.hpp \
+		../voice_call_app/libdatachannel/include/rtc/description.hpp \
+		../voice_call_app/libdatachannel/include/rtc/track.hpp \
+		../voice_call_app/libdatachannel/include/rtc/mediahandler.hpp \
+		../voice_call_app/libdatachannel/include/rtc/message.hpp \
+		../voice_call_app/libdatachannel/include/rtc/frameinfo.hpp \
+		../voice_call_app/libdatachannel/include/rtc/websocket.hpp \
+		../voice_call_app/libdatachannel/include/rtc/websocketserver.hpp \
+		../voice_call_app/libdatachannel/include/rtc/av1rtppacketizer.hpp \
+		../voice_call_app/libdatachannel/include/rtc/nalunit.hpp \
+		../voice_call_app/libdatachannel/include/rtc/rtppacketizer.hpp \
+		../voice_call_app/libdatachannel/include/rtc/rtppacketizationconfig.hpp \
+		../voice_call_app/libdatachannel/include/rtc/rtp.hpp \
+		../voice_call_app/libdatachannel/include/rtc/h264rtppacketizer.hpp \
+		../voice_call_app/libdatachannel/include/rtc/h264rtpdepacketizer.hpp \
+		../voice_call_app/libdatachannel/include/rtc/h265rtppacketizer.hpp \
+		../voice_call_app/libdatachannel/include/rtc/h265nalunit.hpp \
+		../voice_call_app/libdatachannel/include/rtc/plihandler.hpp \
+		../voice_call_app/libdatachannel/include/rtc/rembhandler.hpp \
+		../voice_call_app/libdatachannel/include/rtc/pacinghandler.hpp \
+		../voice_call_app/libdatachannel/include/rtc/rtcpnackresponder.hpp \
+		../voice_call_app/libdatachannel/include/rtc/rtcpreceivingsession.hpp \
+		../voice_call_app/libdatachannel/include/rtc/rtcpsrreporter.hpp \
+		../voice_call_app/libdatachannel/include/rtc/rtpdepacketizer.hpp \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release/signalingclient.o ../voice_call_app/signalingclient.cpp
 
@@ -1098,6 +1207,15 @@ release/signalingserver.o: ../voice_call_app/signalingserver.cpp ../voice_call_a
 		C:/Qt/6.5.3/mingw_64/include/QtWebSockets/qwebsocketserver.h \
 		C:/Qt/6.5.3/mingw_64/include/QtNetwork/QHostAddress \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/QDebug \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/QJsonDocument \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qjsondocument.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qjsonvalue.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qcborvalue.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qcborcommon.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qregularexpression.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/quuid.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/QJsonObject \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qjsonobject.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/QMap
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release/signalingserver.o ../voice_call_app/signalingserver.cpp
 

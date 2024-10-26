@@ -2,6 +2,8 @@
 #include <QWebSocket>
 #include <QWebSocketServer>
 #include <QDebug>
+#include <QJsonDocument>
+#include <QJsonObject>
 
 class SignalingServer : public QObject {
     Q_OBJECT

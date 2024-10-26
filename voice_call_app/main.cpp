@@ -14,9 +14,10 @@ int main(int argc, char *argv[]) {
     SignalingServer *signalingServer = new SignalingServer(12345);
     qDebug() << "[MAIN] Signaling server started on port 12345";
 
+    // Create WebRTC instance
     WebRTC *webRTC = new WebRTC();
 
-    // Connect signals to slots for logging or handling UI updates
+    // Connect WebRTC signals to slots for logging or handling UI updates
     QObject::connect(webRTC, &WebRTC::localDescriptionGenerated,
                      [](const QString &sdp) {
                          qDebug() << "[MAIN] Local SDP:" << sdp;
@@ -37,15 +38,24 @@ int main(int argc, char *argv[]) {
                          qDebug() << "[MAIN] Gathering of ICE candidates completed.";
                      });
 
-    webRTC->createOffer();
-
-    // Send a test message to all connected clients
-    signalingServer->sendTestMessage("Hello, this is a test message from the server.");
-
     // Create a signaling client and connect to the server
     QUrl serverUrl(QStringLiteral("ws://localhost:12345"));
-    SignalingClient *client = new SignalingClient(serverUrl);
+    SignalingClient *client = new SignalingClient(serverUrl, webRTC);
     qDebug() << "[MAIN] Signaling client started and attempting to connect to" << serverUrl.toString();
 
+    // Connect client signals to handle incoming messages
+    QObject::connect(client, &SignalingClient::messageReceived,
+                     [webRTC](const QString &message) {
+                         // Handle incoming messages
+                         qDebug() << "[MAIN] Message received from client:" << message;
+                     });
+
+    // Create an SDP offer
+    webRTC->createOffer();
+
+    // Send a test message to all connected clients (optional)
+    signalingServer->sendTestMessage("Hello, this is a test message from the server.");
+
+    // Start the application event loop
     return app.exec();
 }

@@ -29,19 +29,35 @@ void SignalingServer::onNewConnection() {
     qDebug() << "[SignalingServer] New client connected.";
 }
 
+//void SignalingServer::onTextMessageReceived(const QString &message) {
+//    QWebSocket *senderClient = qobject_cast<QWebSocket *>(sender());
+//    if (senderClient) {
+//        emit messageReceived(message, senderClient);
+//        // Broadcast message to other clients
+//        for (QWebSocket *client : m_clients.keys()) {
+//            if (client != senderClient) {
+//                client->sendTextMessage(message);
+//                qDebug() << "[SignalingServer] Forwarded message to client:" << client;
+//            }
+//        }
+//    }
+//}
+
 void SignalingServer::onTextMessageReceived(const QString &message) {
     QWebSocket *senderClient = qobject_cast<QWebSocket *>(sender());
     if (senderClient) {
-        emit messageReceived(message, senderClient);
-        // Broadcast message to other clients
+        QJsonDocument doc = QJsonDocument::fromJson(message.toUtf8());
+        QJsonObject jsonObj = doc.object();
+
+        // Forward messages to other clients based on type
         for (QWebSocket *client : m_clients.keys()) {
             if (client != senderClient) {
                 client->sendTextMessage(message);
-                qDebug() << "[SignalingServer] Forwarded message to client:" << client;
             }
         }
     }
 }
+
 
 void SignalingServer::onDisconnected() {
     QWebSocket *client = qobject_cast<QWebSocket *>(sender());
