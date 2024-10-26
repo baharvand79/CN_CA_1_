@@ -2,12 +2,18 @@
 #include <QQmlApplicationEngine>
 #include <QDebug>
 #include "webrtc.cpp"
+#include "signalingserver.h"
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
     qDebug() << "The program is running.\n";
+
+    // Start the signaling server
+    SignalingServer *signalingServer = new SignalingServer(12345);
+    qDebug() << "[MAIN] Signaling server started on port 12345";
+
 
     WebRTC *webRTC = new WebRTC();
 

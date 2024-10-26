@@ -10,6 +10,7 @@ CXXFLAGS += -fstack-protector
 
 SOURCES += \
         main.cpp \
+        signalingserver.cpp \
         webrtc.cpp
 
 #RESOURCES += qml.qrc
@@ -26,6 +27,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    signalingserver.h \
     webrtc.h
 
 
