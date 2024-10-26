@@ -9,6 +9,7 @@ class SignalingServer : public QObject {
 public:
     explicit SignalingServer(quint16 port, QObject *parent = nullptr);
     ~SignalingServer();
+    void sendTestMessage(const QString &message);
 
 signals:
     void messageReceived(const QString &message, QWebSocket *client);

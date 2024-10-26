@@ -51,3 +51,10 @@ void SignalingServer::onDisconnected() {
         qDebug() << "[SignalingServer] Client disconnected.";
     }
 }
+
+void SignalingServer::sendTestMessage(const QString &message) {
+    for (QWebSocket *client : m_clients.keys()) {
+        client->sendTextMessage(message);
+        qDebug() << "[SignalingServer] Sent test message to client:" << client << " Message:" << message;
+    }
+}
