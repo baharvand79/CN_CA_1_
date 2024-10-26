@@ -10,6 +10,7 @@ CXXFLAGS += -fstack-protector
 
 SOURCES += \
         main.cpp \
+        signalingclient.cpp \
         signalingserver.cpp \
         webrtc.cpp
 
@@ -27,6 +28,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    signalingclient.h \
     signalingserver.h \
     webrtc.h
 

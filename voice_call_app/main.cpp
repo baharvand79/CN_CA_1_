@@ -1,8 +1,9 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QDebug>
-#include "webrtc.cpp"
+#include "webrtc.h"
 #include "signalingserver.h"
+#include "signalingclient.h"
 
 int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
@@ -40,6 +41,11 @@ int main(int argc, char *argv[]) {
 
     // Send a test message to all connected clients
     signalingServer->sendTestMessage("Hello, this is a test message from the server.");
+
+    // Create a signaling client and connect to the server
+    QUrl serverUrl(QStringLiteral("ws://localhost:12345"));
+    SignalingClient *client = new SignalingClient(serverUrl);
+    qDebug() << "[MAIN] Signaling client started and attempting to connect to" << serverUrl.toString();
 
     return app.exec();
 }
