@@ -13,8 +13,7 @@ std::string peerConnectionStateToString(rtc::PeerConnection::State state) {
     }
 }
 
-WebRTC::WebRTC(){};
-void WebRTC::init() {
+WebRTC::WebRTC() {
     rtc::Configuration config;
 
     // STUN Server (Google's public STUN server)
@@ -31,23 +30,23 @@ void WebRTC::init() {
 
     peerConnection->onLocalDescription([this](rtc::Description description) {
         emit localDescriptionGenerated(QString::fromStdString(description));
-        qDebug() << "Local SDP generated";
+        qDebug() << "[WebRTC] Local SDP generated\n";
     });
 
     peerConnection->onLocalCandidate([this](rtc::Candidate candidate) {
         QString candidateStr = QString::fromStdString(candidate);
         emit localCandidateGenerated(candidateStr);
-        qDebug() << "Local ICE candidate generated\n";
+        qDebug() << "[WebRTC] Local ICE candidate generated\n";
 
         // Check the type of candidate (host, srflx, relay)
             if (candidateStr.contains("typ host")) {
-                qDebug() << "Local host candidate generated: " << candidateStr;
+                qDebug() << "[WebRTC] Local host candidate generated: " << candidateStr << "\n";
             } else if (candidateStr.contains("typ srflx")) {
-                qDebug() << "Server reflexive (srflx) candidate generated: " << candidateStr;
+                qDebug() << "[WebRTC] Server reflexive (srflx) candidate generated: " << candidateStr << "\n";
             } else if (candidateStr.contains("typ relay")) {
-                qDebug() << "Relay (TURN) candidate generated: " << candidateStr;
+                qDebug() << "[WebRTC] Relay (TURN) candidate generated: " << candidateStr;
             } else {
-                qDebug() << "Unknown type of ICE candidate: " << candidateStr;
+                qDebug() << "[WebRTC] Unknown type of ICE candidate: " << candidateStr << "\n";
             }
     });
 
@@ -55,18 +54,18 @@ void WebRTC::init() {
     peerConnection->onTrack([this](std::shared_ptr<rtc::Track> track) {
         track->onFrame([this](rtc::binary data, rtc::FrameInfo frameInfo) {
             emit audioReceived(QByteArray(reinterpret_cast<const char*>(data.data()), data.size()));
-            qDebug() <<"Audio frame received, size: " + QString::number(data.size()) + "\n";
+            qDebug() <<"[WebRTC] Audio frame received, size: " + QString::number(data.size()) + "\n";
             Q_UNUSED(frameInfo); // Use this if you want to silence the warning
         });
     });
 
     // Register state change callback
     peerConnection->onStateChange([this](rtc::PeerConnection::State state) {
-        qDebug() <<("PeerConnection state changed: " + QString::fromStdString(peerConnectionStateToString(state)));
+        qDebug() <<("[WebRTC] PeerConnection state changed: " + QString::fromStdString(peerConnectionStateToString(state)) + "\n");
 
         // Debugging for TURN interaction: Check if we're falling back to the TURN server
                 if (state == rtc::PeerConnection::State::Failed) {
-                    qDebug() << "PeerConnection failed: TURN server might be needed.";
+                    qDebug() << "[WebRTC] PeerConnection failed: TURN server might be needed.\n";
                 }
 
 
@@ -76,7 +75,7 @@ void WebRTC::init() {
     peerConnection->onGatheringStateChange([this](rtc::PeerConnection::GatheringState state) {
         if (state == rtc::PeerConnection::GatheringState::Complete) {
             emit gatheringCompleted();
-            qDebug() <<"ICE gathering completed\n";
+            qDebug() <<"[WebRTC] ICE gathering completed\n";
         }
     });
 }
@@ -86,17 +85,17 @@ void WebRTC::init() {
 
 void WebRTC::createOffer() {
     peerConnection->setLocalDescription(rtc::Description::Type::Offer);
-    qDebug() << "SDP Offer created";
+    qDebug() << "[WebRTC] SDP Offer created \n";
 }
 
 void WebRTC::setRemoteDescription(const QString& sdp) {
     peerConnection->setRemoteDescription(rtc::Description(sdp.toStdString()));
-    qDebug() << "Remote SDP set";
+    qDebug() << "[WebRTC] Remote SDP set \n";
 }
 
 void WebRTC::addRemoteCandidate(const QString& candidate) {
     peerConnection->addRemoteCandidate(rtc::Candidate(candidate.toStdString()));
-    qDebug() << "Remote ICE candidate set";
+    qDebug() << "[WebRTC] Remote ICE candidate set \n";
 }
 
 

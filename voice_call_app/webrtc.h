@@ -9,7 +9,7 @@ class WebRTC : public QObject {
 
     public:
         WebRTC();
-        void init();
+
         void createOffer();
         void setRemoteDescription(const QString& sdp);
         void addRemoteCandidate(const QString& candidate);
