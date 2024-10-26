@@ -311,6 +311,20 @@ debug/moc_signalingclient.cpp: ../voice_call_app/signalingclient.h \
 		../voice_call_app/libdatachannel/include/rtc/rtcpsrreporter.hpp \
 		../voice_call_app/libdatachannel/include/rtc/rtpdepacketizer.hpp \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/QDebug \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioInput \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudioinput.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
+		C:/Qt/6.5.3/mingw_64/include/QtGui/qtguiglobal.h \
+		C:/Qt/6.5.3/mingw_64/include/QtGui/qtgui-config.h \
+		C:/Qt/6.5.3/mingw_64/include/QtGui/qtguiexports.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudio.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioOutput \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiooutput.h \
+		../voice_call_app/opus/include/opus.h \
+		../voice_call_app/opus/include/opus_types.h \
+		../voice_call_app/opus/include/opus_defines.h \
 		debug/moc_predefs.h \
 		C:/Qt/6.5.3/mingw_64/bin/moc.exe
 	'C:\Qt\6.5.3\mingw_64\bin\moc.exe' $(DEFINES) --include D:/UT/CN/CA1/git/CN_CA_1_/build-voice_call_app-Desktop_Qt_6_5_3_MinGW_64_bit-Release/debug/moc_predefs.h -IC:/Qt/6.5.3/mingw_64/mkspecs/win32-g++ -ID:/UT/CN/CA1/git/CN_CA_1_/voice_call_app -ID:/UT/CN/CA1/git/CN_CA_1_/voice_call_app/libdatachannel/include -ID:/UT/CN/CA1/git/CN_CA_1_/voice_call_app/opus/include -IC:/Qt/Tools/OpenSSLv3/Win_x64/include -IC:/Qt/6.5.3/mingw_64/include -IC:/Qt/6.5.3/mingw_64/include/QtQuickControls2 -IC:/Qt/6.5.3/mingw_64/include/QtQuickLayouts -IC:/Qt/6.5.3/mingw_64/include/QtQuick/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtQuick/6.5.3/QtQuick -IC:/Qt/6.5.3/mingw_64/include/QtQuick -IC:/Qt/6.5.3/mingw_64/include/QtOpenGL -IC:/Qt/6.5.3/mingw_64/include/QtGui/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtGui/6.5.3/QtGui -IC:/Qt/6.5.3/mingw_64/include/QtMultimedia -IC:/Qt/6.5.3/mingw_64/include/QtGui -IC:/Qt/6.5.3/mingw_64/include/QtQmlModels/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtQmlModels/6.5.3/QtQmlModels -IC:/Qt/6.5.3/mingw_64/include/QtQmlModels -IC:/Qt/6.5.3/mingw_64/include/QtQml/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtQml/6.5.3/QtQml -IC:/Qt/6.5.3/mingw_64/include/QtQml -IC:/Qt/6.5.3/mingw_64/include/QtQmlIntegration -IC:/Qt/6.5.3/mingw_64/include/QtWebSockets -IC:/Qt/6.5.3/mingw_64/include/QtNetwork -IC:/Qt/6.5.3/mingw_64/include/QtCore/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtCore/6.5.3/QtCore -IC:/Qt/6.5.3/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ../voice_call_app/signalingclient.h -o debug/moc_signalingclient.cpp
@@ -613,6 +627,20 @@ debug/moc_webrtc.cpp: ../voice_call_app/webrtc.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qhash.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qvarlengtharray.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/q20memory.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioInput \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudioinput.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
+		C:/Qt/6.5.3/mingw_64/include/QtGui/qtguiglobal.h \
+		C:/Qt/6.5.3/mingw_64/include/QtGui/qtgui-config.h \
+		C:/Qt/6.5.3/mingw_64/include/QtGui/qtguiexports.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudio.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioOutput \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiooutput.h \
+		../voice_call_app/opus/include/opus.h \
+		../voice_call_app/opus/include/opus_types.h \
+		../voice_call_app/opus/include/opus_defines.h \
 		debug/moc_predefs.h \
 		C:/Qt/6.5.3/mingw_64/bin/moc.exe
 	'C:\Qt\6.5.3\mingw_64\bin\moc.exe' $(DEFINES) --include D:/UT/CN/CA1/git/CN_CA_1_/build-voice_call_app-Desktop_Qt_6_5_3_MinGW_64_bit-Release/debug/moc_predefs.h -IC:/Qt/6.5.3/mingw_64/mkspecs/win32-g++ -ID:/UT/CN/CA1/git/CN_CA_1_/voice_call_app -ID:/UT/CN/CA1/git/CN_CA_1_/voice_call_app/libdatachannel/include -ID:/UT/CN/CA1/git/CN_CA_1_/voice_call_app/opus/include -IC:/Qt/Tools/OpenSSLv3/Win_x64/include -IC:/Qt/6.5.3/mingw_64/include -IC:/Qt/6.5.3/mingw_64/include/QtQuickControls2 -IC:/Qt/6.5.3/mingw_64/include/QtQuickLayouts -IC:/Qt/6.5.3/mingw_64/include/QtQuick/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtQuick/6.5.3/QtQuick -IC:/Qt/6.5.3/mingw_64/include/QtQuick -IC:/Qt/6.5.3/mingw_64/include/QtOpenGL -IC:/Qt/6.5.3/mingw_64/include/QtGui/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtGui/6.5.3/QtGui -IC:/Qt/6.5.3/mingw_64/include/QtMultimedia -IC:/Qt/6.5.3/mingw_64/include/QtGui -IC:/Qt/6.5.3/mingw_64/include/QtQmlModels/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtQmlModels/6.5.3/QtQmlModels -IC:/Qt/6.5.3/mingw_64/include/QtQmlModels -IC:/Qt/6.5.3/mingw_64/include/QtQml/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtQml/6.5.3/QtQml -IC:/Qt/6.5.3/mingw_64/include/QtQml -IC:/Qt/6.5.3/mingw_64/include/QtQmlIntegration -IC:/Qt/6.5.3/mingw_64/include/QtWebSockets -IC:/Qt/6.5.3/mingw_64/include/QtNetwork -IC:/Qt/6.5.3/mingw_64/include/QtCore/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtCore/6.5.3/QtCore -IC:/Qt/6.5.3/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ../voice_call_app/webrtc.h -o debug/moc_webrtc.cpp
@@ -837,6 +865,17 @@ debug/main.o: ../voice_call_app/main.cpp C:/Qt/6.5.3/mingw_64/include/QtGui/QGui
 		../voice_call_app/libdatachannel/include/rtc/rtcpsrreporter.hpp \
 		../voice_call_app/libdatachannel/include/rtc/rtpdepacketizer.hpp \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/QObject \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioInput \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudioinput.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudio.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioOutput \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiooutput.h \
+		../voice_call_app/opus/include/opus.h \
+		../voice_call_app/opus/include/opus_types.h \
+		../voice_call_app/opus/include/opus_defines.h \
 		../voice_call_app/signalingserver.h \
 		C:/Qt/6.5.3/mingw_64/include/QtWebSockets/QWebSocket \
 		C:/Qt/6.5.3/mingw_64/include/QtWebSockets/qwebsocket.h \
@@ -1065,7 +1104,21 @@ debug/signalingclient.o: ../voice_call_app/signalingclient.cpp ../voice_call_app
 		../voice_call_app/libdatachannel/include/rtc/rtcpreceivingsession.hpp \
 		../voice_call_app/libdatachannel/include/rtc/rtcpsrreporter.hpp \
 		../voice_call_app/libdatachannel/include/rtc/rtpdepacketizer.hpp \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/QDebug
+		C:/Qt/6.5.3/mingw_64/include/QtCore/QDebug \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioInput \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudioinput.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
+		C:/Qt/6.5.3/mingw_64/include/QtGui/qtguiglobal.h \
+		C:/Qt/6.5.3/mingw_64/include/QtGui/qtgui-config.h \
+		C:/Qt/6.5.3/mingw_64/include/QtGui/qtguiexports.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudio.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioOutput \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiooutput.h \
+		../voice_call_app/opus/include/opus.h \
+		../voice_call_app/opus/include/opus_types.h \
+		../voice_call_app/opus/include/opus_defines.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/signalingclient.o ../voice_call_app/signalingclient.cpp
 
 debug/signalingserver.o: ../voice_call_app/signalingserver.cpp ../voice_call_app/signalingserver.h \
@@ -1364,7 +1417,21 @@ debug/webrtc.o: ../voice_call_app/webrtc.cpp ../voice_call_app/webrtc.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qset.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qhash.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qvarlengtharray.h \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/q20memory.h
+		C:/Qt/6.5.3/mingw_64/include/QtCore/q20memory.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioInput \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudioinput.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
+		C:/Qt/6.5.3/mingw_64/include/QtGui/qtguiglobal.h \
+		C:/Qt/6.5.3/mingw_64/include/QtGui/qtgui-config.h \
+		C:/Qt/6.5.3/mingw_64/include/QtGui/qtguiexports.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudio.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioOutput \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiooutput.h \
+		../voice_call_app/opus/include/opus.h \
+		../voice_call_app/opus/include/opus_types.h \
+		../voice_call_app/opus/include/opus_defines.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/webrtc.o ../voice_call_app/webrtc.cpp
 
 debug/moc_signalingclient.o: debug/moc_signalingclient.cpp 

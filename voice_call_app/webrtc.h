@@ -4,6 +4,9 @@
 #include "rtc/rtc.hpp"
 #include <QObject>
 #include <QDebug>
+#include <QAudioInput>
+#include <QAudioOutput>
+#include <opus/include/opus.h>
 class WebRTC : public QObject {
     Q_OBJECT
 
@@ -13,6 +16,8 @@ class WebRTC : public QObject {
         void createOffer();
         void setRemoteDescription(const QString& sdp);
         void addRemoteCandidate(const QString& candidate);
+        void startAudioCapture();
+        void stopAudioCapture();
 
     signals:
         void localDescriptionGenerated(const QString& sdp);
@@ -23,6 +28,15 @@ class WebRTC : public QObject {
     private:
         std::shared_ptr<rtc::PeerConnection> peerConnection;
         std::shared_ptr<rtc::Track> audioTrack;
+
+        QAudioInput *audioInput;
+        QAudioOutput *audioOutput;
+        QIODevice *audioIODevice;
+
+        OpusEncoder *encoder;
+        OpusDecoder *decoder;
+
+        void handleAudioFrame(const QByteArray &audioData);
 
 };
 #endif // WEBRTC_H
