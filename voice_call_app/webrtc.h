@@ -9,6 +9,7 @@ class WebRTC : public QObject {
 
     public:
         WebRTC();
+        void init();
 
     signals:
         void localDescriptionGenerated(const QString& sdp);
@@ -21,17 +22,4 @@ class WebRTC : public QObject {
         std::shared_ptr<rtc::Track> audioTrack;
 
 };
-
-std::string peerConnectionStateToString(rtc::PeerConnection::State state) {
-    switch (state) {
-        case rtc::PeerConnection::State::New: return "New";
-        case rtc::PeerConnection::State::Connecting: return "Connecting";
-        case rtc::PeerConnection::State::Connected: return "Connected";
-        case rtc::PeerConnection::State::Disconnected: return "Disconnected";
-        case rtc::PeerConnection::State::Failed: return "Failed";
-        case rtc::PeerConnection::State::Closed: return "Closed";
-        default: return "Unknown State";
-    }
-}
-
 #endif // WEBRTC_H

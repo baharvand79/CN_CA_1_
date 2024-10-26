@@ -1,12 +1,12 @@
 /****************************************************************************
-** Meta object code from reading C++ file 'webrtchandler.h'
+** Meta object code from reading C++ file 'webrtc.h'
 **
 ** Created by: The Qt Meta Object Compiler version 68 (Qt 6.5.3)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../../../../voice_call_app/webrtchandler.h"
+#include "../../voice_call_app/webrtc.h"
 #include <QtCore/qmetatype.h>
 
 #if __has_include(<QtCore/qtmochelpers.h>)
@@ -19,7 +19,7 @@ QT_BEGIN_MOC_NAMESPACE
 #include <memory>
 
 #if !defined(Q_MOC_OUTPUT_REVISION)
-#error "The header file 'webrtchandler.h' doesn't include <QObject>."
+#error "The header file 'webrtc.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 68
 #error "This file was generated using the moc from 6.5.3. It"
 #error "cannot be used with the include files from this version of Qt."
@@ -36,9 +36,9 @@ QT_WARNING_DISABLE_GCC("-Wuseless-cast")
 namespace {
 
 #ifdef QT_MOC_HAS_STRINGDATA
-struct qt_meta_stringdata_CLASSWebRTCHandlerENDCLASS_t {};
-static constexpr auto qt_meta_stringdata_CLASSWebRTCHandlerENDCLASS = QtMocHelpers::stringData(
-    "WebRTCHandler",
+struct qt_meta_stringdata_CLASSWebRTCENDCLASS_t {};
+static constexpr auto qt_meta_stringdata_CLASSWebRTCENDCLASS = QtMocHelpers::stringData(
+    "WebRTC",
     "localDescriptionGenerated",
     "",
     "sdp",
@@ -49,9 +49,9 @@ static constexpr auto qt_meta_stringdata_CLASSWebRTCHandlerENDCLASS = QtMocHelpe
     "gatheringCompleted"
 );
 #else  // !QT_MOC_HAS_STRING_DATA
-struct qt_meta_stringdata_CLASSWebRTCHandlerENDCLASS_t {
+struct qt_meta_stringdata_CLASSWebRTCENDCLASS_t {
     uint offsetsAndSizes[18];
-    char stringdata0[14];
+    char stringdata0[7];
     char stringdata1[26];
     char stringdata2[1];
     char stringdata3[4];
@@ -62,20 +62,20 @@ struct qt_meta_stringdata_CLASSWebRTCHandlerENDCLASS_t {
     char stringdata8[19];
 };
 #define QT_MOC_LITERAL(ofs, len) \
-    uint(sizeof(qt_meta_stringdata_CLASSWebRTCHandlerENDCLASS_t::offsetsAndSizes) + ofs), len 
-Q_CONSTINIT static const qt_meta_stringdata_CLASSWebRTCHandlerENDCLASS_t qt_meta_stringdata_CLASSWebRTCHandlerENDCLASS = {
+    uint(sizeof(qt_meta_stringdata_CLASSWebRTCENDCLASS_t::offsetsAndSizes) + ofs), len 
+Q_CONSTINIT static const qt_meta_stringdata_CLASSWebRTCENDCLASS_t qt_meta_stringdata_CLASSWebRTCENDCLASS = {
     {
-        QT_MOC_LITERAL(0, 13),  // "WebRTCHandler"
-        QT_MOC_LITERAL(14, 25),  // "localDescriptionGenerated"
-        QT_MOC_LITERAL(40, 0),  // ""
-        QT_MOC_LITERAL(41, 3),  // "sdp"
-        QT_MOC_LITERAL(45, 23),  // "localCandidateGenerated"
-        QT_MOC_LITERAL(69, 9),  // "candidate"
-        QT_MOC_LITERAL(79, 13),  // "audioReceived"
-        QT_MOC_LITERAL(93, 9),  // "audioData"
-        QT_MOC_LITERAL(103, 18)   // "gatheringCompleted"
+        QT_MOC_LITERAL(0, 6),  // "WebRTC"
+        QT_MOC_LITERAL(7, 25),  // "localDescriptionGenerated"
+        QT_MOC_LITERAL(33, 0),  // ""
+        QT_MOC_LITERAL(34, 3),  // "sdp"
+        QT_MOC_LITERAL(38, 23),  // "localCandidateGenerated"
+        QT_MOC_LITERAL(62, 9),  // "candidate"
+        QT_MOC_LITERAL(72, 13),  // "audioReceived"
+        QT_MOC_LITERAL(86, 9),  // "audioData"
+        QT_MOC_LITERAL(96, 18)   // "gatheringCompleted"
     },
-    "WebRTCHandler",
+    "WebRTC",
     "localDescriptionGenerated",
     "",
     "sdp",
@@ -89,7 +89,7 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSWebRTCHandlerENDCLASS_t qt_meta
 #endif // !QT_MOC_HAS_STRING_DATA
 } // unnamed namespace
 
-Q_CONSTINIT static const uint qt_meta_data_CLASSWebRTCHandlerENDCLASS[] = {
+Q_CONSTINIT static const uint qt_meta_data_CLASSWebRTCENDCLASS[] = {
 
  // content:
       11,       // revision
@@ -117,15 +117,15 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSWebRTCHandlerENDCLASS[] = {
        0        // eod
 };
 
-Q_CONSTINIT const QMetaObject WebRTCHandler::staticMetaObject = { {
+Q_CONSTINIT const QMetaObject WebRTC::staticMetaObject = { {
     QMetaObject::SuperData::link<QObject::staticMetaObject>(),
-    qt_meta_stringdata_CLASSWebRTCHandlerENDCLASS.offsetsAndSizes,
-    qt_meta_data_CLASSWebRTCHandlerENDCLASS,
+    qt_meta_stringdata_CLASSWebRTCENDCLASS.offsetsAndSizes,
+    qt_meta_data_CLASSWebRTCENDCLASS,
     qt_static_metacall,
     nullptr,
-    qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSWebRTCHandlerENDCLASS_t,
+    qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSWebRTCENDCLASS_t,
         // Q_OBJECT / Q_GADGET
-        QtPrivate::TypeAndForceComplete<WebRTCHandler, std::true_type>,
+        QtPrivate::TypeAndForceComplete<WebRTC, std::true_type>,
         // method 'localDescriptionGenerated'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
@@ -141,10 +141,10 @@ Q_CONSTINIT const QMetaObject WebRTCHandler::staticMetaObject = { {
     nullptr
 } };
 
-void WebRTCHandler::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+void WebRTC::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
-        auto *_t = static_cast<WebRTCHandler *>(_o);
+        auto *_t = static_cast<WebRTC *>(_o);
         (void)_t;
         switch (_id) {
         case 0: _t->localDescriptionGenerated((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
@@ -156,29 +156,29 @@ void WebRTCHandler::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            using _t = void (WebRTCHandler::*)(const QString & );
-            if (_t _q_method = &WebRTCHandler::localDescriptionGenerated; *reinterpret_cast<_t *>(_a[1]) == _q_method) {
+            using _t = void (WebRTC::*)(const QString & );
+            if (_t _q_method = &WebRTC::localDescriptionGenerated; *reinterpret_cast<_t *>(_a[1]) == _q_method) {
                 *result = 0;
                 return;
             }
         }
         {
-            using _t = void (WebRTCHandler::*)(const QString & );
-            if (_t _q_method = &WebRTCHandler::localCandidateGenerated; *reinterpret_cast<_t *>(_a[1]) == _q_method) {
+            using _t = void (WebRTC::*)(const QString & );
+            if (_t _q_method = &WebRTC::localCandidateGenerated; *reinterpret_cast<_t *>(_a[1]) == _q_method) {
                 *result = 1;
                 return;
             }
         }
         {
-            using _t = void (WebRTCHandler::*)(const QByteArray & );
-            if (_t _q_method = &WebRTCHandler::audioReceived; *reinterpret_cast<_t *>(_a[1]) == _q_method) {
+            using _t = void (WebRTC::*)(const QByteArray & );
+            if (_t _q_method = &WebRTC::audioReceived; *reinterpret_cast<_t *>(_a[1]) == _q_method) {
                 *result = 2;
                 return;
             }
         }
         {
-            using _t = void (WebRTCHandler::*)();
-            if (_t _q_method = &WebRTCHandler::gatheringCompleted; *reinterpret_cast<_t *>(_a[1]) == _q_method) {
+            using _t = void (WebRTC::*)();
+            if (_t _q_method = &WebRTC::gatheringCompleted; *reinterpret_cast<_t *>(_a[1]) == _q_method) {
                 *result = 3;
                 return;
             }
@@ -186,20 +186,20 @@ void WebRTCHandler::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
     }
 }
 
-const QMetaObject *WebRTCHandler::metaObject() const
+const QMetaObject *WebRTC::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
-void *WebRTCHandler::qt_metacast(const char *_clname)
+void *WebRTC::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_meta_stringdata_CLASSWebRTCHandlerENDCLASS.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_CLASSWebRTCENDCLASS.stringdata0))
         return static_cast<void*>(this);
     return QObject::qt_metacast(_clname);
 }
 
-int WebRTCHandler::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int WebRTC::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QObject::qt_metacall(_c, _id, _a);
     if (_id < 0)
@@ -217,28 +217,28 @@ int WebRTCHandler::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void WebRTCHandler::localDescriptionGenerated(const QString & _t1)
+void WebRTC::localDescriptionGenerated(const QString & _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 
 // SIGNAL 1
-void WebRTCHandler::localCandidateGenerated(const QString & _t1)
+void WebRTC::localCandidateGenerated(const QString & _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
     QMetaObject::activate(this, &staticMetaObject, 1, _a);
 }
 
 // SIGNAL 2
-void WebRTCHandler::audioReceived(const QByteArray & _t1)
+void WebRTC::audioReceived(const QByteArray & _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
     QMetaObject::activate(this, &staticMetaObject, 2, _a);
 }
 
 // SIGNAL 3
-void WebRTCHandler::gatheringCompleted()
+void WebRTC::gatheringCompleted()
 {
     QMetaObject::activate(this, &staticMetaObject, 3, nullptr);
 }

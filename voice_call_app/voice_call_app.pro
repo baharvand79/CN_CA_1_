@@ -78,4 +78,3 @@ DEFINES += ASIO_STANDALONE
 INCLUDEPATH += C:/Qt/Tools/OpenSSLv3/Win_x64/include
 #INCLUDEPATH += C:/Qt/Tools/OpenSSLv3/src/include
 
-
