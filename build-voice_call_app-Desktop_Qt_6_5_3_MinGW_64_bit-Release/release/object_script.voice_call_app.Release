@@ -1,0 +1,11 @@
+release/audioinput.o
+release/audiooutput.o
+release/main.o
+release/signalingclient.o
+release/signalingserver.o
+release/webrtc.o
+release/moc_audioinput.o
+release/moc_audiooutput.o
+release/moc_signalingclient.o
+release/moc_signalingserver.o
+release/moc_webrtc.o

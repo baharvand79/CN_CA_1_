@@ -1,65 +1,35 @@
-#include "audioinput.h"
+#include "AudioInput.h"
 
-AudioInput::AudioInput(QObject *parent)
-    : QIODevice(parent), encoder(nullptr), audioSource(nullptr), error(0) {
-
-    // Initialize Opus encoder
-    encoder = opus_encoder_create(48000, 1, OPUS_APPLICATION_VOIP, &error);
-
-    if (error != OPUS_OK) {
-        qCritical() << "Failed to create Opus encoder:" << opus_strerror(error);
-        return; // Exit if the encoder creation failed
-    } else {
-        qDebug() << "Opus encoder is created.";
-    }
-
-    // Initialize audio source
+AudioInput::AudioInput(QObject *parent) : QIODevice(parent) {
     QAudioFormat format;
     format.setSampleRate(48000);
-    format.setChannelCount(1);
-    format.setSampleFormat(QAudioFormat::Int16); // Ensure this matches Opus expected input
+    format.setChannelCount(2);
+    format.setSampleFormat(QAudioFormat::Int16);
 
     audioSource = new QAudioSource(format, this);
-    if (!audioSource) {
-        qCritical() << "Failed to initialize audio source.";
-        return; // Exit if the audio source fails to initialize
-    }
+    audioDevice = audioSource->start();
 
-    audioSource->start(this); // Start capturing audio
-    this->open(QIODevice::WriteOnly); // Open this QIODevice in WriteOnly mode
-    qDebug() << "Audio source initialized successfully.";
+    connect(audioDevice, &QIODevice::readyRead, this, [this]() {
+        QByteArray audioData = audioDevice->readAll();
+        emit audioCaptured(audioData);
+    });
 }
 
 AudioInput::~AudioInput() {
-    if (encoder) {
-        opus_encoder_destroy(encoder); // Clean up Opus encoder
-    }
-    if (audioSource) {
-        audioSource->stop(); // Stop the audio source before destruction
-    }
+    audioSource->stop();
+}
+
+qint64 AudioInput::readData(char *data, qint64 maxlen) {
+    Q_UNUSED(data);
+    Q_UNUSED(maxlen);
+    return 0;
 }
 
 qint64 AudioInput::writeData(const char *data, qint64 len) {
-    const int maxPacketSize = 4000; // Max size of encoded packet
-    unsigned char encodedData[maxPacketSize];
-
-    int encodedBytes = opus_encode(encoder, reinterpret_cast<const opus_int16*>(data), len / 2, encodedData, maxPacketSize);
-
-    if (encodedBytes < 0) {
-        qDebug() << "Opus encoding failed with error:" << encodedBytes;
-        return -1; // Return an error if encoding fails
-    }
-
-    qDebug() << "Encoded" << encodedBytes << "bytes of audio data.";
-
-    // Here you can emit the encoded data as a signal to the rest of your application
-    emit audioCaptured(QByteArray(reinterpret_cast<const char*>(encodedData), encodedBytes));
-
-    return len; // Return the number of bytes processed
+    emit audioCaptured(QByteArray(data, len));
+    return len;
 }
 
-qint64 AudioInput::readData(char *data, qint64 len) {
-    Q_UNUSED(data);
-    Q_UNUSED(len);
-    return 0;
+void AudioInput::startCapture() {
+    audioSource->start();
 }
