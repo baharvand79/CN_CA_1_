@@ -14,6 +14,17 @@ std::string peerConnectionStateToString(rtc::PeerConnection::State state) {
 }
 
 WebRTC::WebRTC() {
+
+//    AudioInput* audioInput = new AudioInput(this);
+//    AudioOutput* audioOutput = new AudioOutput(this);
+
+//    connect(audioInput, &AudioInput::audioCaptured, this, [this](const QByteArray& encodedData) {
+//        if (peerConnection) {
+//            sendAudio(encodedData);
+//            qDebug() << "[WebRTC] Audio data sent, size:" << encodedData.size();
+//        }
+//    });
+
     rtc::Configuration config;
     config.iceServers.emplace_back("stun:stun.l.google.com:19302"); // STUN Server
     config.iceServers.emplace_back("turn:openrelayproject:openrelayproject@openrelay.metered.ca:80"); // TURN Server
@@ -82,4 +93,13 @@ void WebRTC::setRemoteDescription(const QString& sdp) {
 void WebRTC::addRemoteCandidate(const QString& candidate) {
     peerConnection->addRemoteCandidate(rtc::Candidate(candidate.toStdString()));
     qDebug() << "[WebRTC] Remote ICE candidate set.";
+}
+
+void WebRTC::sendAudio(const QByteArray &data) {
+    // Assuming you have a track set up to send audio
+    if (audioTrack) {
+        const std::byte* byteData = reinterpret_cast<const std::byte*>(data.data());
+        audioTrack->send(byteData, data.size());
+        qDebug() << "[WebRTC] Audio data sent, size:" << data.size();
+    }
 }

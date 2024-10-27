@@ -19,6 +19,7 @@ class WebRTC : public QObject {
         void addRemoteCandidate(const QString& candidate);
         void startAudioCapture();
         void stopAudioCapture();
+        void sendAudio(const QByteArray &data);
 
 
 
