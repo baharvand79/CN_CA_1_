@@ -138,8 +138,7 @@ compiler_moc_header_make_all: debug/moc_audioinput.cpp debug/moc_audiooutput.cpp
 compiler_moc_header_clean:
 	-$(DEL_FILE) debug/moc_audioinput.cpp debug/moc_audiooutput.cpp debug/moc_signalingclient.cpp debug/moc_signalingserver.cpp debug/moc_webrtc.cpp
 debug/moc_audioinput.cpp: ../voice_call_app/audioinput.h \
-		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioSource \
-		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiosource.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/QIODevice \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qiodevice.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qglobal.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qtversionchecks.h \
@@ -231,18 +230,22 @@ debug/moc_audioinput.cpp: ../voice_call_app/audioinput.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qscopeguard.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qobject_impl.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qbindingstorage.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioFormat \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudioformat.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qshareddata.h \
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
 		C:/Qt/6.5.3/mingw_64/include/QtGui/qtguiglobal.h \
 		C:/Qt/6.5.3/mingw_64/include/QtGui/qtgui-config.h \
 		C:/Qt/6.5.3/mingw_64/include/QtGui/qtguiexports.h \
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioSource \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiosource.h \
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudio.h \
-		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudioformat.h \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/qshareddata.h \
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiodevice.h \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/QIODevice \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/QObject \
+		../voice_call_app/opus/include/opus.h \
+		../voice_call_app/opus/include/opus_types.h \
+		../voice_call_app/opus/include/opus_defines.h \
 		debug/moc_predefs.h \
 		C:/Qt/6.5.3/mingw_64/bin/moc.exe
 	'C:\Qt\6.5.3\mingw_64\bin\moc.exe' $(DEFINES) --include D:/UT/CN/CA1/git/CN_CA_1_/build-voice_call_app-Desktop_Qt_6_5_3_MinGW_64_bit-Release/debug/moc_predefs.h -IC:/Qt/6.5.3/mingw_64/mkspecs/win32-g++ -ID:/UT/CN/CA1/git/CN_CA_1_/voice_call_app -ID:/UT/CN/CA1/git/CN_CA_1_/voice_call_app/libdatachannel/include -ID:/UT/CN/CA1/git/CN_CA_1_/voice_call_app/opus/include -IC:/Qt/Tools/OpenSSLv3/Win_x64/include -IC:/Qt/6.5.3/mingw_64/include -IC:/Qt/6.5.3/mingw_64/include/QtQuickControls2 -IC:/Qt/6.5.3/mingw_64/include/QtQuickLayouts -IC:/Qt/6.5.3/mingw_64/include/QtQuick/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtQuick/6.5.3/QtQuick -IC:/Qt/6.5.3/mingw_64/include/QtQuick -IC:/Qt/6.5.3/mingw_64/include/QtOpenGL -IC:/Qt/6.5.3/mingw_64/include/QtGui/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtGui/6.5.3/QtGui -IC:/Qt/6.5.3/mingw_64/include/QtMultimedia -IC:/Qt/6.5.3/mingw_64/include/QtGui -IC:/Qt/6.5.3/mingw_64/include/QtQmlModels/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtQmlModels/6.5.3/QtQmlModels -IC:/Qt/6.5.3/mingw_64/include/QtQmlModels -IC:/Qt/6.5.3/mingw_64/include/QtQml/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtQml/6.5.3/QtQml -IC:/Qt/6.5.3/mingw_64/include/QtQml -IC:/Qt/6.5.3/mingw_64/include/QtQmlIntegration -IC:/Qt/6.5.3/mingw_64/include/QtWebSockets -IC:/Qt/6.5.3/mingw_64/include/QtNetwork -IC:/Qt/6.5.3/mingw_64/include/QtCore/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtCore/6.5.3/QtCore -IC:/Qt/6.5.3/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ../voice_call_app/audioinput.h -o debug/moc_audioinput.cpp
@@ -339,23 +342,26 @@ debug/moc_audiooutput.cpp: ../voice_call_app/audiooutput.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qscopeguard.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qobject_impl.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qbindingstorage.h \
-		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioSink \
-		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiosink.h \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/qiodevice.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioFormat \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudioformat.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qshareddata.h \
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
 		C:/Qt/6.5.3/mingw_64/include/QtGui/qtguiglobal.h \
 		C:/Qt/6.5.3/mingw_64/include/QtGui/qtgui-config.h \
 		C:/Qt/6.5.3/mingw_64/include/QtGui/qtguiexports.h \
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioSink \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiosink.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qiodevice.h \
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudio.h \
-		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudioformat.h \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/qshareddata.h \
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiodevice.h \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/QIODevice \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/QMutex \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qmutex.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qtsan_impl.h \
+		../voice_call_app/opus/include/opus.h \
+		../voice_call_app/opus/include/opus_types.h \
+		../voice_call_app/opus/include/opus_defines.h \
 		debug/moc_predefs.h \
 		C:/Qt/6.5.3/mingw_64/bin/moc.exe
 	'C:\Qt\6.5.3\mingw_64\bin\moc.exe' $(DEFINES) --include D:/UT/CN/CA1/git/CN_CA_1_/build-voice_call_app-Desktop_Qt_6_5_3_MinGW_64_bit-Release/debug/moc_predefs.h -IC:/Qt/6.5.3/mingw_64/mkspecs/win32-g++ -ID:/UT/CN/CA1/git/CN_CA_1_/voice_call_app -ID:/UT/CN/CA1/git/CN_CA_1_/voice_call_app/libdatachannel/include -ID:/UT/CN/CA1/git/CN_CA_1_/voice_call_app/opus/include -IC:/Qt/Tools/OpenSSLv3/Win_x64/include -IC:/Qt/6.5.3/mingw_64/include -IC:/Qt/6.5.3/mingw_64/include/QtQuickControls2 -IC:/Qt/6.5.3/mingw_64/include/QtQuickLayouts -IC:/Qt/6.5.3/mingw_64/include/QtQuick/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtQuick/6.5.3/QtQuick -IC:/Qt/6.5.3/mingw_64/include/QtQuick -IC:/Qt/6.5.3/mingw_64/include/QtOpenGL -IC:/Qt/6.5.3/mingw_64/include/QtGui/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtGui/6.5.3/QtGui -IC:/Qt/6.5.3/mingw_64/include/QtMultimedia -IC:/Qt/6.5.3/mingw_64/include/QtGui -IC:/Qt/6.5.3/mingw_64/include/QtQmlModels/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtQmlModels/6.5.3/QtQmlModels -IC:/Qt/6.5.3/mingw_64/include/QtQmlModels -IC:/Qt/6.5.3/mingw_64/include/QtQml/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtQml/6.5.3/QtQml -IC:/Qt/6.5.3/mingw_64/include/QtQml -IC:/Qt/6.5.3/mingw_64/include/QtQmlIntegration -IC:/Qt/6.5.3/mingw_64/include/QtWebSockets -IC:/Qt/6.5.3/mingw_64/include/QtNetwork -IC:/Qt/6.5.3/mingw_64/include/QtCore/6.5.3 -IC:/Qt/6.5.3/mingw_64/include/QtCore/6.5.3/QtCore -IC:/Qt/6.5.3/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ../voice_call_app/audiooutput.h -o debug/moc_audiooutput.cpp
@@ -896,9 +902,11 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean
 
 ####### Compile
 
-debug/audioinput.o: ../voice_call_app/audioinput.cpp ../voice_call_app/AudioInput.h \
-		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioSource \
-		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiosource.h \
+debug/audioinput.o: ../voice_call_app/audioinput.cpp ../voice_call_app/opus/include/opus.h \
+		../voice_call_app/opus/include/opus_types.h \
+		../voice_call_app/opus/include/opus_defines.h \
+		../voice_call_app/AudioInput.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/QIODevice \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qiodevice.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qglobal.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qtversionchecks.h \
@@ -990,21 +998,25 @@ debug/audioinput.o: ../voice_call_app/audioinput.cpp ../voice_call_app/AudioInpu
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qscopeguard.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qobject_impl.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qbindingstorage.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioFormat \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudioformat.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qshareddata.h \
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
 		C:/Qt/6.5.3/mingw_64/include/QtGui/qtguiglobal.h \
 		C:/Qt/6.5.3/mingw_64/include/QtGui/qtgui-config.h \
 		C:/Qt/6.5.3/mingw_64/include/QtGui/qtguiexports.h \
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioSource \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiosource.h \
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudio.h \
-		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudioformat.h \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/qshareddata.h \
-		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiodevice.h \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/QIODevice \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/QObject
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiodevice.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/audioinput.o ../voice_call_app/audioinput.cpp
 
-debug/audiooutput.o: ../voice_call_app/audiooutput.cpp ../voice_call_app/AudioOutput.h \
+debug/audiooutput.o: ../voice_call_app/audiooutput.cpp ../voice_call_app/opus/include/opus.h \
+		../voice_call_app/opus/include/opus_types.h \
+		../voice_call_app/opus/include/opus_defines.h \
+		../voice_call_app/AudioOutput.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/QObject \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qobject.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qobjectdefs.h \
@@ -1096,20 +1108,20 @@ debug/audiooutput.o: ../voice_call_app/audiooutput.cpp ../voice_call_app/AudioOu
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qscopeguard.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qobject_impl.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qbindingstorage.h \
-		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioSink \
-		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiosink.h \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/qiodevice.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioFormat \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudioformat.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qshareddata.h \
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
 		C:/Qt/6.5.3/mingw_64/include/QtGui/qtguiglobal.h \
 		C:/Qt/6.5.3/mingw_64/include/QtGui/qtgui-config.h \
 		C:/Qt/6.5.3/mingw_64/include/QtGui/qtguiexports.h \
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioSink \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiosink.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qiodevice.h \
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudio.h \
-		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudioformat.h \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/qshareddata.h \
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiodevice.h \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/QIODevice \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/QMutex \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qmutex.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qtsan_impl.h
@@ -1239,21 +1251,25 @@ debug/main.o: ../voice_call_app/main.cpp C:/Qt/6.5.3/mingw_64/include/QtCore/QCo
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qpromise.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qvariant.h \
 		../voice_call_app/AudioInput.h \
-		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioSource \
-		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiosource.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/QIODevice \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qiodevice.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioFormat \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudioformat.h \
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
 		C:/Qt/6.5.3/mingw_64/include/QtGui/qtguiglobal.h \
 		C:/Qt/6.5.3/mingw_64/include/QtGui/qtgui-config.h \
 		C:/Qt/6.5.3/mingw_64/include/QtGui/qtguiexports.h \
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioSource \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiosource.h \
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudio.h \
-		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudioformat.h \
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiodevice.h \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/QIODevice \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/QObject \
+		../voice_call_app/opus/include/opus.h \
+		../voice_call_app/opus/include/opus_types.h \
+		../voice_call_app/opus/include/opus_defines.h \
 		../voice_call_app/AudioOutput.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/QObject \
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioSink \
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiosink.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/QMutex
