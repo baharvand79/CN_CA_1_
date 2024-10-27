@@ -9,6 +9,8 @@ CONFIG += no_keyword
 CXXFLAGS += -fstack-protector
 
 SOURCES += \
+        audioinput.cpp \
+        audiooutput.cpp \
         main.cpp \
         signalingclient.cpp \
         signalingserver.cpp \
@@ -28,6 +30,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    audioinput.h \
+    audiooutput.h \
     signalingclient.h \
     signalingserver.h \
     webrtc.h
