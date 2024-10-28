@@ -347,6 +347,7 @@ Makefile: ../voice_call_app/voice_call_app.pro C:/Qt/6.5.3/mingw_64/mkspecs/win3
 		C:/Qt/6.5.3/mingw_64/mkspecs/features/resources.prf \
 		C:/Qt/6.5.3/mingw_64/mkspecs/features/moc.prf \
 		C:/Qt/6.5.3/mingw_64/mkspecs/features/win32/opengl.prf \
+		C:/Qt/6.5.3/mingw_64/mkspecs/features/uic.prf \
 		C:/Qt/6.5.3/mingw_64/mkspecs/features/qmake_use.prf \
 		C:/Qt/6.5.3/mingw_64/mkspecs/features/file_copies.prf \
 		C:/Qt/6.5.3/mingw_64/mkspecs/features/win32/windows.prf \
@@ -355,11 +356,10 @@ Makefile: ../voice_call_app/voice_call_app.pro C:/Qt/6.5.3/mingw_64/mkspecs/win3
 		C:/Qt/6.5.3/mingw_64/mkspecs/features/yacc.prf \
 		C:/Qt/6.5.3/mingw_64/mkspecs/features/lex.prf \
 		../voice_call_app/voice_call_app.pro \
-		C:/Qt/6.5.3/mingw_64/lib/Qt6QuickControls2.prl \
-		C:/Qt/6.5.3/mingw_64/lib/Qt6QuickLayouts.prl \
 		C:/Qt/6.5.3/mingw_64/lib/Qt6Quick.prl \
 		C:/Qt/6.5.3/mingw_64/lib/Qt6OpenGL.prl \
 		C:/Qt/6.5.3/mingw_64/lib/Qt6Multimedia.prl \
+		C:/Qt/6.5.3/mingw_64/lib/Qt6Widgets.prl \
 		C:/Qt/6.5.3/mingw_64/lib/Qt6Gui.prl \
 		C:/Qt/6.5.3/mingw_64/lib/Qt6QmlModels.prl \
 		C:/Qt/6.5.3/mingw_64/lib/Qt6Qml.prl \
@@ -367,7 +367,8 @@ Makefile: ../voice_call_app/voice_call_app.pro C:/Qt/6.5.3/mingw_64/mkspecs/win3
 		C:/Qt/6.5.3/mingw_64/lib/Qt6Network.prl \
 		C:/Qt/6.5.3/mingw_64/lib/Qt6Core.prl \
 		C:/Qt/6.5.3/mingw_64/lib/Qt6EntryPoint.prl \
-		C:/Qt/6.5.3/mingw_64/mkspecs/features/build_pass.prf
+		C:/Qt/6.5.3/mingw_64/mkspecs/features/build_pass.prf \
+		qml_qmlcache.qrc
 	$(QMAKE) -o Makefile ../voice_call_app/voice_call_app.pro -spec win32-g++ CONFIG+=qtquickcompiler
 C:/Qt/6.5.3/mingw_64/mkspecs/features/spec_pre.prf:
 C:/Qt/6.5.3/mingw_64/mkspecs/features/device_config.prf:
@@ -646,6 +647,7 @@ C:/Qt/6.5.3/mingw_64/mkspecs/features/qt.prf:
 C:/Qt/6.5.3/mingw_64/mkspecs/features/resources.prf:
 C:/Qt/6.5.3/mingw_64/mkspecs/features/moc.prf:
 C:/Qt/6.5.3/mingw_64/mkspecs/features/win32/opengl.prf:
+C:/Qt/6.5.3/mingw_64/mkspecs/features/uic.prf:
 C:/Qt/6.5.3/mingw_64/mkspecs/features/qmake_use.prf:
 C:/Qt/6.5.3/mingw_64/mkspecs/features/file_copies.prf:
 C:/Qt/6.5.3/mingw_64/mkspecs/features/win32/windows.prf:
@@ -654,11 +656,10 @@ C:/Qt/6.5.3/mingw_64/mkspecs/features/exceptions.prf:
 C:/Qt/6.5.3/mingw_64/mkspecs/features/yacc.prf:
 C:/Qt/6.5.3/mingw_64/mkspecs/features/lex.prf:
 ../voice_call_app/voice_call_app.pro:
-C:/Qt/6.5.3/mingw_64/lib/Qt6QuickControls2.prl:
-C:/Qt/6.5.3/mingw_64/lib/Qt6QuickLayouts.prl:
 C:/Qt/6.5.3/mingw_64/lib/Qt6Quick.prl:
 C:/Qt/6.5.3/mingw_64/lib/Qt6OpenGL.prl:
 C:/Qt/6.5.3/mingw_64/lib/Qt6Multimedia.prl:
+C:/Qt/6.5.3/mingw_64/lib/Qt6Widgets.prl:
 C:/Qt/6.5.3/mingw_64/lib/Qt6Gui.prl:
 C:/Qt/6.5.3/mingw_64/lib/Qt6QmlModels.prl:
 C:/Qt/6.5.3/mingw_64/lib/Qt6Qml.prl:
@@ -667,6 +668,7 @@ C:/Qt/6.5.3/mingw_64/lib/Qt6Network.prl:
 C:/Qt/6.5.3/mingw_64/lib/Qt6Core.prl:
 C:/Qt/6.5.3/mingw_64/lib/Qt6EntryPoint.prl:
 C:/Qt/6.5.3/mingw_64/mkspecs/features/build_pass.prf:
+qml_qmlcache.qrc:
 qmake: FORCE
 	@$(QMAKE) -o Makefile ../voice_call_app/voice_call_app.pro -spec win32-g++ CONFIG+=qtquickcompiler
 

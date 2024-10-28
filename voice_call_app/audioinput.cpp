@@ -1,4 +1,3 @@
-#include <opus.h> // Include Opus header
 #include "AudioInput.h"
 
 // Constants for Opus encoding
@@ -13,16 +12,23 @@ AudioInput::AudioInput(QObject *parent) : QIODevice(parent) {
     format.setSampleFormat(QAudioFormat::Int16);
 
     audioSource = new QAudioSource(format, this);
-    audioDevice = audioSource->start();
 
     // Opus encoder initialization
     int error;
     opusEncoder = opus_encoder_create(OPUS_SAMPLE_RATE, OPUS_CHANNELS, OPUS_APPLICATION_VOIP, &error);
 
-    connect(audioDevice, &QIODevice::readyRead, this, [this]() {
-        QByteArray audioData = audioDevice->readAll();
-        QByteArray encodedData = encodeAudio(audioData);
-        emit audioCaptured(encodedData);
+    connect(audioSource, &QAudioSource::stateChanged, this, [this]() {
+        if (audioSource->state() == QAudio::ActiveState) {
+            audioDevice = audioSource->start();
+            connect(audioDevice, &QIODevice::readyRead, this, [this]() {
+                QByteArray audioData = audioDevice->readAll();
+                QByteArray encodedData = encodeAudio(audioData);
+                emit audioCaptured(encodedData);
+            });
+        } else {
+            // Handle stopping of audio capture if necessary
+            audioDevice = nullptr;
+        }
     });
 }
 
@@ -31,12 +37,29 @@ AudioInput::~AudioInput() {
     audioSource->stop();
 }
 
+void AudioInput::startCapture() {
+    if (audioSource) {
+        audioSource->start();
+    }
+}
+
+void AudioInput::stopCapture() {
+    if (audioSource) {
+        audioSource->stop(); // Stop audio capture
+        // Optionally: disconnect audioDevice if you don't need it anymore
+        if (audioDevice) {
+            audioDevice->disconnect(); // Clean up
+            audioDevice = nullptr;
+        }
+    }
+}
+
 QByteArray AudioInput::encodeAudio(const QByteArray &input) {
     QByteArray output;
-    int maxEncodedBytes = 4000; // Adjust based on Opus encoding specs
+    int maxEncodedBytes = 4000;
     unsigned char encodedData[maxEncodedBytes];
 
-    int frameSize = input.size() / (OPUS_CHANNELS * sizeof(int16_t)); // Number of samples
+    int frameSize = input.size() / (OPUS_CHANNELS * sizeof(int16_t));
     int encodedBytes = opus_encode(opusEncoder, reinterpret_cast<const opus_int16*>(input.constData()), frameSize, encodedData, maxEncodedBytes);
 
     if (encodedBytes > 0) {
@@ -49,14 +72,10 @@ QByteArray AudioInput::encodeAudio(const QByteArray &input) {
 qint64 AudioInput::readData(char *data, qint64 maxlen) {
     Q_UNUSED(data);
     Q_UNUSED(maxlen);
-    return 0; // No data to read
+    return 0;
 }
 
 qint64 AudioInput::writeData(const char *data, qint64 len) {
-    emit audioCaptured(QByteArray(data, len)); // Emit captured audio data
+    emit audioCaptured(QByteArray(data, len));
     return len;
-}
-
-void AudioInput::startCapture() {
-    audioSource->start(); // Start audio capture
 }

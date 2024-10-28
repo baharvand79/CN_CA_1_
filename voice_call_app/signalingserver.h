@@ -16,7 +16,7 @@ public:
 
     void sendLocalDescription(const QString &sdp);
     void sendLocalCandidate(const QString &candidate);
-    void sendTestMessage(const QString &message);
+    void sendTextMessage(const QString &message);
 
 signals:
     void messageReceived(const QString &message);

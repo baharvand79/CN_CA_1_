@@ -13,7 +13,6 @@ AudioOutput::AudioOutput(QObject *parent) : QObject(parent) {
     audioSink = new QAudioSink(format, this);
     outputDevice = audioSink->start();
 
-    // Opus decoder initialization
     int error;
     opusDecoder = opus_decoder_create(OPUS_SAMPLE_RATE, OPUS_CHANNELS, &error);
 }

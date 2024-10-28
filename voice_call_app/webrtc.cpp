@@ -1,6 +1,8 @@
 #include "webrtc.h"
-#include "qdebug.h"
+#include <QDebug>
+#include <QUuid> // Include QUuid for UUID generation
 
+// Convert peer connection state to string representation
 std::string peerConnectionStateToString(rtc::PeerConnection::State state) {
     switch (state) {
         case rtc::PeerConnection::State::New: return "New";
@@ -13,17 +15,11 @@ std::string peerConnectionStateToString(rtc::PeerConnection::State state) {
     }
 }
 
-WebRTC::WebRTC() {
-
-//    AudioInput* audioInput = new AudioInput(this);
-//    AudioOutput* audioOutput = new AudioOutput(this);
-
-//    connect(audioInput, &AudioInput::audioCaptured, this, [this](const QByteArray& encodedData) {
-//        if (peerConnection) {
-//            sendAudio(encodedData);
-//            qDebug() << "[WebRTC] Audio data sent, size:" << encodedData.size();
-//        }
-//    });
+WebRTC::WebRTC(QObject *parent) : QObject(parent) {
+    // Generate a unique peer ID
+    peerId = QUuid::createUuid().toString(); // Generates a UUID string
+    emit peerIdGenerated(peerId); // Emit the generated peer ID
+    qDebug() << "[WebRTC] Created Peer ID:" << peerId; // Output the generated Peer ID
 
     rtc::Configuration config;
     config.iceServers.emplace_back("stun:stun.l.google.com:19302"); // STUN Server
@@ -37,69 +33,60 @@ WebRTC::WebRTC() {
     // Handle local description
     peerConnection->onLocalDescription([this](rtc::Description description) {
         emit localDescriptionGenerated(QString::fromStdString(description));
-        qDebug() << "[WebRTC] Local SDP generated.";
+        qDebug() << "[WebRTC] Local SDP generated for Peer ID:" << peerId; // Include Peer ID
     });
 
-    // Handle ICE candidates
+    // Handle local ICE candidates
     peerConnection->onLocalCandidate([this](rtc::Candidate candidate) {
-        QString candidateStr = QString::fromStdString(candidate);
-        emit localCandidateGenerated(candidateStr);
-        if (candidateStr.contains("typ host")) {
-            qDebug() << "[WebRTC] Host candidate generated:" << candidateStr;
-        } else if (candidateStr.contains("typ srflx")) {
-            qDebug() << "[WebRTC] Server reflexive candidate generated:" << candidateStr;
-        } else if (candidateStr.contains("typ relay")) {
-            qDebug() << "[WebRTC] Relay (TURN) candidate generated:" << candidateStr;
-        } else {
-            qDebug() << "[WebRTC] Unknown candidate type:" << candidateStr;
-        }
+        emit localCandidateGenerated(QString::fromStdString(candidate));
+        qDebug() << "[WebRTC] Local ICE candidate generated for Peer ID:" << peerId
+                 << ":" << QString::fromStdString(candidate); // Include Peer ID
     });
 
     // Handle incoming audio frames
     peerConnection->onTrack([this](std::shared_ptr<rtc::Track> track) {
         track->onFrame([this](rtc::binary data, rtc::FrameInfo) {
             emit audioReceived(QByteArray(reinterpret_cast<const char*>(data.data()), data.size()));
-            qDebug() << "[WebRTC] Audio frame received, size:" << data.size();
+            qDebug() << "[WebRTC] Audio frame received for Peer ID:" << peerId
+                     << ", size:" << data.size(); // Include Peer ID
         });
     });
 
     // Monitor connection state changes
     peerConnection->onStateChange([this](rtc::PeerConnection::State state) {
-        qDebug() << "[WebRTC] PeerConnection state changed:" << QString::fromStdString(peerConnectionStateToString(state));
-        if (state == rtc::PeerConnection::State::Failed) {
-            qDebug() << "[WebRTC] PeerConnection failed: TURN server might be needed.";
-        }
+        qDebug() << "[WebRTC] PeerConnection state changed for Peer ID:" << peerId
+                 << ":" << QString::fromStdString(peerConnectionStateToString(state)); // Include Peer ID
     });
 
     // Monitor ICE gathering completion
     peerConnection->onGatheringStateChange([this](rtc::PeerConnection::GatheringState state) {
         if (state == rtc::PeerConnection::GatheringState::Complete) {
             emit gatheringCompleted();
-            qDebug() << "[WebRTC] ICE gathering completed.";
+            qDebug() << "[WebRTC] ICE gathering completed for Peer ID:" << peerId; // Include Peer ID
         }
     });
 }
 
 void WebRTC::createOffer() {
     peerConnection->setLocalDescription(rtc::Description::Type::Offer);
-    qDebug() << "[WebRTC] SDP Offer created.";
+    qDebug() << "[WebRTC] Offer created for Peer ID:" << peerId; // Include Peer ID
 }
 
-void WebRTC::setRemoteDescription(const QString& sdp) {
+void WebRTC::setRemoteDescription(const QString &sdp) {
     peerConnection->setRemoteDescription(rtc::Description(sdp.toStdString()));
-    qDebug() << "[WebRTC] Remote SDP set.";
+    qDebug() << "[WebRTC] Remote SDP set for Peer ID:" << peerId; // Include Peer ID
 }
 
-void WebRTC::addRemoteCandidate(const QString& candidate) {
+void WebRTC::addRemoteCandidate(const QString &candidate) {
     peerConnection->addRemoteCandidate(rtc::Candidate(candidate.toStdString()));
-    qDebug() << "[WebRTC] Remote ICE candidate set.";
+    qDebug() << "[WebRTC] Remote ICE candidate added for Peer ID:" << peerId; // Include Peer ID
 }
 
 void WebRTC::sendAudio(const QByteArray &data) {
-    // Assuming you have a track set up to send audio
     if (audioTrack) {
-        const std::byte* byteData = reinterpret_cast<const std::byte*>(data.data());
+        const std::byte *byteData = reinterpret_cast<const std::byte *>(data.data());
         audioTrack->send(byteData, data.size());
-        qDebug() << "[WebRTC] Audio data sent, size:" << data.size();
+        qDebug() << "[WebRTC] Audio data sent for Peer ID:" << peerId
+                 << ", size:" << data.size(); // Include Peer ID
     }
 }
