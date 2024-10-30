@@ -16,70 +16,82 @@
 #include "signalingserver.h"
 #include "webrtc.h"
 
+#include <QCoreApplication>
+#include "webrtc.h"
+
 int main(int argc, char *argv[]) {
-    QCoreApplication app(argc, argv);
-    quint16 signalingPort = 12345; // Set the port for the signaling server
+    QCoreApplication a(argc, argv); // Create a Qt application
 
-    // Create the signaling server
-    SignalingServer signalingServer(signalingPort);
-    qDebug() << "Signaling server started on port:" << signalingPort;
+    WebRTC webRTC; // Create an instance of the WebRTC class
 
-    // Create a list to hold WebRTC peers
-    QList<WebRTC*> peers;
-
-    // Setup peers
-    for (int i = 0; i < 2; ++i) {
-        WebRTC *peer = new WebRTC(&signalingServer); // Pass the signaling server to each peer
-        peers.append(peer);
-
-        // Connect signals to handle local description generation
-        QObject::connect(peer, &WebRTC::localDescriptionGenerated, [&signalingServer, i](const QString &sdp) {
-            QJsonObject jsonObj;
-            jsonObj["peerIndex"] = i;
-            jsonObj["offer"] = sdp;
-            signalingServer.sendTextMessage(QJsonDocument(jsonObj).toJson(QJsonDocument::Compact));
-            qDebug() << "Peer ID:" << i << "generated offer:" << sdp; // Output the generated offer
-        });
-
-        // Connect signals to handle local candidate generation
-        QObject::connect(peer, &WebRTC::localCandidateGenerated, [&signalingServer, i](const QString &candidate) {
-            QJsonObject jsonObj;
-            jsonObj["peerIndex"] = i;
-            jsonObj["candidate"] = candidate;
-            signalingServer.sendTextMessage(QJsonDocument(jsonObj).toJson(QJsonDocument::Compact));
-            qDebug() << "Peer ID:" << i << "generated candidate:" << candidate; // Output the generated candidate
-        });
-
-        // Create the initial offer for the peer
-        peer->createOffer(); // Initiate the offer for each peer
-    }
-
-    // Connect to the signaling server's messageReceived signal
-    QObject::connect(&signalingServer, &SignalingServer::messageReceived, [&peers](const QString &message) {
-        QJsonDocument doc = QJsonDocument::fromJson(message.toUtf8());
-        QJsonObject jsonObj = doc.object();
-
-        // Process offers and candidates received from the signaling server
-        if (jsonObj.contains("offer")) {
-            int peerIndex = jsonObj["peerIndex"].toInt();
-            if (peerIndex >= 0 && peerIndex < peers.size()) {
-                QString offer = jsonObj["offer"].toString();
-                peers[peerIndex]->setRemoteDescription(offer);
-                qDebug() << "Received offer for Peer ID:" << peerIndex << "SDP:" << offer; // Output the received offer
-            }
-        } else if (jsonObj.contains("candidate")) {
-            int peerIndex = jsonObj["peerIndex"].toInt();
-            if (peerIndex >= 0 && peerIndex < peers.size()) {
-                QString candidate = jsonObj["candidate"].toString();
-                peers[peerIndex]->addRemoteCandidate(candidate);
-                qDebug() << "Received candidate for Peer ID:" << peerIndex << "Candidate:" << candidate; // Output the received candidate
-            }
-        }
-    });
-
-    // Start the application event loop
-    return app.exec();
+    return a.exec(); // Start the event loop
 }
+
+
+//int main(int argc, char *argv[]) {
+//    QCoreApplication app(argc, argv);
+//    quint16 signalingPort = 12345; // Set the port for the signaling server
+
+//    // Create the signaling server
+//    SignalingServer signalingServer(signalingPort);
+//    qDebug() << "Signaling server started on port:" << signalingPort;
+
+//    // Create a list to hold WebRTC peers
+//    QList<WebRTC*> peers;
+
+//    // Setup peers
+//    for (int i = 0; i < 2; ++i) {
+//        WebRTC *peer = new WebRTC(&signalingServer); // Pass the signaling server to each peer
+//        peers.append(peer);
+
+//        // Connect signals to handle local description generation
+//        QObject::connect(peer, &WebRTC::localDescriptionGenerated, [&signalingServer, i](const QString &sdp) {
+//            QJsonObject jsonObj;
+//            jsonObj["peerIndex"] = i;
+//            jsonObj["offer"] = sdp;
+//            signalingServer.sendTextMessage(QJsonDocument(jsonObj).toJson(QJsonDocument::Compact));
+//            qDebug() << "Peer ID:" << i << "generated offer:" << sdp; // Output the generated offer
+//        });
+
+//        // Connect signals to handle local candidate generation
+//        QObject::connect(peer, &WebRTC::localCandidateGenerated, [&signalingServer, i](const QString &candidate) {
+//            QJsonObject jsonObj;
+//            jsonObj["peerIndex"] = i;
+//            jsonObj["candidate"] = candidate;
+//            signalingServer.sendTextMessage(QJsonDocument(jsonObj).toJson(QJsonDocument::Compact));
+//            qDebug() << "Peer ID:" << i << "generated candidate:" << candidate; // Output the generated candidate
+//        });
+
+//        // Create the initial offer for the peer
+//        peer->createOffer(); // Initiate the offer for each peer
+//    }
+
+//    // Connect to the signaling server's messageReceived signal
+//    QObject::connect(&signalingServer, &SignalingServer::messageReceived, [&peers](const QString &message) {
+//        QJsonDocument doc = QJsonDocument::fromJson(message.toUtf8());
+//        QJsonObject jsonObj = doc.object();
+
+//        // Process offers and candidates received from the signaling server
+//        if (jsonObj.contains("offer")) {
+//            int peerIndex = jsonObj["peerIndex"].toInt();
+//            if (peerIndex >= 0 && peerIndex < peers.size()) {
+//                QString offer = jsonObj["offer"].toString();
+//                peers[peerIndex]->setRemoteDescription(offer);
+//                qDebug() << "Received offer for Peer ID:" << peerIndex << "SDP:" << offer; // Output the received offer
+//            }
+//        } else if (jsonObj.contains("candidate")) {
+//            int peerIndex = jsonObj["peerIndex"].toInt();
+//            if (peerIndex >= 0 && peerIndex < peers.size()) {
+//                QString candidate = jsonObj["candidate"].toString();
+//                peers[peerIndex]->addRemoteCandidate(candidate);
+//                qDebug() << "Received candidate for Peer ID:" << peerIndex << "Candidate:" << candidate; // Output the received candidate
+//            }
+//        }
+//    });
+
+//    // Start the application event loop
+//    return app.exec();
+//}
 
 //int main(int argc, char *argv[]) {
 

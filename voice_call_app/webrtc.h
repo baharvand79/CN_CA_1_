@@ -42,36 +42,47 @@
 //#endif // WEBRTC_H
 
 
-
 #ifndef WEBRTC_H
 #define WEBRTC_H
 
 #include <QObject>
-#include <rtc/rtc.hpp>
-#include <QByteArray>
-#include <QUuid> // Include this header for generating unique IDs
+#include <QWebSocket>
+#include <memory>
+#include <string>
+#include "rtc/rtc.hpp" // Include the WebRTC peer connection header
 
 class WebRTC : public QObject {
     Q_OBJECT
 
 public:
-    WebRTC(QObject *parent = nullptr);
+    explicit WebRTC(QObject *parent = nullptr);
+
     void createOffer();
     void setRemoteDescription(const QString &sdp);
     void addRemoteCandidate(const QString &candidate);
     void sendAudio(const QByteArray &data);
 
 signals:
+    void peerIdGenerated(const QString &peerId);
     void localDescriptionGenerated(const QString &sdp);
     void localCandidateGenerated(const QString &candidate);
     void audioReceived(const QByteArray &data);
-    void peerIdGenerated(const QString &peerId);
     void gatheringCompleted();
 
+private slots:
+    void onSignalingServerConnected();
+    void onSignalingServerDisconnected();
+    void onSignalingMessageReceived(const QString &message);
+
 private:
+    void connectToSignalingServer();
+    void sendMessageToSignalingServer(const QString &type, const rtc::Description &description);
+    void sendMessageToSignalingServer(const QString &type, const rtc::Candidate &candidate);
+
+    QString peerId;
     std::shared_ptr<rtc::PeerConnection> peerConnection;
     std::shared_ptr<rtc::Track> audioTrack;
-    QString peerId;
+    QWebSocket *webSocket; // WebSocket for signaling
 };
 
 #endif // WEBRTC_H
