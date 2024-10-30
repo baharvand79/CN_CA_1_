@@ -1,34 +1,34 @@
-#ifndef SIGNALINGSERVER_H
-#define SIGNALINGSERVER_H
+//#ifndef SIGNALINGSERVER_H
+//#define SIGNALINGSERVER_H
 
-#include <QObject>
-#include <QWebSocketServer>
-#include <QWebSocket>
-#include <QJsonDocument>
-#include <QJsonObject>
+//#include <QObject>
+//#include <QWebSocketServer>
+//#include <QWebSocket>
+//#include <QJsonDocument>
+//#include <QJsonObject>
 
-class SignalingServer : public QObject {
-    Q_OBJECT
+//class SignalingServer : public QObject {
+//    Q_OBJECT
 
-public:
-    explicit SignalingServer(quint16 port, QObject *parent = nullptr);
-    ~SignalingServer();
+//public:
+//    explicit SignalingServer(quint16 port, QObject *parent = nullptr);
+//    ~SignalingServer();
 
-    void sendLocalDescription(const QString &sdp);
-    void sendLocalCandidate(const QString &candidate);
-    void sendTextMessage(const QString &message);
+//    void sendLocalDescription(const QString &sdp);
+//    void sendLocalCandidate(const QString &candidate);
+//    void sendTextMessage(const QString &message);
 
-signals:
-    void messageReceived(const QString &message);
+//signals:
+//    void messageReceived(const QString &message);
 
-private slots:
-    void onNewConnection();
-    void onTextMessageReceived(const QString &message);
-    void onDisconnected();
+//private slots:
+//    void onNewConnection();
+//    void onTextMessageReceived(const QString &message);
+//    void onDisconnected();
 
-private:
-    QWebSocketServer *m_server;
-    QMap<QWebSocket*, QString> m_clients; // Mapping of clients
-};
+//private:
+//    QWebSocketServer *m_server;
+//    QMap<QWebSocket*, QString> m_clients; // Mapping of clients
+//};
 
-#endif // SIGNALINGSERVER_H
+//#endif // SIGNALINGSERVER_H

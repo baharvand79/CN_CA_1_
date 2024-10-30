@@ -7,25 +7,28 @@
 //#include "signalingserver.h"
 //#include "signalingclient.h"
 
-#include <QCoreApplication>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QList>
-#include <QWebSocket>
-#include <QDebug> // Include qDebug for console output
-#include "signalingserver.h"
-#include "webrtc.h"
+//#include <QCoreApplication>
+//#include <QJsonDocument>
+//#include <QJsonObject>
+//#include <QList>
+//#include <QWebSocket>
+//#include <QDebug> // Include qDebug for console output
+//#include "signalingserver.h"
+//#include "webrtc.h"
 
-#include <QCoreApplication>
-#include "webrtc.h"
+//#include <QCoreApplication>
+//#include "webrtc.h"
 
-int main(int argc, char *argv[]) {
-    QCoreApplication a(argc, argv); // Create a Qt application
+//int main(int argc, char *argv[]) {
+//    QCoreApplication a(argc, argv);
 
-    WebRTC webRTC; // Create an instance of the WebRTC class
+//    WebRTC webRTC;
 
-    return a.exec(); // Start the event loop
-}
+//    webRTC.init();
+//    //webRTC.addPeer();
+
+//    return a.exec();
+//}
 
 
 //int main(int argc, char *argv[]) {
@@ -203,3 +206,21 @@ int main(int argc, char *argv[]) {
 
 //    return a.exec();
 //}
+
+#include "webrtcclient.h"
+int main(int argc, char *argv[]) {
+    QGuiApplication app(argc, argv);
+    QQmlApplicationEngine engine;
+
+    const QUrl url(u"qrc:/Main.qml"_qs);
+    qmlRegisterType<WebRTCClient>("WebRTCClient", 1, 0, "WebRTCClient");
+    QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed, &app, []() {QCoreApplication::exit(-1);}, Qt::QueuedConnection);
+    engine.load(url);
+
+
+
+
+    // engine.load(QUrl(QStringLiteral("qrc:/Main.qml")));
+
+    return app.exec();
+}

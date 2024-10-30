@@ -14,7 +14,8 @@ SOURCES += \
         main.cpp \
         signalingclient.cpp \
         signalingserver.cpp \
-        webrtc.cpp
+        webrtc.cpp \
+        webrtcclient.cpp
 
 #RESOURCES += qml.qrc
 
@@ -34,7 +35,8 @@ HEADERS += \
     audiooutput.h \
     signalingclient.h \
     signalingserver.h \
-    webrtc.h
+    webrtc.h \
+    webrtcclient.h
 
 
 DISTFILES +=

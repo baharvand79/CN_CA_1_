@@ -2,60 +2,38 @@ const WebSocket = require('ws');
 
 const wss = new WebSocket.Server({ port: 3000 });
 
-console.log('Signaling server is running on ws://localhost:3000');
-
-const clients = new Map(); // Store clients by their Peer IDs
+let clients = {};
 
 wss.on('connection', (ws) => {
-    console.log('New client connected');
-
     ws.on('message', (message) => {
         const data = JSON.parse(message);
-        const { type, peerId } = data;
 
-        switch (type) {
+        switch (data.type) {
             case 'register':
-                // Register the client
-                clients.set(peerId, ws);
-                console.log(`Client registered: ${peerId}`);
+                clients[data.id] = ws;
                 break;
             case 'offer':
-                // Forward the offer to the intended recipient
-                const recipient = clients.get(data.to);
-                if (recipient) {
-                    recipient.send(JSON.stringify(data));
-                    console.log(`Forwarding offer from ${peerId} to ${data.to}`);
-                }
-                break;
             case 'answer':
-                // Forward the answer to the offerer
-                const offerer = clients.get(data.to);
-                if (offerer) {
-                    offerer.send(JSON.stringify(data));
-                    console.log(`Forwarding answer from ${peerId} to ${data.to}`);
+            case 'candidate':
+                const targetClient = clients[data.targetId];
+                if (targetClient) {
+                    targetClient.send(JSON.stringify(data));
                 }
                 break;
-            case 'ice-candidate':
-                // Forward the ICE candidate to the intended recipient
-                const iceRecipient = clients.get(data.to);
-                if (iceRecipient) {
-                    iceRecipient.send(JSON.stringify(data));
-                    console.log(`Forwarding ICE candidate from ${peerId} to ${data.to}`);
-                }
+            case 'disconnect':
+                delete clients[data.id];
                 break;
-            default:
-                console.log('Unknown message type:', type);
         }
     });
 
     ws.on('close', () => {
-        // Remove client from the map on disconnect
-        for (const [id, client] of clients.entries()) {
-            if (client === ws) {
-                clients.delete(id);
-                console.log(`Client disconnected: ${id}`);
+        for (let id in clients) {
+            if (clients[id] === ws) {
+                delete clients[id];
                 break;
             }
         }
     });
 });
+
+console.log('Signaling server running on ws://localhost:3000');

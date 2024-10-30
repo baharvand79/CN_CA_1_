@@ -4,12 +4,11 @@ release/main.o
 release/signalingclient.o
 release/signalingserver.o
 release/webrtc.o
+release/webrtcclient.o
 release/Main_qml.o
 release/server_js.o
 release/qmlcache_loader.o
 release/qrc_qml_qmlcache.o
 release/moc_audioinput.o
 release/moc_audiooutput.o
-release/moc_signalingclient.o
-release/moc_signalingserver.o
-release/moc_webrtc.o
+release/moc_webrtcclient.o

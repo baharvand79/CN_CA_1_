@@ -4,12 +4,11 @@ debug/main.o
 debug/signalingclient.o
 debug/signalingserver.o
 debug/webrtc.o
+debug/webrtcclient.o
 debug/Main_qml.o
 debug/server_js.o
 debug/qmlcache_loader.o
 debug/qrc_qml_qmlcache.o
 debug/moc_audioinput.o
 debug/moc_audiooutput.o
-debug/moc_signalingclient.o
-debug/moc_signalingserver.o
-debug/moc_webrtc.o
+debug/moc_webrtcclient.o
