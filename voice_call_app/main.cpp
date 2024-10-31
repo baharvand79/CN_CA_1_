@@ -207,20 +207,21 @@
 //    return a.exec();
 //}
 
-#include "webrtcclient.h"
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
+#include <QDebug>
+#include <QObject>
+#include "webrtc.h"
 int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
     const QUrl url(u"qrc:/Main.qml"_qs);
-    qmlRegisterType<WebRTCClient>("WebRTCClient", 1, 0, "WebRTCClient");
+    qmlRegisterType<WebRTC>("WebRTC", 1, 0, "WebRTC");
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed, &app, []() {QCoreApplication::exit(-1);}, Qt::QueuedConnection);
     engine.load(url);
 
-
-
-
-    // engine.load(QUrl(QStringLiteral("qrc:/Main.qml")));
-
     return app.exec();
 }
+
+//#include "main.moc"

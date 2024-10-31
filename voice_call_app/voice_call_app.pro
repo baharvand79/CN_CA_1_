@@ -8,14 +8,15 @@ CONFIG += c++17
 CONFIG += no_keyword
 CXXFLAGS += -fstack-protector
 
+#CONFIG += moc_depends
+
 SOURCES += \
         audioinput.cpp \
         audiooutput.cpp \
         main.cpp \
         signalingclient.cpp \
         signalingserver.cpp \
-        webrtc.cpp \
-        webrtcclient.cpp
+        webrtc.cpp
 
 #RESOURCES += qml.qrc
 
@@ -35,8 +36,7 @@ HEADERS += \
     audiooutput.h \
     signalingclient.h \
     signalingserver.h \
-    webrtc.h \
-    webrtcclient.h
+    webrtc.h
 
 
 DISTFILES +=

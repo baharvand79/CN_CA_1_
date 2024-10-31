@@ -1,117 +1,105 @@
 import QtQuick
 import QtQuick.Controls.Material
 import QtQuick.Layouts
-
-import WebRTCClient
+import WebRTC
 
 Window {
-    width: 280
+    width: 1010
     height: 520
     visible: true
     title: qsTr("CA1")
 
-    WebRTCClient {
-            id: rtc
+    WebRTC {
+        id: rtc
     }
 
-    Item{
+    Item {
         anchors.fill: parent
 
+        // Scrollable debug panel on the left
+        ScrollView {
+            id: scrollView
+            width: parent.width * 0.6  // Adjusts width to 40% of the window
+            height: parent.height
+            anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            clip: true
+
+            TextArea {
+                id: logOutput
+                width: parent.width
+                height: parent.height
+                readOnly: true
+                text: ""
+            }
+        }
+
         ColumnLayout {
-            anchors{
+            anchors {
                 top: parent.top
-                left: parent.left
+                left: scrollView.right
                 right: parent.right
-                bottom: textfield.top
+                bottom: callbtn.top
                 margins: 20
             }
 
-            Label{
+            Label {
                 text: "Ip: " + "172.16.142.176"
                 Layout.fillWidth: true
                 Layout.preferredHeight: 40
             }
-            Label{
+            Label {
                 text: "IceCandidate: " + "172.16.142.176"
                 Layout.fillWidth: true
                 Layout.preferredHeight: 40
             }
-            Label{
+            Label {
                 text: "CallerId: " + textfield.text
                 Layout.fillWidth: true
                 Layout.preferredHeight: 40
             }
 
+            TextField {
+                id: textfield
+                placeholderText: "Phone Number"
+                Layout.fillWidth: true
+                enabled: !callbtn.pushed
+            }
         }
 
-        TextField{
-            id: textfield
-            placeholderText: "Phone Number"
-            anchors.bottom: callbtn.top
-            anchors.bottomMargin: 10
-            anchors.left: callbtn.left
-            anchors.right: callbtn.right
-            enabled: !callbtn.pushed
+        Connections {
+            target: rtc
+            onDebugMessage: logOutput.text += message + "\n"
         }
 
-        Button{
+        Button {
             id: callbtn
-
             property bool pushed: false
-
             height: 47
             text: "Call"
             Material.background: "green"
             Material.foreground: "white"
-            anchors{
+            anchors {
                 bottom: parent.bottom
-                left: parent.left
+                left: scrollView.right
                 right: parent.right
                 margins: 20
             }
 
-//            onClicked: {
-//                pushed = !pushed
-//                if(pushed){
-//                    Material.background = "red"
-//                    text = "End Call"
-//                    /// * ADDED ----------------------
-//                    webrtcClient.registerClient(textfield.text); // Register client with ID
-//                    webrtcClient.sendOffer("your_sdp_offer", textfield.text, "your_id"); // Placeholder for SDP offer
-//                }
-//                else{
-//                    Material.background = "green"
-//                    text = "Call"
-//                    /// * ADDED ----------------------
-//                    webrtcClient.sendAnswer("your_sdp_answer", textfield.text, "your_id"); // Placeholder for SDP answer
-//                    textfield.clear()
-
-//                }
-//            }
             onClicked: {
                 pushed = !pushed
                 if (pushed) {
                     Material.background = "red"
                     text = "End Call"
-                    rtc.registerClient(textfield.text); // Register client with ID
-
-                    // Assuming you have the correct values for targetId and offer
-                    var targetId = textfield.text; // Use the caller ID or another identifier
-                    var offer = "your_sdp_offer";   // Replace with actual SDP offer
-                    rtc.sendOffer(targetId, offer); // Correct usage
+                    rtc.setId(textfield.text)
+                    rtc.init()
                 } else {
                     Material.background = "green"
                     text = "Call"
-
-                    // Assuming you have the correct values for targetId and answer
-                    var targetId = textfield.text; // Use the caller ID or another identifier
-                    var answer = "your_sdp_answer"; // Replace with actual SDP answer
-                    rtc.sendAnswer(targetId, answer); // Correct usage
-
-                    textfield.clear();
+                    textfield.clear()
                 }
             }
-
         }
     }
 }
