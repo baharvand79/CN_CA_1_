@@ -58,7 +58,7 @@ static constexpr auto qt_meta_stringdata_CLASSWebRTCENDCLASS = QtMocHelpers::str
     "registerClient",
     "connectToSignalingServer",
     "createOffer",
-    "establishConnection",
+    "callOnRun",
     "setRemoteDescription",
     "addRemoteCandidate",
     "setTargetId"
@@ -86,7 +86,7 @@ struct qt_meta_stringdata_CLASSWebRTCENDCLASS_t {
     char stringdata17[15];
     char stringdata18[25];
     char stringdata19[12];
-    char stringdata20[20];
+    char stringdata20[10];
     char stringdata21[21];
     char stringdata22[19];
     char stringdata23[12];
@@ -115,10 +115,10 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSWebRTCENDCLASS_t qt_meta_string
         QT_MOC_LITERAL(229, 14),  // "registerClient"
         QT_MOC_LITERAL(244, 24),  // "connectToSignalingServer"
         QT_MOC_LITERAL(269, 11),  // "createOffer"
-        QT_MOC_LITERAL(281, 19),  // "establishConnection"
-        QT_MOC_LITERAL(301, 20),  // "setRemoteDescription"
-        QT_MOC_LITERAL(322, 18),  // "addRemoteCandidate"
-        QT_MOC_LITERAL(341, 11)   // "setTargetId"
+        QT_MOC_LITERAL(281, 9),  // "callOnRun"
+        QT_MOC_LITERAL(291, 20),  // "setRemoteDescription"
+        QT_MOC_LITERAL(312, 18),  // "addRemoteCandidate"
+        QT_MOC_LITERAL(331, 11)   // "setTargetId"
     },
     "WebRTC",
     "localDescriptionGenerated",
@@ -140,7 +140,7 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSWebRTCENDCLASS_t qt_meta_string
     "registerClient",
     "connectToSignalingServer",
     "createOffer",
-    "establishConnection",
+    "callOnRun",
     "setRemoteDescription",
     "addRemoteCandidate",
     "setTargetId"
@@ -252,7 +252,7 @@ Q_CONSTINIT const QMetaObject WebRTC::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'createOffer'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'establishConnection'
+        // method 'callOnRun'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'setRemoteDescription'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
@@ -286,7 +286,7 @@ void WebRTC::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         case 10: _t->registerClient(); break;
         case 11: _t->connectToSignalingServer(); break;
         case 12: _t->createOffer(); break;
-        case 13: _t->establishConnection(); break;
+        case 13: _t->callOnRun(); break;
         case 14: _t->setRemoteDescription((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
         case 15: _t->addRemoteCandidate((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
         case 16: _t->setTargetId((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;

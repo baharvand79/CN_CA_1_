@@ -18,7 +18,7 @@ public:
     Q_INVOKABLE void registerClient();
     Q_INVOKABLE void connectToSignalingServer();
     Q_INVOKABLE void createOffer();
-    Q_INVOKABLE void establishConnection();
+    Q_INVOKABLE void callOnRun();
     Q_INVOKABLE void setRemoteDescription(const QString& sdp);
     Q_INVOKABLE void addRemoteCandidate(const QString& candidate);
     Q_INVOKABLE void setTargetId(QString id);
@@ -47,6 +47,7 @@ private:
     QString targetId;
     bool peerIsOfferer;
     QString localDescription_string;
+    rtc::Description localSDP;
 
 };
 

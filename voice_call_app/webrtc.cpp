@@ -16,7 +16,8 @@ std::string peerConnectionStateToString(rtc::PeerConnection::State state) {
 
 WebRTC::WebRTC(QObject *parent)
     : QObject{parent},
-      webSocket(new QWebSocket())
+      webSocket(new QWebSocket()),
+      localSDP("")
 {
     Q_EMIT debugMessage("[WebRTC] Constructor called and initialized.");
 }
@@ -44,15 +45,18 @@ void WebRTC::init() {
     audioTrack = peerConnection->addTrack(rtc::Description::Audio("Audio", rtc::Description::Direction::SendRecv));
     Q_EMIT debugMessage("[WebRTC] Audio track added to peer connection.");
 
+    callOnRun();
     connectToSignalingServer();
 }
 
-void WebRTC::establishConnection() {
-    Q_EMIT debugMessage("[WebRTC] Starting to establish connection.");
+void WebRTC::callOnRun() {
+    Q_EMIT debugMessage("[WebRTC] The callOnRun started.");
 
     peerConnection->onLocalDescription([this](rtc::Description description) {
         Q_EMIT localDescriptionGenerated(QString::fromStdString(description));
         Q_EMIT debugMessage("[WebRTC] Local SDP generated and emitted.");
+        Q_EMIT debugMessage("The generated SDP is: "+QString::fromStdString(description));
+        localSDP = description;
     });
 
     peerConnection->onLocalCandidate([this](rtc::Candidate candidate) {
@@ -108,7 +112,6 @@ void WebRTC::connectToSignalingServer() {
 void WebRTC::onSignalingServerConnected() {
     Q_EMIT debugMessage("[WebRTC] Connected to signaling server.");
     registerClient();
-    establishConnection();
 }
 
 void WebRTC::onSignalingServerDisconnected() {
@@ -137,9 +140,20 @@ void WebRTC::onSignalingMessageReceived(const QString &message) {
 
 void WebRTC::createOffer() {
     Q_EMIT debugMessage("[WebRTC] Creating SDP offer.");
+
     peerConnection->setLocalDescription(rtc::Description::Type::Offer);
-    Q_EMIT debugMessage("[WebRTC] SDP Offer created.");
+
+    // Capture the generated SDP and emit it
+    peerConnection->onLocalDescription([this](rtc::Description description) {
+        QString sdp = QString::fromStdString(description);
+        localSDP = description;
+        Q_EMIT localDescriptionGenerated(sdp); // Emit the SDP for QML to capture
+        Q_EMIT debugMessage("[WebRTC] SDP Offer created: " + sdp); // Print the SDP in debug messages
+    });
+
+    Q_EMIT debugMessage("[WebRTC] SDP Offer request sent.");
 }
+
 
 void WebRTC::setRemoteDescription(const QString& sdp) {
     Q_EMIT debugMessage("[WebRTC] Setting remote SDP.");
