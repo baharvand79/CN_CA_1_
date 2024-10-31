@@ -39,7 +39,7 @@ public Q_SLOTS:
     void onSignalingServerConnected();
     void onSignalingServerDisconnected();
     void onSignalingMessageReceived(const QString &message);
-    void check();
+    void sendOfferHelper();
     void sendOffer();
 
 private:

@@ -53,7 +53,7 @@ static constexpr auto qt_meta_stringdata_CLASSWebRTCENDCLASS = QtMocHelpers::str
     "onSignalingServerConnected",
     "onSignalingServerDisconnected",
     "onSignalingMessageReceived",
-    "check",
+    "sendOfferHelper",
     "sendOffer",
     "setId",
     "id",
@@ -85,7 +85,7 @@ struct qt_meta_stringdata_CLASSWebRTCENDCLASS_t {
     char stringdata12[27];
     char stringdata13[30];
     char stringdata14[27];
-    char stringdata15[6];
+    char stringdata15[16];
     char stringdata16[10];
     char stringdata17[6];
     char stringdata18[3];
@@ -118,19 +118,19 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSWebRTCENDCLASS_t qt_meta_string
         QT_MOC_LITERAL(150, 26),  // "onSignalingServerConnected"
         QT_MOC_LITERAL(177, 29),  // "onSignalingServerDisconnected"
         QT_MOC_LITERAL(207, 26),  // "onSignalingMessageReceived"
-        QT_MOC_LITERAL(234, 5),  // "check"
-        QT_MOC_LITERAL(240, 9),  // "sendOffer"
-        QT_MOC_LITERAL(250, 5),  // "setId"
-        QT_MOC_LITERAL(256, 2),  // "id"
-        QT_MOC_LITERAL(259, 4),  // "init"
-        QT_MOC_LITERAL(264, 14),  // "registerClient"
-        QT_MOC_LITERAL(279, 24),  // "connectToSignalingServer"
-        QT_MOC_LITERAL(304, 11),  // "createOffer"
-        QT_MOC_LITERAL(316, 9),  // "callOnRun"
-        QT_MOC_LITERAL(326, 20),  // "setRemoteDescription"
-        QT_MOC_LITERAL(347, 18),  // "addRemoteCandidate"
-        QT_MOC_LITERAL(366, 11),  // "setTargetId"
-        QT_MOC_LITERAL(378, 19)   // "checkWebSocketState"
+        QT_MOC_LITERAL(234, 15),  // "sendOfferHelper"
+        QT_MOC_LITERAL(250, 9),  // "sendOffer"
+        QT_MOC_LITERAL(260, 5),  // "setId"
+        QT_MOC_LITERAL(266, 2),  // "id"
+        QT_MOC_LITERAL(269, 4),  // "init"
+        QT_MOC_LITERAL(274, 14),  // "registerClient"
+        QT_MOC_LITERAL(289, 24),  // "connectToSignalingServer"
+        QT_MOC_LITERAL(314, 11),  // "createOffer"
+        QT_MOC_LITERAL(326, 9),  // "callOnRun"
+        QT_MOC_LITERAL(336, 20),  // "setRemoteDescription"
+        QT_MOC_LITERAL(357, 18),  // "addRemoteCandidate"
+        QT_MOC_LITERAL(376, 11),  // "setTargetId"
+        QT_MOC_LITERAL(388, 19)   // "checkWebSocketState"
     },
     "WebRTC",
     "localDescriptionGenerated",
@@ -147,7 +147,7 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSWebRTCENDCLASS_t qt_meta_string
     "onSignalingServerConnected",
     "onSignalingServerDisconnected",
     "onSignalingMessageReceived",
-    "check",
+    "sendOfferHelper",
     "sendOffer",
     "setId",
     "id",
@@ -267,7 +267,7 @@ Q_CONSTINIT const QMetaObject WebRTC::staticMetaObject = { {
         // method 'onSignalingMessageReceived'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
-        // method 'check'
+        // method 'sendOfferHelper'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'sendOffer'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
@@ -314,7 +314,7 @@ void WebRTC::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         case 6: _t->onSignalingServerConnected(); break;
         case 7: _t->onSignalingServerDisconnected(); break;
         case 8: _t->onSignalingMessageReceived((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 9: _t->check(); break;
+        case 9: _t->sendOfferHelper(); break;
         case 10: _t->sendOffer(); break;
         case 11: _t->setId((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
         case 12: _t->init(); break;

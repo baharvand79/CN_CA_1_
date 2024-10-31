@@ -142,31 +142,19 @@ void WebRTC::connectToSignalingServer() {
 void WebRTC::sendOffer() {
     Q_EMIT debugMessage("[WebRTC] Sending offer to signaling server.");
 
-    connect(this, &WebRTC::clientIsRegistered, this, &WebRTC::check);
-//    check();
-//    // Create the offer JSON message
-//    QJsonObject offerMessage;
-//    offerMessage["type"] = "offer";
-//    offerMessage["sdp"] = localSDP;
+    connect(this, &WebRTC::clientIsRegistered, this, &WebRTC::sendOfferHelper);
 
-//    // Send the offer via WebSocket
-//    if (webSocket->state() == QAbstractSocket::ConnectedState) {
-//        webSocket->sendTextMessage(QJsonDocument(offerMessage).toJson());
-//        Q_EMIT debugMessage("[WebRTC] SDP Offer sent: " + localSDP);
-//    } else {
-//        Q_EMIT debugMessage("[WebRTC] WebSocket not connected; cannot send offer.");
-//    }
 }
 
-void WebRTC::check(){
-    Q_EMIT debugMessage("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%check is on%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+void WebRTC::sendOfferHelper(){
+
     // Create JSON message to send to server
     QJsonObject offerMessage;
     offerMessage["type"] = "offer";
+    offerMessage["id"] = peerId;
+    offerMessage["targetId"] = targetId;
     offerMessage["sdp"] = QString::fromStdString(localSDP);
-
-    Q_EMIT debugMessage("#######check######");
-    checkWebSocketState();
+//    checkWebSocketState();
     // Send the offer to the signaling server
     if (webSocket->state() == QAbstractSocket::ConnectedState) {
         webSocket->sendTextMessage(QJsonDocument(offerMessage).toJson());
