@@ -23,7 +23,12 @@ WebRTC::WebRTC(QObject *parent)
 
 void WebRTC::setId(QString id) {
     peerId = id;
-    Q_EMIT debugMessage("[WebRTC] Id is set to: " + peerId);
+    Q_EMIT debugMessage("[WebRTC] Peer Id is set to: " + peerId);
+}
+
+void WebRTC::setTargetId(QString id) {
+    targetId = id;
+    Q_EMIT debugMessage("[WebRTC] Target Id is set to: " + peerId);
 }
 
 void WebRTC::init() {

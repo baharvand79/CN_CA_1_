@@ -16,10 +16,9 @@ Window {
     Item {
         anchors.fill: parent
 
-        // Scrollable debug panel on the left
         ScrollView {
             id: scrollView
-            width: parent.width * 0.5  // Adjusts width to 40% of the window
+            width: parent.width * 0.5
             height: parent.height
             anchors.left: parent.left
             anchors.top: parent.top
@@ -54,53 +53,80 @@ Window {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 40
             }
-            Label {
-                text: "CallerId: " + textfield.text
-                Layout.fillWidth: true
-                Layout.preferredHeight: 40
+
+            // Row for Caller ID
+            RowLayout {
+                spacing: 10
+
+                TextField {
+                    id: textfield_callerID
+                    placeholderText: "Caller ID"
+                    Layout.fillWidth: true
+                    enabled: !button_callerID.pushed
+                }
+
+                Button {
+                    id: button_callerID
+                    property bool pushed: false
+                    height: 47
+                    text: "Set Caller ID"
+                    Material.background: "green"
+                    Material.foreground: "white"
+                    onClicked: {
+                        pushed = !pushed
+                        if (pushed) {
+                            Material.background = "red"
+                            text = "Caller ID is set"
+                            rtc.setId(textfield_callerID.text)
+                        } else {
+                            Material.background = "green"
+                            text = "Set Caller ID"
+                            textfield_callerID.clear()
+                            // Add disconnection logic here later
+                        }
+                    }
+                }
             }
 
-            TextField {
-                id: textfield
-                placeholderText: "Phone Number"
-                Layout.fillWidth: true
-                enabled: !callbtn.pushed
+            // Row for Calling ID
+            RowLayout {
+                spacing: 10
+
+                TextField {
+                    id: textfield_callingID
+                    placeholderText: "Calling ID"
+                    Layout.fillWidth: true
+                    enabled: !callbtn.pushed
+                }
+
+                Button {
+                    id: callbtn
+                    property bool pushed: false
+                    height: 47
+                    text: "Call"
+                    Material.background: "green"
+                    Material.foreground: "white"
+                    onClicked: {
+                        pushed = !pushed
+                        if (pushed) {
+                            Material.background = "red"
+                            text = "End Call"
+                            rtc.setTargetId(textfield_callingID.text)
+                            rtc.init()
+                            rtc.createOffer()
+                        } else {
+                            Material.background = "green"
+                            text = "Call"
+                            textfield_callingID.clear()
+                        }
+                    }
+                }
             }
         }
 
         Connections {
             target: rtc
             onDebugMessage: logOutput.text += message + "\n"
-        }
-
-        Button {
-            id: callbtn
-            property bool pushed: false
-            height: 47
-            text: "Call"
-            Material.background: "green"
-            Material.foreground: "white"
-            anchors {
-                bottom: parent.bottom
-                left: scrollView.right
-                right: parent.right
-                margins: 20
-            }
-
-            onClicked: {
-                pushed = !pushed
-                if (pushed) {
-                    Material.background = "red"
-                    text = "End Call"
-                    rtc.setId(textfield.text)
-                    rtc.init()
-                    rtc.createOffer()
-                } else {
-                    Material.background = "green"
-                    text = "Call"
-                    textfield.clear()
-                }
-            }
         }
     }
 }

@@ -60,11 +60,12 @@ static constexpr auto qt_meta_stringdata_CLASSWebRTCENDCLASS = QtMocHelpers::str
     "createOffer",
     "establishConnection",
     "setRemoteDescription",
-    "addRemoteCandidate"
+    "addRemoteCandidate",
+    "setTargetId"
 );
 #else  // !QT_MOC_HAS_STRING_DATA
 struct qt_meta_stringdata_CLASSWebRTCENDCLASS_t {
-    uint offsetsAndSizes[46];
+    uint offsetsAndSizes[48];
     char stringdata0[7];
     char stringdata1[26];
     char stringdata2[1];
@@ -88,6 +89,7 @@ struct qt_meta_stringdata_CLASSWebRTCENDCLASS_t {
     char stringdata20[20];
     char stringdata21[21];
     char stringdata22[19];
+    char stringdata23[12];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(sizeof(qt_meta_stringdata_CLASSWebRTCENDCLASS_t::offsetsAndSizes) + ofs), len 
@@ -115,7 +117,8 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSWebRTCENDCLASS_t qt_meta_string
         QT_MOC_LITERAL(269, 11),  // "createOffer"
         QT_MOC_LITERAL(281, 19),  // "establishConnection"
         QT_MOC_LITERAL(301, 20),  // "setRemoteDescription"
-        QT_MOC_LITERAL(322, 18)   // "addRemoteCandidate"
+        QT_MOC_LITERAL(322, 18),  // "addRemoteCandidate"
+        QT_MOC_LITERAL(341, 11)   // "setTargetId"
     },
     "WebRTC",
     "localDescriptionGenerated",
@@ -139,7 +142,8 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSWebRTCENDCLASS_t qt_meta_string
     "createOffer",
     "establishConnection",
     "setRemoteDescription",
-    "addRemoteCandidate"
+    "addRemoteCandidate",
+    "setTargetId"
 };
 #undef QT_MOC_LITERAL
 #endif // !QT_MOC_HAS_STRING_DATA
@@ -151,7 +155,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSWebRTCENDCLASS[] = {
       11,       // revision
        0,       // classname
        0,    0, // classinfo
-      16,   14, // methods
+      17,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -159,26 +163,27 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSWebRTCENDCLASS[] = {
        5,       // signalCount
 
  // signals: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    1,  110,    2, 0x06,    1 /* Public */,
-       4,    1,  113,    2, 0x06,    3 /* Public */,
-       6,    1,  116,    2, 0x06,    5 /* Public */,
-       8,    0,  119,    2, 0x06,    7 /* Public */,
-       9,    1,  120,    2, 0x06,    8 /* Public */,
+       1,    1,  116,    2, 0x06,    1 /* Public */,
+       4,    1,  119,    2, 0x06,    3 /* Public */,
+       6,    1,  122,    2, 0x06,    5 /* Public */,
+       8,    0,  125,    2, 0x06,    7 /* Public */,
+       9,    1,  126,    2, 0x06,    8 /* Public */,
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-      11,    0,  123,    2, 0x0a,   10 /* Public */,
-      12,    0,  124,    2, 0x0a,   11 /* Public */,
-      13,    1,  125,    2, 0x0a,   12 /* Public */,
+      11,    0,  129,    2, 0x0a,   10 /* Public */,
+      12,    0,  130,    2, 0x0a,   11 /* Public */,
+      13,    1,  131,    2, 0x0a,   12 /* Public */,
 
  // methods: name, argc, parameters, tag, flags, initial metatype offsets
-      14,    1,  128,    2, 0x02,   14 /* Public */,
-      16,    0,  131,    2, 0x02,   16 /* Public */,
-      17,    0,  132,    2, 0x02,   17 /* Public */,
-      18,    0,  133,    2, 0x02,   18 /* Public */,
-      19,    0,  134,    2, 0x02,   19 /* Public */,
-      20,    0,  135,    2, 0x02,   20 /* Public */,
-      21,    1,  136,    2, 0x02,   21 /* Public */,
-      22,    1,  139,    2, 0x02,   23 /* Public */,
+      14,    1,  134,    2, 0x02,   14 /* Public */,
+      16,    0,  137,    2, 0x02,   16 /* Public */,
+      17,    0,  138,    2, 0x02,   17 /* Public */,
+      18,    0,  139,    2, 0x02,   18 /* Public */,
+      19,    0,  140,    2, 0x02,   19 /* Public */,
+      20,    0,  141,    2, 0x02,   20 /* Public */,
+      21,    1,  142,    2, 0x02,   21 /* Public */,
+      22,    1,  145,    2, 0x02,   23 /* Public */,
+      23,    1,  148,    2, 0x02,   25 /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString,    3,
@@ -201,6 +206,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSWebRTCENDCLASS[] = {
     QMetaType::Void,
     QMetaType::Void, QMetaType::QString,    3,
     QMetaType::Void, QMetaType::QString,    5,
+    QMetaType::Void, QMetaType::QString,   15,
 
        0        // eod
 };
@@ -253,7 +259,10 @@ Q_CONSTINIT const QMetaObject WebRTC::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
         // method 'addRemoteCandidate'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<const QString &, std::false_type>
+        QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
+        // method 'setTargetId'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<QString, std::false_type>
     >,
     nullptr
 } };
@@ -280,6 +289,7 @@ void WebRTC::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         case 13: _t->establishConnection(); break;
         case 14: _t->setRemoteDescription((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
         case 15: _t->addRemoteCandidate((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 16: _t->setTargetId((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -341,13 +351,13 @@ int WebRTC::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 16)
+        if (_id < 17)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 16;
+        _id -= 17;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 16)
+        if (_id < 17)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 16;
+        _id -= 17;
     }
     return _id;
 }

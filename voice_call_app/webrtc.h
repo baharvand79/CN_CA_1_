@@ -21,6 +21,7 @@ public:
     Q_INVOKABLE void establishConnection();
     Q_INVOKABLE void setRemoteDescription(const QString& sdp);
     Q_INVOKABLE void addRemoteCandidate(const QString& candidate);
+    Q_INVOKABLE void setTargetId(QString id);
 
 public: Q_SIGNALS:
 //    void peerIdGenerated(const QString &peerId);
