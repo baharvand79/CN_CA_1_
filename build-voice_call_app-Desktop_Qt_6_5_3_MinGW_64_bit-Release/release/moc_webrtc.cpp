@@ -49,9 +49,12 @@ static constexpr auto qt_meta_stringdata_CLASSWebRTCENDCLASS = QtMocHelpers::str
     "gatheringCompleted",
     "debugMessage",
     "message",
+    "clientIsRegistered",
     "onSignalingServerConnected",
     "onSignalingServerDisconnected",
     "onSignalingMessageReceived",
+    "check",
+    "sendOffer",
     "setId",
     "id",
     "init",
@@ -61,11 +64,12 @@ static constexpr auto qt_meta_stringdata_CLASSWebRTCENDCLASS = QtMocHelpers::str
     "callOnRun",
     "setRemoteDescription",
     "addRemoteCandidate",
-    "setTargetId"
+    "setTargetId",
+    "checkWebSocketState"
 );
 #else  // !QT_MOC_HAS_STRING_DATA
 struct qt_meta_stringdata_CLASSWebRTCENDCLASS_t {
-    uint offsetsAndSizes[48];
+    uint offsetsAndSizes[56];
     char stringdata0[7];
     char stringdata1[26];
     char stringdata2[1];
@@ -77,19 +81,23 @@ struct qt_meta_stringdata_CLASSWebRTCENDCLASS_t {
     char stringdata8[19];
     char stringdata9[13];
     char stringdata10[8];
-    char stringdata11[27];
-    char stringdata12[30];
-    char stringdata13[27];
-    char stringdata14[6];
-    char stringdata15[3];
-    char stringdata16[5];
-    char stringdata17[15];
-    char stringdata18[25];
-    char stringdata19[12];
-    char stringdata20[10];
-    char stringdata21[21];
-    char stringdata22[19];
-    char stringdata23[12];
+    char stringdata11[19];
+    char stringdata12[27];
+    char stringdata13[30];
+    char stringdata14[27];
+    char stringdata15[6];
+    char stringdata16[10];
+    char stringdata17[6];
+    char stringdata18[3];
+    char stringdata19[5];
+    char stringdata20[15];
+    char stringdata21[25];
+    char stringdata22[12];
+    char stringdata23[10];
+    char stringdata24[21];
+    char stringdata25[19];
+    char stringdata26[12];
+    char stringdata27[20];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(sizeof(qt_meta_stringdata_CLASSWebRTCENDCLASS_t::offsetsAndSizes) + ofs), len 
@@ -106,19 +114,23 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSWebRTCENDCLASS_t qt_meta_string
         QT_MOC_LITERAL(91, 18),  // "gatheringCompleted"
         QT_MOC_LITERAL(110, 12),  // "debugMessage"
         QT_MOC_LITERAL(123, 7),  // "message"
-        QT_MOC_LITERAL(131, 26),  // "onSignalingServerConnected"
-        QT_MOC_LITERAL(158, 29),  // "onSignalingServerDisconnected"
-        QT_MOC_LITERAL(188, 26),  // "onSignalingMessageReceived"
-        QT_MOC_LITERAL(215, 5),  // "setId"
-        QT_MOC_LITERAL(221, 2),  // "id"
-        QT_MOC_LITERAL(224, 4),  // "init"
-        QT_MOC_LITERAL(229, 14),  // "registerClient"
-        QT_MOC_LITERAL(244, 24),  // "connectToSignalingServer"
-        QT_MOC_LITERAL(269, 11),  // "createOffer"
-        QT_MOC_LITERAL(281, 9),  // "callOnRun"
-        QT_MOC_LITERAL(291, 20),  // "setRemoteDescription"
-        QT_MOC_LITERAL(312, 18),  // "addRemoteCandidate"
-        QT_MOC_LITERAL(331, 11)   // "setTargetId"
+        QT_MOC_LITERAL(131, 18),  // "clientIsRegistered"
+        QT_MOC_LITERAL(150, 26),  // "onSignalingServerConnected"
+        QT_MOC_LITERAL(177, 29),  // "onSignalingServerDisconnected"
+        QT_MOC_LITERAL(207, 26),  // "onSignalingMessageReceived"
+        QT_MOC_LITERAL(234, 5),  // "check"
+        QT_MOC_LITERAL(240, 9),  // "sendOffer"
+        QT_MOC_LITERAL(250, 5),  // "setId"
+        QT_MOC_LITERAL(256, 2),  // "id"
+        QT_MOC_LITERAL(259, 4),  // "init"
+        QT_MOC_LITERAL(264, 14),  // "registerClient"
+        QT_MOC_LITERAL(279, 24),  // "connectToSignalingServer"
+        QT_MOC_LITERAL(304, 11),  // "createOffer"
+        QT_MOC_LITERAL(316, 9),  // "callOnRun"
+        QT_MOC_LITERAL(326, 20),  // "setRemoteDescription"
+        QT_MOC_LITERAL(347, 18),  // "addRemoteCandidate"
+        QT_MOC_LITERAL(366, 11),  // "setTargetId"
+        QT_MOC_LITERAL(378, 19)   // "checkWebSocketState"
     },
     "WebRTC",
     "localDescriptionGenerated",
@@ -131,9 +143,12 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSWebRTCENDCLASS_t qt_meta_string
     "gatheringCompleted",
     "debugMessage",
     "message",
+    "clientIsRegistered",
     "onSignalingServerConnected",
     "onSignalingServerDisconnected",
     "onSignalingMessageReceived",
+    "check",
+    "sendOffer",
     "setId",
     "id",
     "init",
@@ -143,7 +158,8 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSWebRTCENDCLASS_t qt_meta_string
     "callOnRun",
     "setRemoteDescription",
     "addRemoteCandidate",
-    "setTargetId"
+    "setTargetId",
+    "checkWebSocketState"
 };
 #undef QT_MOC_LITERAL
 #endif // !QT_MOC_HAS_STRING_DATA
@@ -155,35 +171,39 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSWebRTCENDCLASS[] = {
       11,       // revision
        0,       // classname
        0,    0, // classinfo
-      17,   14, // methods
+      21,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       5,       // signalCount
+       6,       // signalCount
 
  // signals: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    1,  116,    2, 0x06,    1 /* Public */,
-       4,    1,  119,    2, 0x06,    3 /* Public */,
-       6,    1,  122,    2, 0x06,    5 /* Public */,
-       8,    0,  125,    2, 0x06,    7 /* Public */,
-       9,    1,  126,    2, 0x06,    8 /* Public */,
+       1,    1,  140,    2, 0x06,    1 /* Public */,
+       4,    1,  143,    2, 0x06,    3 /* Public */,
+       6,    1,  146,    2, 0x06,    5 /* Public */,
+       8,    0,  149,    2, 0x06,    7 /* Public */,
+       9,    1,  150,    2, 0x06,    8 /* Public */,
+      11,    0,  153,    2, 0x06,   10 /* Public */,
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-      11,    0,  129,    2, 0x0a,   10 /* Public */,
-      12,    0,  130,    2, 0x0a,   11 /* Public */,
-      13,    1,  131,    2, 0x0a,   12 /* Public */,
+      12,    0,  154,    2, 0x0a,   11 /* Public */,
+      13,    0,  155,    2, 0x0a,   12 /* Public */,
+      14,    1,  156,    2, 0x0a,   13 /* Public */,
+      15,    0,  159,    2, 0x0a,   15 /* Public */,
+      16,    0,  160,    2, 0x0a,   16 /* Public */,
 
  // methods: name, argc, parameters, tag, flags, initial metatype offsets
-      14,    1,  134,    2, 0x02,   14 /* Public */,
-      16,    0,  137,    2, 0x02,   16 /* Public */,
-      17,    0,  138,    2, 0x02,   17 /* Public */,
-      18,    0,  139,    2, 0x02,   18 /* Public */,
-      19,    0,  140,    2, 0x02,   19 /* Public */,
-      20,    0,  141,    2, 0x02,   20 /* Public */,
-      21,    1,  142,    2, 0x02,   21 /* Public */,
-      22,    1,  145,    2, 0x02,   23 /* Public */,
-      23,    1,  148,    2, 0x02,   25 /* Public */,
+      17,    1,  161,    2, 0x02,   17 /* Public */,
+      19,    0,  164,    2, 0x02,   19 /* Public */,
+      20,    0,  165,    2, 0x02,   20 /* Public */,
+      21,    0,  166,    2, 0x02,   21 /* Public */,
+      22,    0,  167,    2, 0x02,   22 /* Public */,
+      23,    0,  168,    2, 0x02,   23 /* Public */,
+      24,    1,  169,    2, 0x02,   24 /* Public */,
+      25,    1,  172,    2, 0x02,   26 /* Public */,
+      26,    1,  175,    2, 0x02,   28 /* Public */,
+      27,    0,  178,    2, 0x02,   30 /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString,    3,
@@ -191,14 +211,17 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSWebRTCENDCLASS[] = {
     QMetaType::Void, QMetaType::QByteArray,    7,
     QMetaType::Void,
     QMetaType::Void, QMetaType::QString,   10,
+    QMetaType::Void,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, QMetaType::QString,   10,
+    QMetaType::Void,
+    QMetaType::Void,
 
  // methods: parameters
-    QMetaType::Void, QMetaType::QString,   15,
+    QMetaType::Void, QMetaType::QString,   18,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -206,7 +229,8 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSWebRTCENDCLASS[] = {
     QMetaType::Void,
     QMetaType::Void, QMetaType::QString,    3,
     QMetaType::Void, QMetaType::QString,    5,
-    QMetaType::Void, QMetaType::QString,   15,
+    QMetaType::Void, QMetaType::QString,   18,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -234,6 +258,8 @@ Q_CONSTINIT const QMetaObject WebRTC::staticMetaObject = { {
         // method 'debugMessage'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<QString, std::false_type>,
+        // method 'clientIsRegistered'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'onSignalingServerConnected'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'onSignalingServerDisconnected'
@@ -241,6 +267,10 @@ Q_CONSTINIT const QMetaObject WebRTC::staticMetaObject = { {
         // method 'onSignalingMessageReceived'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
+        // method 'check'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'sendOffer'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'setId'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<QString, std::false_type>,
@@ -262,7 +292,9 @@ Q_CONSTINIT const QMetaObject WebRTC::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
         // method 'setTargetId'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<QString, std::false_type>
+        QtPrivate::TypeAndForceComplete<QString, std::false_type>,
+        // method 'checkWebSocketState'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
 } };
@@ -278,18 +310,22 @@ void WebRTC::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         case 2: _t->audioReceived((*reinterpret_cast< std::add_pointer_t<QByteArray>>(_a[1]))); break;
         case 3: _t->gatheringCompleted(); break;
         case 4: _t->debugMessage((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 5: _t->onSignalingServerConnected(); break;
-        case 6: _t->onSignalingServerDisconnected(); break;
-        case 7: _t->onSignalingMessageReceived((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 8: _t->setId((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 9: _t->init(); break;
-        case 10: _t->registerClient(); break;
-        case 11: _t->connectToSignalingServer(); break;
-        case 12: _t->createOffer(); break;
-        case 13: _t->callOnRun(); break;
-        case 14: _t->setRemoteDescription((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 15: _t->addRemoteCandidate((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 16: _t->setTargetId((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 5: _t->clientIsRegistered(); break;
+        case 6: _t->onSignalingServerConnected(); break;
+        case 7: _t->onSignalingServerDisconnected(); break;
+        case 8: _t->onSignalingMessageReceived((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 9: _t->check(); break;
+        case 10: _t->sendOffer(); break;
+        case 11: _t->setId((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 12: _t->init(); break;
+        case 13: _t->registerClient(); break;
+        case 14: _t->connectToSignalingServer(); break;
+        case 15: _t->createOffer(); break;
+        case 16: _t->callOnRun(); break;
+        case 17: _t->setRemoteDescription((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 18: _t->addRemoteCandidate((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 19: _t->setTargetId((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 20: _t->checkWebSocketState(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -329,6 +365,13 @@ void WebRTC::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
                 return;
             }
         }
+        {
+            using _t = void (WebRTC::*)();
+            if (_t _q_method = &WebRTC::clientIsRegistered; *reinterpret_cast<_t *>(_a[1]) == _q_method) {
+                *result = 5;
+                return;
+            }
+        }
     }
 }
 
@@ -351,13 +394,13 @@ int WebRTC::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 17)
+        if (_id < 21)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 17;
+        _id -= 21;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 17)
+        if (_id < 21)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 17;
+        _id -= 21;
     }
     return _id;
 }
@@ -394,5 +437,11 @@ void WebRTC::debugMessage(QString _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
     QMetaObject::activate(this, &staticMetaObject, 4, _a);
+}
+
+// SIGNAL 5
+void WebRTC::clientIsRegistered()
+{
+    QMetaObject::activate(this, &staticMetaObject, 5, nullptr);
 }
 QT_WARNING_POP

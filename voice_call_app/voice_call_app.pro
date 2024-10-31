@@ -14,8 +14,6 @@ SOURCES += \
         audioinput.cpp \
         audiooutput.cpp \
         main.cpp \
-        signalingclient.cpp \
-        signalingserver.cpp \
         webrtc.cpp
 
 #RESOURCES += qml.qrc
@@ -34,8 +32,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     audioinput.h \
     audiooutput.h \
-    signalingclient.h \
-    signalingserver.h \
     webrtc.h
 
 

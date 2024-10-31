@@ -22,6 +22,7 @@ public:
     Q_INVOKABLE void setRemoteDescription(const QString& sdp);
     Q_INVOKABLE void addRemoteCandidate(const QString& candidate);
     Q_INVOKABLE void setTargetId(QString id);
+    Q_INVOKABLE void checkWebSocketState();
 
 public: Q_SIGNALS:
 //    void peerIdGenerated(const QString &peerId);
@@ -30,12 +31,16 @@ public: Q_SIGNALS:
     void audioReceived(const QByteArray &data);
     void gatheringCompleted();
     void debugMessage(QString message);
+    void clientIsRegistered();
+
 
 
 public Q_SLOTS:
     void onSignalingServerConnected();
     void onSignalingServerDisconnected();
     void onSignalingMessageReceived(const QString &message);
+    void check();
+    void sendOffer();
 
 private:
     std::shared_ptr<rtc::PeerConnection> peerConnection;
@@ -48,6 +53,8 @@ private:
     bool peerIsOfferer;
     QString localDescription_string;
     rtc::Description localSDP;
+    bool isClientRegistered = false; // Track client registration state
+    bool isLocalDescriptionGenerated = false;
 
 };
 

@@ -56,6 +56,7 @@ void WebRTC::callOnRun() {
         Q_EMIT debugMessage("[WebRTC] Creating SDP offer.");
         Q_EMIT debugMessage("here in callOnRun$$$$$$$$$$$");
         Q_EMIT localDescriptionGenerated(QString::fromStdString(description));
+        isLocalDescriptionGenerated = true;
         Q_EMIT debugMessage("[WebRTC] Local SDP generated and emitted.");
         Q_EMIT debugMessage("The generated SDP is: "+QString::fromStdString(description));
         localSDP = description;
@@ -65,6 +66,7 @@ void WebRTC::callOnRun() {
         QString candidateStr = QString::fromStdString(candidate);
         Q_EMIT localCandidateGenerated(candidateStr);
         Q_EMIT debugMessage("[WebRTC] Local candidate generated and emitted: " + candidateStr);
+
     });
 
     peerConnection->onTrack([this](std::shared_ptr<rtc::Track> track) {
@@ -89,6 +91,26 @@ void WebRTC::callOnRun() {
     });
 }
 
+// Function to convert WebSocket state to string
+QString websocketStateToString(QAbstractSocket::SocketState state) {
+    switch (state) {
+        case QAbstractSocket::UnconnectedState: return "UnconnectedState";
+        case QAbstractSocket::HostLookupState: return "HostLookupState";
+        case QAbstractSocket::ConnectingState: return "ConnectingState";
+        case QAbstractSocket::ConnectedState: return "ConnectedState";
+        case QAbstractSocket::BoundState: return "BoundState";
+        case QAbstractSocket::ListeningState: return "ListeningState";
+        case QAbstractSocket::ClosingState: return "ClosingState";
+        default: return "Unknown State";
+    }
+}
+
+// Example usage in your WebRTC class
+void WebRTC::checkWebSocketState() {
+    QString stateString = websocketStateToString(webSocket->state());
+    Q_EMIT debugMessage("[WebRTC] WebSocket state: " + stateString);
+}
+
 void WebRTC::registerClient() {
     if (!peerId.isEmpty()) {
         QJsonObject registrationMessage;
@@ -96,7 +118,12 @@ void WebRTC::registerClient() {
         registrationMessage["id"] = peerId;
 
         webSocket->sendTextMessage(QJsonDocument(registrationMessage).toJson());
+        Q_EMIT debugMessage("#######register######");
+        checkWebSocketState();
+        Q_EMIT clientIsRegistered();
+        isClientRegistered = true;
         Q_EMIT debugMessage("[WebRTC] Sent registration message for ID: " + peerId);
+
     } else {
         Q_EMIT debugMessage("[WebRTC] Peer ID is empty; registration skipped.");
     }
@@ -109,8 +136,45 @@ void WebRTC::connectToSignalingServer() {
     connect(webSocket.get(), &QWebSocket::connected, this, &WebRTC::onSignalingServerConnected);
     connect(webSocket.get(), &QWebSocket::disconnected, this, &WebRTC::onSignalingServerDisconnected);
     connect(webSocket.get(), &QWebSocket::textMessageReceived, this, &WebRTC::onSignalingMessageReceived);
+    connect(this,&WebRTC::localDescriptionGenerated, this, &WebRTC::sendOffer);
 }
 
+void WebRTC::sendOffer() {
+    Q_EMIT debugMessage("[WebRTC] Sending offer to signaling server.");
+
+    connect(this, &WebRTC::clientIsRegistered, this, &WebRTC::check);
+//    check();
+//    // Create the offer JSON message
+//    QJsonObject offerMessage;
+//    offerMessage["type"] = "offer";
+//    offerMessage["sdp"] = localSDP;
+
+//    // Send the offer via WebSocket
+//    if (webSocket->state() == QAbstractSocket::ConnectedState) {
+//        webSocket->sendTextMessage(QJsonDocument(offerMessage).toJson());
+//        Q_EMIT debugMessage("[WebRTC] SDP Offer sent: " + localSDP);
+//    } else {
+//        Q_EMIT debugMessage("[WebRTC] WebSocket not connected; cannot send offer.");
+//    }
+}
+
+void WebRTC::check(){
+    Q_EMIT debugMessage("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%check is on%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+    // Create JSON message to send to server
+    QJsonObject offerMessage;
+    offerMessage["type"] = "offer";
+    offerMessage["sdp"] = QString::fromStdString(localSDP);
+
+    Q_EMIT debugMessage("#######check######");
+    checkWebSocketState();
+    // Send the offer to the signaling server
+    if (webSocket->state() == QAbstractSocket::ConnectedState) {
+        webSocket->sendTextMessage(QJsonDocument(offerMessage).toJson());
+        Q_EMIT debugMessage("[WebRTC] SDP Offer sent to signaling server: " + QString::fromStdString(localSDP));
+    } else {
+        Q_EMIT debugMessage("[WebRTC] WebSocket not connected; cannot send offer.");
+    }
+}
 void WebRTC::onSignalingServerConnected() {
     Q_EMIT debugMessage("[WebRTC] Connected to signaling server.");
     registerClient();
@@ -142,19 +206,7 @@ void WebRTC::onSignalingMessageReceived(const QString &message) {
 
 void WebRTC::createOffer() {
     Q_EMIT debugMessage("[WebRTC] Creating SDP offer.");
-
     peerConnection->setLocalDescription(rtc::Description::Type::Offer);
-
-//    // Capture the generated SDP and emit it
-//    peerConnection->onLocalDescription([this](rtc::Description description) {
-//        Q_EMIT debugMessage("here in create offer$$$$$$$$$$$");
-//        QString sdp = QString::fromStdString(description);
-//        localSDP = description;
-//        Q_EMIT localDescriptionGenerated(sdp); // Emit the SDP for QML to capture
-//        Q_EMIT debugMessage("[WebRTC] SDP Offer created: " + sdp); // Print the SDP in debug messages
-//    });
-
-//    Q_EMIT debugMessage("[WebRTC] SDP Offer request sent.");
 }
 
 

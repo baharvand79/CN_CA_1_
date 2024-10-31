@@ -1,8 +1,6 @@
 debug/audioinput.o
 debug/audiooutput.o
 debug/main.o
-debug/signalingclient.o
-debug/signalingserver.o
 debug/webrtc.o
 debug/Main_qml.o
 debug/server_js.o
