@@ -26,6 +26,7 @@ public:
     Q_INVOKABLE void createAnswer();
 
 
+
 public: Q_SIGNALS:
     void localDescriptionGenerated(const QString &sdp);
     void localCandidateGenerated(const QString &candidate);
@@ -33,6 +34,7 @@ public: Q_SIGNALS:
     void gatheringCompleted();
     void debugMessage(QString message);
     void clientIsRegistered();
+    void answerIsReady();
 
 
 
@@ -42,6 +44,7 @@ public Q_SLOTS:
     void onSignalingMessageReceived(const QString &message);
 //    void sendOfferHelper();
     void sendOffer();
+    void sendAnswer();
 
 private:
     std::shared_ptr<rtc::PeerConnection> peerConnection;

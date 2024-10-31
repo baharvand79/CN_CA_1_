@@ -152,7 +152,20 @@ void WebRTC::sendOffer() {
     }
 }
 
+void WebRTC::sendAnswer(){
+    QJsonObject answerMessage;
+    answerMessage["type"] = "answer";
+    answerMessage["id"] = peerId;
+    answerMessage["targetId"] = targetId;
+    answerMessage["sdp"] = localSDP;
 
+    if (webSocket->state() == QAbstractSocket::ConnectedState) {
+        webSocket->sendTextMessage(QJsonDocument(answerMessage).toJson());
+        Q_EMIT debugMessage("[WebRTC] SDP Answer sent to signaling server: " + localSDP);
+    } else {
+        Q_EMIT debugMessage("[WebRTC] Error: WebSocket not connected; cannot send answer.");
+    }
+}
 
 void WebRTC::onSignalingServerConnected() {
     Q_EMIT debugMessage("[WebRTC] Successfully connected to signaling server.");
@@ -174,16 +187,17 @@ void WebRTC::onSignalingMessageReceived(const QString &message) {
         QString sdp = jsonObj["sdp"].toString();
                 remoteSDP = sdp; // Store remote SDP
                 Q_EMIT debugMessage("[WebRTC] Received offer with SDP: " + sdp);
-
+        targetId = jsonObj["id"].toString();
                 // Set remote description with the received offer
                 peerConnection->setRemoteDescription(rtc::Description(sdp.toStdString(), type.toStdString()));
                 Q_EMIT debugMessage("[WebRTC] Remote SDP set for offer.");
                 // Create an answer after setting the remote SDP
-                //createAnswer();
+                createAnswer();
+                sendAnswer();
+
     } else if (type == "answer") {
         QString sdp = jsonObj["sdp"].toString();
         remoteSDP = sdp;
-        isSettingRemoteDescription = true;
         peerConnection->setRemoteDescription(rtc::Description(sdp.toStdString(), type.toStdString()));
         Q_EMIT debugMessage("[WebRTC] Remote SDP set for answer.");
     } else if (type == "ice-candidate") {
@@ -197,9 +211,9 @@ void WebRTC::onSignalingMessageReceived(const QString &message) {
 }
 
 void WebRTC::createAnswer() {
-//    Q_EMIT debugMessage("[WebRTC] Creating new SDP answer.");
+    Q_EMIT debugMessage("[WebRTC] Creating new SDP answer.");
 //    peerConnection->setLocalDescription(rtc::Description::Type::Answer);
-
+//    Q_EMIT answerIsReady();
 
 }
 

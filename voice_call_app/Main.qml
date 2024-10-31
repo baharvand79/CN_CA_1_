@@ -132,6 +132,9 @@ Window {
             onDebugMessage: logOutput.text += message + "\n"
         }
 
-
+//        Connections {
+//            target: rtc
+//            onAnswerIsReady: rtc.sendAnswer()
+//        }
     }
 }
