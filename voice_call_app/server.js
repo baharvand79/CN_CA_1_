@@ -39,7 +39,6 @@ wss.on('connection', (ws) => {
 
 function handleOffer(data) {
     console.log(`[Server] Forwarding offer from ${data.id} to ${data.targetId}`);
-    console.log(`[Server] Offer SDP: ${data.sdp}`);  // Log received SDP
     const offerTarget = clients[data.targetId];
     if (offerTarget) {
         offerTarget.send(JSON.stringify(data));
@@ -51,7 +50,6 @@ function handleOffer(data) {
 
 function handleAnswer(data) {
     console.log(`[Server] Forwarding answer from ${data.id} to ${data.targetId}`);
-    console.log(`[Server] Answer SDP: ${data.sdp}`);  // Log received SDP
     const answerTarget = clients[data.targetId];
     if (answerTarget) {
         answerTarget.send(JSON.stringify(data));
@@ -63,7 +61,6 @@ function handleAnswer(data) {
 
 function handleCandidate(data) {
     console.log(`[Server] Forwarding candidate from ${data.id} to ${data.targetId}`);
-    console.log(`[Server] ICE Candidate: ${data.candidate}`);  // Log received candidate
     const candidateTarget = clients[data.targetId];
     if (candidateTarget) {
         candidateTarget.send(JSON.stringify(data));

@@ -146,6 +146,7 @@ void WebRTC::sendOffer() {
 
 }
 
+
 void WebRTC::sendOfferHelper(){
 
     // Create JSON message to send to server
@@ -173,16 +174,23 @@ void WebRTC::onSignalingServerDisconnected() {
 }
 
 void WebRTC::onSignalingMessageReceived(const QString &message) {
-    Q_EMIT debugMessage("[WebRTC] Message received from signaling server: " + message);
+    Q_EMIT debugMessage("$%$$%$$%$%$%%$$%%%$$%$$$%$$%$[WebRTC] Message received from signaling server: " + message);
 
     QJsonDocument doc = QJsonDocument::fromJson(message.toUtf8());
     QJsonObject jsonObj = doc.object();
     QString type = jsonObj["type"].toString();
 
-    if (type == "offer" || type == "answer") {
+    if (type == "offer") {
+        QString sdp = jsonObj["sdp"].toString();
+        Q_EMIT debugMessage("[WebRTC] Received offer with SDP: " + sdp);
+
+        // Set remote description when the offer is received
+        peerConnection->setRemoteDescription(rtc::Description(sdp.toStdString(), type.toStdString()));
+        Q_EMIT debugMessage("[WebRTC] Remote SDP set for offer.");
+    } else if (type == "answer") {
         QString sdp = jsonObj["sdp"].toString();
         peerConnection->setRemoteDescription(rtc::Description(sdp.toStdString(), type.toStdString()));
-        Q_EMIT debugMessage("[WebRTC] Remote SDP set for " + type + ".");
+        Q_EMIT debugMessage("[WebRTC] Remote SDP set for answer.");
     } else if (type == "ice-candidate") {
         QString candidate = jsonObj["candidate"].toString();
         peerConnection->addRemoteCandidate(rtc::Candidate(candidate.toStdString()));
@@ -191,6 +199,7 @@ void WebRTC::onSignalingMessageReceived(const QString &message) {
         Q_EMIT debugMessage("[WebRTC] Unrecognized signaling message type: " + type);
     }
 }
+
 
 void WebRTC::createOffer() {
     Q_EMIT debugMessage("[WebRTC] Creating SDP offer.");
