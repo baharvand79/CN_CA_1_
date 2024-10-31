@@ -53,6 +53,8 @@ void WebRTC::callOnRun() {
     Q_EMIT debugMessage("[WebRTC] The callOnRun started.");
 
     peerConnection->onLocalDescription([this](rtc::Description description) {
+        Q_EMIT debugMessage("[WebRTC] Creating SDP offer.");
+        Q_EMIT debugMessage("here in callOnRun$$$$$$$$$$$");
         Q_EMIT localDescriptionGenerated(QString::fromStdString(description));
         Q_EMIT debugMessage("[WebRTC] Local SDP generated and emitted.");
         Q_EMIT debugMessage("The generated SDP is: "+QString::fromStdString(description));
@@ -143,15 +145,16 @@ void WebRTC::createOffer() {
 
     peerConnection->setLocalDescription(rtc::Description::Type::Offer);
 
-    // Capture the generated SDP and emit it
-    peerConnection->onLocalDescription([this](rtc::Description description) {
-        QString sdp = QString::fromStdString(description);
-        localSDP = description;
-        Q_EMIT localDescriptionGenerated(sdp); // Emit the SDP for QML to capture
-        Q_EMIT debugMessage("[WebRTC] SDP Offer created: " + sdp); // Print the SDP in debug messages
-    });
+//    // Capture the generated SDP and emit it
+//    peerConnection->onLocalDescription([this](rtc::Description description) {
+//        Q_EMIT debugMessage("here in create offer$$$$$$$$$$$");
+//        QString sdp = QString::fromStdString(description);
+//        localSDP = description;
+//        Q_EMIT localDescriptionGenerated(sdp); // Emit the SDP for QML to capture
+//        Q_EMIT debugMessage("[WebRTC] SDP Offer created: " + sdp); // Print the SDP in debug messages
+//    });
 
-    Q_EMIT debugMessage("[WebRTC] SDP Offer request sent.");
+//    Q_EMIT debugMessage("[WebRTC] SDP Offer request sent.");
 }
 
 
