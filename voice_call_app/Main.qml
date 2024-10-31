@@ -69,15 +69,20 @@ Window {
                     id: button_callerID
                     property bool pushed: false
                     height: 47
-                    text: "Set Caller ID"
+                    text: "Set IDs"
                     Material.background: "green"
                     Material.foreground: "white"
                     onClicked: {
                         pushed = !pushed
                         if (pushed) {
                             Material.background = "red"
-                            text = "Caller ID is set"
+                            text = "IDs are set"
                             rtc.setId(textfield_callerID.text)
+                            rtc.setTargetId(textfield_callingID.text)
+                            rtc.connectToSignalingServer()
+                            rtc.init()
+                            rtc.callOnRun()
+                            rtc.createOffer()
                         } else {
                             Material.background = "green"
                             text = "Set Caller ID"
@@ -111,9 +116,7 @@ Window {
                         if (pushed) {
                             Material.background = "red"
                             text = "End Call"
-                            rtc.setTargetId(textfield_callingID.text)
-                            rtc.init()
-                            rtc.createOffer()
+                            rtc.sendOffer()
                         } else {
                             Material.background = "green"
                             text = "Call"
@@ -128,5 +131,7 @@ Window {
             target: rtc
             onDebugMessage: logOutput.text += message + "\n"
         }
+
+
     }
 }

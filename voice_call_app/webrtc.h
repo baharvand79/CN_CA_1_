@@ -23,9 +23,10 @@ public:
     Q_INVOKABLE void addRemoteCandidate(const QString& candidate);
     Q_INVOKABLE void setTargetId(QString id);
     Q_INVOKABLE void checkWebSocketState();
+    Q_INVOKABLE void createAnswer();
+
 
 public: Q_SIGNALS:
-//    void peerIdGenerated(const QString &peerId);
     void localDescriptionGenerated(const QString &sdp);
     void localCandidateGenerated(const QString &candidate);
     void audioReceived(const QByteArray &data);
@@ -39,7 +40,7 @@ public Q_SLOTS:
     void onSignalingServerConnected();
     void onSignalingServerDisconnected();
     void onSignalingMessageReceived(const QString &message);
-    void sendOfferHelper();
+//    void sendOfferHelper();
     void sendOffer();
 
 private:
@@ -51,10 +52,13 @@ private:
     QString peerId;
     QString targetId;
     bool peerIsOfferer;
-    QString localDescription_string;
-    rtc::Description localSDP;
+     QString localSDP;
+    QString remoteSDP;
     bool isClientRegistered = false; // Track client registration state
     bool isLocalDescriptionGenerated = false;
+    QStringList localIceCandidates; // Store local ICE candidates
+    QStringList remoteIceCandidates; // Store remote ICE candidates
+    bool isSettingRemoteDescription = false;
 
 };
 
