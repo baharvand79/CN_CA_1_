@@ -1,60 +1,88 @@
 const WebSocket = require('ws');
 
 const wss = new WebSocket.Server({ port: 3000 });
-
 let clients = {};
 
 wss.on('connection', (ws) => {
-        console.log("New client is connected")
+    console.log("[Server] New client connected");
+
     ws.on('message', (message) => {
         const data = JSON.parse(message);
-        console.log(`Received message of type: ${data.type} from client: ${data.id}`);
+        console.log(`[Server] Received message of type: ${data.type} from client: ${data.id}`);
 
         switch (data.type) {
             case 'register':
                 clients[data.id] = ws;
-                console.log(`Client registered: ${data.id}`);
+                console.log(`[Server] Client registered with ID: ${data.id}`);
                 break;
             case 'offer':
-                console.log(`Forwarding offer from ${data.id} to ${data.targetId}`);
-                const offerTarget = clients[data.targetId];
-                if (offerTarget) {
-                    offerTarget.send(JSON.stringify(data));
-                    console.log(`Offer sent to ${data.targetId}`);
-                }
+                handleOffer(data);
                 break;
             case 'answer':
-                console.log(`Forwarding answer from ${data.id} to ${data.targetId}`);
-                const answerTarget = clients[data.targetId];
-                if (answerTarget) {
-                    answerTarget.send(JSON.stringify(data));
-                    console.log(`Answer sent to ${data.targetId}`);
-                }
+                handleAnswer(data);
                 break;
             case 'candidate':
-                console.log(`Forwarding candidate from ${data.id} to ${data.targetId}`);
-                const candidateTarget = clients[data.targetId];
-                if (candidateTarget) {
-                    candidateTarget.send(JSON.stringify(data));
-                    console.log(`Candidate sent to ${data.targetId}`);
-                }
+                handleCandidate(data);
                 break;
             case 'disconnect':
-                delete clients[data.id];
-                console.log(`Client disconnected: ${data.id}`);
+                handleDisconnect(data.id);
                 break;
+            default:
+                console.log(`[Server] Unknown message type: ${data.type}`);
         }
     });
 
     ws.on('close', () => {
-        for (let id in clients) {
-            if (clients[id] === ws) {
-                console.log(`Client ${id} has disconnected`);
-                delete clients[id];
-                break;
-            }
-        }
+        removeClient(ws);
     });
 });
+
+function handleOffer(data) {
+    console.log(`[Server] Forwarding offer from ${data.id} to ${data.targetId}`);
+    const offerTarget = clients[data.targetId];
+    if (offerTarget) {
+        offerTarget.send(JSON.stringify(data));
+        console.log(`[Server] Offer sent to ${data.targetId}`);
+    } else {
+        console.log(`[Server] Target client ${data.targetId} not found`);
+    }
+}
+
+function handleAnswer(data) {
+    console.log(`[Server] Forwarding answer from ${data.id} to ${data.targetId}`);
+    const answerTarget = clients[data.targetId];
+    if (answerTarget) {
+        answerTarget.send(JSON.stringify(data));
+        console.log(`[Server] Answer sent to ${data.targetId}`);
+    } else {
+        console.log(`[Server] Target client ${data.targetId} not found`);
+    }
+}
+
+function handleCandidate(data) {
+    console.log(`[Server] Forwarding candidate from ${data.id} to ${data.targetId}`);
+    const candidateTarget = clients[data.targetId];
+    if (candidateTarget) {
+        candidateTarget.send(JSON.stringify(data));
+        console.log(`[Server] Candidate sent to ${data.targetId}`);
+    } else {
+        console.log(`[Server] Target client ${data.targetId} not found`);
+    }
+}
+
+function handleDisconnect(id) {
+    delete clients[id];
+    console.log(`[Server] Client ${id} disconnected`);
+}
+
+function removeClient(ws) {
+    for (let id in clients) {
+        if (clients[id] === ws) {
+            console.log(`[Server] Client ${id} has disconnected`);
+            delete clients[id];
+            break;
+        }
+    }
+}
 
 console.log('Signaling server running on ws://localhost:3000');

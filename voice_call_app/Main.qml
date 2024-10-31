@@ -19,7 +19,7 @@ Window {
         // Scrollable debug panel on the left
         ScrollView {
             id: scrollView
-            width: parent.width * 0.6  // Adjusts width to 40% of the window
+            width: parent.width * 0.5  // Adjusts width to 40% of the window
             height: parent.height
             anchors.left: parent.left
             anchors.top: parent.top
@@ -94,6 +94,7 @@ Window {
                     text = "End Call"
                     rtc.setId(textfield.text)
                     rtc.init()
+                    rtc.createOffer()
                 } else {
                     Material.background = "green"
                     text = "Call"
