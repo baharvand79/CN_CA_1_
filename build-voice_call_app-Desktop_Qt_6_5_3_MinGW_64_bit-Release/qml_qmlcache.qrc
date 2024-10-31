@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<RCC>
+    <qresource prefix="/">
+        <file alias="Main.qml">../voice_call_app/Main.qml</file>
+        <file alias="server.js">../voice_call_app/server.js</file>
+    </qresource>
+</RCC>

@@ -1,42 +1,68 @@
 #ifndef WEBRTC_H
 #define WEBRTC_H
 
-#include "rtc/rtc.hpp"
 #include <QObject>
-#include <QDebug>
-#include <QAudioInput>
-#include <QAudioOutput>
-#include <opus/include/opus.h>
+#include <QWebSocket>
+#include <memory>
+#include <string>
+#include "rtc/rtc.hpp"
+
 class WebRTC : public QObject {
     Q_OBJECT
 
-    public:
-        WebRTC();
+public:
+    explicit WebRTC(QObject *parent = nullptr);
 
-        void createOffer();
-        void setRemoteDescription(const QString& sdp);
-        void addRemoteCandidate(const QString& candidate);
-        void startAudioCapture();
-        void stopAudioCapture();
+    Q_INVOKABLE void setId(QString id);
+    Q_INVOKABLE void init();
+    Q_INVOKABLE void registerClient();
+    Q_INVOKABLE void connectToSignalingServer();
+    Q_INVOKABLE void createOffer();
+    Q_INVOKABLE void callOnRun();
+    Q_INVOKABLE void setRemoteDescription(const QString& sdp);
+    Q_INVOKABLE void addRemoteCandidate(const QString& candidate);
+    Q_INVOKABLE void setTargetId(QString id);
+    Q_INVOKABLE void checkWebSocketState();
+    Q_INVOKABLE void createAnswer();
 
-    signals:
-        void localDescriptionGenerated(const QString& sdp);
-        void localCandidateGenerated(const QString& candidate);
-        void audioReceived(const QByteArray& audioData);
-        void gatheringCompleted();
 
-    private:
-        std::shared_ptr<rtc::PeerConnection> peerConnection;
-        std::shared_ptr<rtc::Track> audioTrack;
 
-        QAudioInput *audioInput;
-        QAudioOutput *audioOutput;
-        QIODevice *audioIODevice;
+public: Q_SIGNALS:
+    void localDescriptionGenerated(const QString &sdp);
+    void localCandidateGenerated(const QString &candidate);
+    void audioReceived(const QByteArray &data);
+    void gatheringCompleted();
+    void debugMessage(QString message);
+    void clientIsRegistered();
+    void answerIsReady();
 
-        OpusEncoder *encoder;
-        OpusDecoder *decoder;
 
-        void handleAudioFrame(const QByteArray &audioData);
+
+public Q_SLOTS:
+    void onSignalingServerConnected();
+    void onSignalingServerDisconnected();
+    void onSignalingMessageReceived(const QString &message);
+//    void sendOfferHelper();
+    void sendOffer();
+    void sendAnswer();
+
+private:
+    std::shared_ptr<rtc::PeerConnection> peerConnection;
+    std::shared_ptr<rtc::Track> audioTrack;
+    std::shared_ptr<QWebSocket> webSocket; // WebSocket for signaling
+    rtc::Description::Audio audio;
+    rtc::Configuration config;
+    QString peerId;
+    QString targetId;
+    bool peerIsOfferer;
+     QString localSDP;
+    QString remoteSDP;
+    bool isClientRegistered = false; // Track client registration state
+    bool isLocalDescriptionGenerated = false;
+    QStringList localIceCandidates; // Store local ICE candidates
+    QStringList remoteIceCandidates; // Store remote ICE candidates
+    bool isSettingRemoteDescription = false;
 
 };
+
 #endif // WEBRTC_H

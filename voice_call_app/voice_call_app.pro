@@ -1,19 +1,19 @@
-QT += quick qml quickcontrols2 quicklayouts multimedia core gui network websockets
+QT += quick multimedia network websockets widgets
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
-DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+# DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 CONFIG += c++17
 CONFIG += no_keyword
 CXXFLAGS += -fstack-protector
 
+#CONFIG += moc_depends
+
 SOURCES += \
         audioinput.cpp \
         audiooutput.cpp \
         main.cpp \
-        signalingclient.cpp \
-        signalingserver.cpp \
         webrtc.cpp
 
 #RESOURCES += qml.qrc
@@ -32,13 +32,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     audioinput.h \
     audiooutput.h \
-    signalingclient.h \
-    signalingserver.h \
     webrtc.h
 
 
-DISTFILES += \
-    main.qml
+DISTFILES +=
 # Additional libraries
 # ### libdatachannel
 INCLUDEPATH += $$PWD/libdatachannel/include
@@ -85,4 +82,7 @@ DEFINES += ASIO_STANDALONE
 # to fix openssl
 INCLUDEPATH += C:/Qt/Tools/OpenSSLv3/Win_x64/include
 #INCLUDEPATH += C:/Qt/Tools/OpenSSLv3/src/include
+
+RESOURCES += \
+    qml.qrc
 

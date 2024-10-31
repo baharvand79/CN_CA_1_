@@ -38,32 +38,20 @@ namespace {
 #ifdef QT_MOC_HAS_STRINGDATA
 struct qt_meta_stringdata_CLASSAudioOutputENDCLASS_t {};
 static constexpr auto qt_meta_stringdata_CLASSAudioOutputENDCLASS = QtMocHelpers::stringData(
-    "AudioOutput",
-    "playAudio",
-    "",
-    "data"
+    "AudioOutput"
 );
 #else  // !QT_MOC_HAS_STRING_DATA
 struct qt_meta_stringdata_CLASSAudioOutputENDCLASS_t {
-    uint offsetsAndSizes[8];
+    uint offsetsAndSizes[2];
     char stringdata0[12];
-    char stringdata1[10];
-    char stringdata2[1];
-    char stringdata3[5];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(sizeof(qt_meta_stringdata_CLASSAudioOutputENDCLASS_t::offsetsAndSizes) + ofs), len 
 Q_CONSTINIT static const qt_meta_stringdata_CLASSAudioOutputENDCLASS_t qt_meta_stringdata_CLASSAudioOutputENDCLASS = {
     {
-        QT_MOC_LITERAL(0, 11),  // "AudioOutput"
-        QT_MOC_LITERAL(12, 9),  // "playAudio"
-        QT_MOC_LITERAL(22, 0),  // ""
-        QT_MOC_LITERAL(23, 4)   // "data"
+        QT_MOC_LITERAL(0, 11)   // "AudioOutput"
     },
-    "AudioOutput",
-    "playAudio",
-    "",
-    "data"
+    "AudioOutput"
 };
 #undef QT_MOC_LITERAL
 #endif // !QT_MOC_HAS_STRING_DATA
@@ -75,18 +63,12 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSAudioOutputENDCLASS[] = {
       11,       // revision
        0,       // classname
        0,    0, // classinfo
-       1,   14, // methods
+       0,    0, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
        0,       // signalCount
-
- // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    1,   20,    2, 0x0a,    1 /* Public */,
-
- // slots: parameters
-    QMetaType::Void, QMetaType::QByteArray,    3,
 
        0        // eod
 };
@@ -99,24 +81,17 @@ Q_CONSTINIT const QMetaObject AudioOutput::staticMetaObject = { {
     nullptr,
     qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSAudioOutputENDCLASS_t,
         // Q_OBJECT / Q_GADGET
-        QtPrivate::TypeAndForceComplete<AudioOutput, std::true_type>,
-        // method 'playAudio'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<const QByteArray &, std::false_type>
+        QtPrivate::TypeAndForceComplete<AudioOutput, std::true_type>
     >,
     nullptr
 } };
 
 void AudioOutput::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
-    if (_c == QMetaObject::InvokeMetaMethod) {
-        auto *_t = static_cast<AudioOutput *>(_o);
-        (void)_t;
-        switch (_id) {
-        case 0: _t->playAudio((*reinterpret_cast< std::add_pointer_t<QByteArray>>(_a[1]))); break;
-        default: ;
-        }
-    }
+    (void)_o;
+    (void)_id;
+    (void)_c;
+    (void)_a;
 }
 
 const QMetaObject *AudioOutput::metaObject() const
@@ -135,17 +110,6 @@ void *AudioOutput::qt_metacast(const char *_clname)
 int AudioOutput::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QObject::qt_metacall(_c, _id, _a);
-    if (_id < 0)
-        return _id;
-    if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 1)
-            qt_static_metacall(this, _c, _id, _a);
-        _id -= 1;
-    } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 1)
-            *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 1;
-    }
     return _id;
 }
 QT_WARNING_POP
