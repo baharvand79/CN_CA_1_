@@ -1,4 +1,6 @@
+#include <opus.h> // Include Opus header
 #include "AudioInput.h"
+#include "qdebug.h"
 
 // Constants for Opus encoding
 const int OPUS_SAMPLE_RATE = 48000;
@@ -12,23 +14,17 @@ AudioInput::AudioInput(QObject *parent) : QIODevice(parent) {
     format.setSampleFormat(QAudioFormat::Int16);
 
     audioSource = new QAudioSource(format, this);
+    audioDevice = audioSource->start();
 
-    // Opus encoder initialization
     int error;
     opusEncoder = opus_encoder_create(OPUS_SAMPLE_RATE, OPUS_CHANNELS, OPUS_APPLICATION_VOIP, &error);
 
-    connect(audioSource, &QAudioSource::stateChanged, this, [this]() {
-        if (audioSource->state() == QAudio::ActiveState) {
-            audioDevice = audioSource->start();
-            connect(audioDevice, &QIODevice::readyRead, this, [this]() {
-                QByteArray audioData = audioDevice->readAll();
-                QByteArray encodedData = encodeAudio(audioData);
-                emit audioCaptured(encodedData);
-            });
-        } else {
-            // Handle stopping of audio capture if necessary
-            audioDevice = nullptr;
-        }
+    Q_EMIT debugMessage("[AudioInput] Constructor.");
+    connect(audioDevice, &QIODevice::readyRead, this, [this]() {
+        QByteArray audioData = audioDevice->readAll();
+        QByteArray encodedData = encodeAudio(audioData);
+//        Q_EMIT debugMessage("[AudioInput] Audio captured emmited in constructor.");
+        Q_EMIT audioCaptured(encodedData);
     });
 }
 
@@ -37,24 +33,8 @@ AudioInput::~AudioInput() {
     audioSource->stop();
 }
 
-void AudioInput::startCapture() {
-    if (audioSource) {
-        audioSource->start();
-    }
-}
-
-void AudioInput::stopCapture() {
-    if (audioSource) {
-        audioSource->stop(); // Stop audio capture
-        // Optionally: disconnect audioDevice if you don't need it anymore
-        if (audioDevice) {
-            audioDevice->disconnect(); // Clean up
-            audioDevice = nullptr;
-        }
-    }
-}
-
 QByteArray AudioInput::encodeAudio(const QByteArray &input) {
+//    Q_EMIT debugMessage("[AudioInput] Encoding audio.");
     QByteArray output;
     int maxEncodedBytes = 4000;
     unsigned char encodedData[maxEncodedBytes];
@@ -76,6 +56,12 @@ qint64 AudioInput::readData(char *data, qint64 maxlen) {
 }
 
 qint64 AudioInput::writeData(const char *data, qint64 len) {
-    emit audioCaptured(QByteArray(data, len));
+//    Q_EMIT debugMessage("[AudioInput] Audio captured emmited in writeData.");
+    Q_EMIT audioCaptured(QByteArray(data, len));
     return len;
+}
+
+void AudioInput::startCapture() {
+    Q_EMIT debugMessage("[AudioInput] Start capture.");
+    audioSource->start();
 }
