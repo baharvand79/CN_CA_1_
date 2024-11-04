@@ -20,6 +20,11 @@ Fatemeh (Shakiba) Baharvand
 - Despite its challenges, WebRTC’s ecosystem has tools and libraries like to make development easier.
 - With WebRTC, developers can build dynamic, real-time applications across web and mobile platforms without complex server setups.
 **Ref:** https://medium.com/@nakrani/what-is-webrtc-6e9cc2a51222
+#### SDP (Session Description Protocol)
+SDP (Session Description Protocol) is a format for describing multimedia communication sessions. In WebRTC, SDP is used for:
+- Negotiating Capabilities: Determines the codecs, media types, and formats that each peer supports.
+- Establishing Media Session: SDP messages (Offer/Answer) are exchanged to establish parameters for audio, video, or data channels.
+- ICE Candidates: ICE candidates in SDP help peers find the best route for data transmission.
 ### CoTURN
 CoTURN is an open-source server for TURN and STUN protocols. It helps clients behind firewalls connect for voice, video, and data sharing. CoTURN relays data between the client and server, making the connection appear to come from the server. This is essential for apps needing real-time communication, like WebRTC, especially when direct peer-to-peer connections aren’t possible.
 - STUN finds a device’s public IP behind a firewall. This allows direct connections between devices.
