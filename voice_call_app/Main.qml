@@ -14,10 +14,10 @@ Window {
     WebRTC {
         id: rtc
         onPeerIsConnected: {
-////            if (rtc.peerIsOfferer){
-                audioInput.startCapture()
+                if(rtc.peerIsOfferer){
+                    audioInput.startCapture()
+                }
             }
-//        }
     }
 
     AudioInput {
@@ -25,6 +25,7 @@ Window {
 
         onAudioCaptured: {
                 console.log("[QML] Audio data captured:", data.length);
+                rtc.sendTrack(data)
 //                audioOutput.playAudio(data);
             }
 
@@ -139,6 +140,7 @@ Window {
                             text = "IDs are set"
                             rtc.setId(textfield_callerID.text)
                             rtc.setTargetId(textfield_callingID.text)
+
                             // audioInput.startCapture()
                             rtc.connectToSignalingServer()
                             rtc.init()
@@ -182,6 +184,7 @@ Window {
                             Material.background = "green"
                             text = "Call"
                             textfield_callingID.clear()
+                            audioInput.stopCapture()
                         }
                     }
                 }

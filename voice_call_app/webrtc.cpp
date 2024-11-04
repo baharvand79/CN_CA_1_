@@ -4,18 +4,23 @@
 #include <QtEndian>
 #include <QJsonDocument>
 
-static_assert(true);
+RTPHeader WebRTC::createRTPHeader(uint8_t payloadType, uint16_t sequenceNumber, uint32_t timestamp, uint32_t ssrc) {
+    RTPHeader header;
+    header.version = 2;
+    header.padding = 0;
+    header.extension = 0;
+    header.csrcCount = 0;
+    header.marker = 0;
+    header.payloadType = payloadType;
+    header.sequenceNumber = sequenceNumber;
+    header.timestamp = timestamp;
+    header.ssrc = ssrc;
 
-#pragma pack(push, 1)
-struct RtpHeader {
-    uint8_t first;
-    uint8_t marker:1;
-    uint8_t payloadType:7;
-    uint16_t sequenceNumber;
-    uint32_t timestamp;
-    uint32_t ssrc;
-};
-#pragma pack(pop)
+    Q_EMIT debugMessage("[WebRTC] Created RTP header: Version: " + QString::number(header.version) + ", Payload Type: " + QString::number(header.payloadType) + ", Sequence Number: " + QString::number(header.sequenceNumber) + ", Timestamp: " + QString::number(header.timestamp));
+
+    return header;
+}
+
 
 
 std::string peerConnectionStateToString(rtc::PeerConnection::State state) {
@@ -32,26 +37,17 @@ std::string peerConnectionStateToString(rtc::PeerConnection::State state) {
 
 WebRTC::WebRTC(QObject *parent)
     : QObject{parent},
-      audioInput(new AudioInput),
-      audioOutput(new AudioOutput),
       webSocket(new QWebSocket()),
       localSDP("")
 {
-//    connect(this, &WebRTC::peerIsConnected, this, &WebRTC::onPeerIsConnected);
     Q_EMIT debugMessage("[WebRTC] Constructor called: Initialization completed.");
+    peerIsOfferer = false;
 }
 
-//void WebRTC::onPeerIsConnected(){
-////    connect(audioInput, &AudioInput::audioCaptured, this, &WebRTC::onAudioCaptured);{
-//    Q_EMIT debugMessage("[WebRTC] onPeerIsConnected");
 
-////        audioInput->startCapture();
-
-////    }
-
-////    connect(audioInput, &AudioInput::)
-//}
-
+bool WebRTC::getIsOfferer(){
+    return peerIsOfferer;
+}
 void WebRTC::setId(QString id) {
     peerId = id;
     Q_EMIT debugMessage("[WebRTC] Peer ID set to: " + peerId);
@@ -74,17 +70,14 @@ void WebRTC::init() {
 
     audioTrack = peerConnection->addTrack(rtc::Description::Audio("Audio", rtc::Description::Direction::SendRecv));
     Q_EMIT debugMessage("[WebRTC] Audio track added to peer connection.");
-//    audioTrack->onFrame([this](rtc::binary data, rtc::FrameInfo) {
-//            Q_EMIT audioReceived(QByteArray(reinterpret_cast<const char*>(data.data()), data.size()));
-//            Q_EMIT debugMessage("[WebRTC] Audio frame received. Size: " + QString::number(data.size()) + " bytes.");
-//        });
+
 }
 
 void WebRTC::onAudioCaptured(const QByteArray &audioData) {
     Q_EMIT debugMessage("[WebRTC] onAudioCaptured.");
     if (audioTrack) {
         std::vector<std::byte> byteData(audioData.size());
-        std::memcpy(byteData.data(), audioData.data(), audioData.size()); // Copy data from QByteArray to std::vector<std::byte>
+        std::memcpy(byteData.data(), audioData.data(), audioData.size());
         audioTrack->send(byteData);
         Q_EMIT debugMessage("[WebRTC] Audio data sent. Size: " + QString::number(audioData.size()) + " bytes.");
     }
@@ -105,22 +98,33 @@ void WebRTC::setPeerIsOfferer(bool newPeerIsOfferer)
 
 void WebRTC::resetPeerIsOfferer()
 {
-    setPeerIsOfferer({}); // TODO: Adapt to use your actual default value
+    setPeerIsOfferer({}); // TODO
 }
 
 
 void WebRTC::callOnRun() {
     Q_EMIT debugMessage("[WebRTC] callOnRun initiated.");
 
-    //if (!isSettingRemoteDescription){
         peerConnection->onLocalDescription([this](rtc::Description description) {
             Q_EMIT debugMessage("[WebRTC] Local SDP offer being created.");
             Q_EMIT localDescriptionGenerated(QString::fromStdString(description));
             isLocalDescriptionGenerated = true;
             localSDP = QString::fromStdString(description);
+            // Change the version line (v=0 to v=1)
+                    QStringList sdpLines = localSDP.split('\n');
+                    for (int i = 0; i < sdpLines.size(); ++i) {
+                        if (sdpLines[i].startsWith("v=")) {
+                            if(peerIsOfferer){
+                                sdpLines[i] = "v=1";
+                            } else {
+                                sdpLines[i] = "v=2";
+                            }
+                            break;
+                        }
+                    }
+                    localSDP = sdpLines.join('\n');
             Q_EMIT debugMessage("[WebRTC] Local SDP generated and emitted\n"+localSDP);
         });
-    //}
 
 
 
@@ -131,26 +135,16 @@ void WebRTC::callOnRun() {
         Q_EMIT debugMessage("[WebRTC] Local ICE candidate generated and emitted: " + candidateStr);
     });
 
-//    peerConnection->onTrack([this](std::shared_ptr<rtc::Track> track) {
-//        track->onFrame([this](rtc::binary data, rtc::FrameInfo) {
-//            Q_EMIT audioReceived(QByteArray(reinterpret_cast<const char*>(data.data()), data.size()));
-//            Q_EMIT debugMessage("[WebRTC] Audio frame received. Size: " + QString::number(data.size()) + " bytes.");
-//        });
-//    });
-//    peerConnection->onTrack([this](std::shared_ptr<rtc::Track> track) {
-////        if (track->kind() == rtc::Track::Kind::Audio) {
-//            Q_EMIT debugMessage("[WebRTC] Audio track received from remote peer.");
-//            track->onFrame([this](rtc::binary data, rtc::FrameInfo) {
-//                audioOutput->playAudio(QByteArray(reinterpret_cast<const char*>(data.data()), data.size()));
-//            });
-//            track->onMessage([this, peerId](rtc::message_variant data){
-//                auto packet = this->readVariant(data);
-//                constexpr int headerLength = sizeof(rtc::RtpHeader);
-//                packet.remove(o, headerLength);
-//                Q_EMIT incommingPacket(peerId, packet, packet.size());
-//            }
-////        }
-//    });
+
+    peerConnection->onTrack([this](std::shared_ptr<rtc::Track> track) {
+        Q_EMIT debugMessage("[WebRTC] &&&&&&&&&&&&&&&&&&&&Audio track received from remote peer.&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+        track->onMessage([this](rtc::message_variant data){
+            Q_EMIT debugMessage("[WebRTC] ONMESSAGE================================================");
+        });
+    });
+
+
+
 
 
     peerConnection->onStateChange([this](rtc::PeerConnection::State state) {
@@ -220,10 +214,24 @@ void WebRTC::connectToSignalingServer() {
 
 
 void WebRTC::sendOffer() {
+    peerIsOfferer = true;
+    Q_EMIT debugMessage("[WebRTC] The peer is set to offerer.");
     QJsonObject offerMessage;
     offerMessage["type"] = "offer";
     offerMessage["id"] = peerId;
     offerMessage["targetId"] = targetId;
+    QStringList sdpLines = localSDP.split('\n');
+    for (int i = 0; i < sdpLines.size(); ++i) {
+        if (sdpLines[i].startsWith("v=")) {
+            if(peerIsOfferer){
+                sdpLines[i] = "v=1";
+            } else {
+                sdpLines[i] = "v=2";
+            }
+            break;
+        }
+    }
+    localSDP = sdpLines.join('\n');
     offerMessage["sdp"] = localSDP;
 
     if (webSocket->state() == QAbstractSocket::ConnectedState) {
@@ -267,13 +275,11 @@ void WebRTC::onSignalingMessageReceived(const QString &message) {
 
     if (type == "offer") {
         QString sdp = jsonObj["sdp"].toString();
-                remoteSDP = sdp; // Store remote SDP
+                remoteSDP = sdp;
                 Q_EMIT debugMessage("[WebRTC] Received offer with SDP: " + sdp);
         targetId = jsonObj["id"].toString();
-                // Set remote description with the received offer
                 peerConnection->setRemoteDescription(rtc::Description(sdp.toStdString(), type.toStdString()));
                 Q_EMIT debugMessage("[WebRTC] Remote SDP set for offer.");
-                // Create an answer after setting the remote SDP
                 createAnswer();
                 sendAnswer();
 
@@ -294,8 +300,6 @@ void WebRTC::onSignalingMessageReceived(const QString &message) {
 
 void WebRTC::createAnswer() {
     Q_EMIT debugMessage("[WebRTC] Creating new SDP answer.");
-//    peerConnection->setLocalDescription(rtc::Description::Type::Answer);
-//    Q_EMIT answerIsReady();
 
 }
 
@@ -304,47 +308,37 @@ void WebRTC::createOffer() {
     peerConnection->setLocalDescription(rtc::Description::Type::Offer);
 }
 
-
-void WebRTC::setRemoteDescription(const QString& sdp) {
-//    Q_EMIT debugMessage("[WebRTC] Setting remote SDP.");
-//    peerConnection->setRemoteDescription(rtc::Description(sdp.toStdString()));
-//    Q_EMIT debugMessage("[WebRTC] Remote SDP set.");
-}
-
 void WebRTC::addRemoteCandidate(const QString& candidate) {
     Q_EMIT debugMessage("[WebRTC] Adding remote ICE candidate: " + candidate);
     peerConnection->addRemoteCandidate(rtc::Candidate(candidate.toStdString()));
     Q_EMIT debugMessage("[WebRTC] Remote ICE candidate added.");
 }
 
-void WebRTC::sendTrack(const QString &id, const QByteArray &buffer){
-    Q_EMIT debugMessage("[WebRTC] Sending track...");
-    /// ASK
-    if(!audioTrack->isOpen()){
-        Q_EMIT debugMessage("[WebRTC] Track is not open");
-        return;
+void WebRTC::sendTrack(const QByteArray &audioData) {
+    Q_EMIT debugMessage("[WebRTC] Preparing to send track data. Size: " + QString::number(audioData.size()) + " bytes.");
+
+    if (audioTrack) {
+        // Create the RTP header
+        RTPHeader rtpHeader = createRTPHeader(96, sequenceNumber++, timestamp, ssrc);
+
+        // Prepare the RTP packet
+        size_t rtpPacketSize = sizeof(RTPHeader) + audioData.size();
+        std::vector<std::byte> rtpPacket(rtpPacketSize);
+
+        std::memcpy(rtpPacket.data(), &rtpHeader, sizeof(RTPHeader));
+        std::memcpy(rtpPacket.data() + sizeof(RTPHeader), audioData.data(), audioData.size());
+
+        if (audioTrack->send(rtpPacket)) {
+            Q_EMIT debugMessage("***************************************************************");
+            Q_EMIT debugMessage("[WebRTC] RTP packet sent successfully. Size: " + QString::number(rtpPacket.size()) + " bytes. Sequence Number: " + QString::number(rtpHeader.sequenceNumber));
+        } else {
+            Q_EMIT debugMessage("[WebRTC] Error: Failed to send RTP packet.");
+        }
+
+        timestamp += 160; // Assuming 8000 Hz audio, 20 ms per packet = 160 samples
+        Q_EMIT debugMessage("[WebRTC] Updated timestamp for next packet: " + QString::number(timestamp));
+    } else {
+        Q_EMIT debugMessage("[WebRTC] Error: Audio track is not initialized; cannot send audio data.");
     }
-
-//    RtpHeader rtpHeader;
-//    rtpHeader.first = 0b10000000;
-//    rtpHeader.marker = 0;
-//    rtpHeader.payloadType = 111;
-//    rtpHeader.sequenceNumber = qToBigEndian(m_sequenceNumber++);
-//    rtpHeader.timestamp = qToBigEndian(getCurrentTimeStamp());
-//    rtpHeader.ssrc = qToBigEndian(2);
-
-//    QByteArray rtpPacket;
-//    rtpPacket.append(reinterpret_cast<const char*>(&rtpHeader), sizeof(rtc::RtpHeader));
-//    rtpPacket.append(buffer);
-
-//    try{
-//        bool result = audioTrack->send(reinterpret_cast<const std::byte *>(rtpPacket.data()), rtpPacket.size());
-//        if (result){
-//            Q_EMIT debugMessage("[WebRTC] One packet is sent.");
-//        } else {
-//            Q_EMIT debugMessage("[WebRTC] Packet sending is failed.");
-//        }
-//    } catch (std::runtime_error &e) {
-//        Q_EMIT debugMessage("[WebRTC] Error in sending packet");
-//    }
 }
+

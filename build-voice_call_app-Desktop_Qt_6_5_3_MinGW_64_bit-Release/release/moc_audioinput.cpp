@@ -44,11 +44,12 @@ static constexpr auto qt_meta_stringdata_CLASSAudioInputENDCLASS = QtMocHelpers:
     "data",
     "debugMessage",
     "message",
-    "startCapture"
+    "startCapture",
+    "stopCapture"
 );
 #else  // !QT_MOC_HAS_STRING_DATA
 struct qt_meta_stringdata_CLASSAudioInputENDCLASS_t {
-    uint offsetsAndSizes[14];
+    uint offsetsAndSizes[16];
     char stringdata0[11];
     char stringdata1[14];
     char stringdata2[1];
@@ -56,6 +57,7 @@ struct qt_meta_stringdata_CLASSAudioInputENDCLASS_t {
     char stringdata4[13];
     char stringdata5[8];
     char stringdata6[13];
+    char stringdata7[12];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(sizeof(qt_meta_stringdata_CLASSAudioInputENDCLASS_t::offsetsAndSizes) + ofs), len 
@@ -67,7 +69,8 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSAudioInputENDCLASS_t qt_meta_st
         QT_MOC_LITERAL(26, 4),  // "data"
         QT_MOC_LITERAL(31, 12),  // "debugMessage"
         QT_MOC_LITERAL(44, 7),  // "message"
-        QT_MOC_LITERAL(52, 12)   // "startCapture"
+        QT_MOC_LITERAL(52, 12),  // "startCapture"
+        QT_MOC_LITERAL(65, 11)   // "stopCapture"
     },
     "AudioInput",
     "audioCaptured",
@@ -75,7 +78,8 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSAudioInputENDCLASS_t qt_meta_st
     "data",
     "debugMessage",
     "message",
-    "startCapture"
+    "startCapture",
+    "stopCapture"
 };
 #undef QT_MOC_LITERAL
 #endif // !QT_MOC_HAS_STRING_DATA
@@ -87,7 +91,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSAudioInputENDCLASS[] = {
       11,       // revision
        0,       // classname
        0,    0, // classinfo
-       3,   14, // methods
+       4,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -95,17 +99,19 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSAudioInputENDCLASS[] = {
        2,       // signalCount
 
  // signals: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    1,   32,    2, 0x06,    1 /* Public */,
-       4,    1,   35,    2, 0x06,    3 /* Public */,
+       1,    1,   38,    2, 0x06,    1 /* Public */,
+       4,    1,   41,    2, 0x06,    3 /* Public */,
 
  // methods: name, argc, parameters, tag, flags, initial metatype offsets
-       6,    0,   38,    2, 0x02,    5 /* Public */,
+       6,    0,   44,    2, 0x02,    5 /* Public */,
+       7,    0,   45,    2, 0x02,    6 /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QByteArray,    3,
     QMetaType::Void, QMetaType::QString,    5,
 
  // methods: parameters
+    QMetaType::Void,
     QMetaType::Void,
 
        0        // eod
@@ -127,6 +133,8 @@ Q_CONSTINIT const QMetaObject AudioInput::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
         // method 'startCapture'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'stopCapture'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -141,6 +149,7 @@ void AudioInput::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 0: _t->audioCaptured((*reinterpret_cast< std::add_pointer_t<QByteArray>>(_a[1]))); break;
         case 1: _t->debugMessage((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
         case 2: _t->startCapture(); break;
+        case 3: _t->stopCapture(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -181,13 +190,13 @@ int AudioInput::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 3)
+        if (_id < 4)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 3;
+        _id -= 4;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 3)
+        if (_id < 4)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 3;
+        _id -= 4;
     }
     return _id;
 }

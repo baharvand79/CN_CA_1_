@@ -13,6 +13,7 @@ public:
     explicit AudioInput(QObject *parent = nullptr);
     ~AudioInput() override;
     Q_INVOKABLE void startCapture();
+    Q_INVOKABLE void stopCapture();
 
 public: Q_SIGNALS:
     void audioCaptured(const QByteArray &data);
