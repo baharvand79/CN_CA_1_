@@ -41,7 +41,7 @@ Advantages of CoTURN:
 
 ## App
 ![image](https://github.com/user-attachments/assets/72a73bce-7787-4277-b5af-4dbd1bd6f660)
-The objective is to make a call between two peers using WebRTC. One is an offerer which is sending audio and one is the sender which plays audio.
+The objective of this application is to establish a voice call between two peers using WebRTC. The setup involves a signaling server that facilitates communication between the peers. One peer acts as the offerer, sending audio, while the other peer, the answerer, receives and plays the audio.
 ### Call Flow Outline
 1. Initialize the Server: Start by running server.js, which acts as the signaling server, facilitating message exchange between peers.
 2. Open Application Instances: Open two instances of the application (the exe file), one for each peer (offerer and answerer).
@@ -56,4 +56,5 @@ The objective is to make a call between two peers using WebRTC. One is an offere
 5. Set Local and Remote SDP:
   - Each peer sets the remote SDP received from the other peer.
   - ICE (Interactive Connectivity Establishment) candidates are exchanged for connectivity.
-6. Establish Connection: Once local and remote SDPs are set and ICE gathering is completed, the peer connection is established.
+6. Establish Connection: Once local and remote SDPs are set and ICE gathering is completed, the peer connection is established and sending tracks starts.
+
