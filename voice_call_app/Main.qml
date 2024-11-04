@@ -9,7 +9,7 @@ Window {
     width: 1010
     height: 520
     visible: true
-    title: qsTr("CA1")
+    title: qsTr("Voice Call App")
 
     WebRTC {
         id: rtc

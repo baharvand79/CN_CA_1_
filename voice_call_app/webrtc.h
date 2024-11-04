@@ -40,7 +40,7 @@ public:
     Q_INVOKABLE void checkWebSocketState();
     Q_INVOKABLE void createAnswer();
     Q_INVOKABLE bool getIsOfferer();
-    Q_INVOKABLE RTPHeader createRTPHeader(uint8_t payloadType, uint16_t sequenceNumber, uint32_t timestamp, uint32_t ssrc);
+    Q_INVOKABLE RTPHeader createRTPHeader(uint16_t sequenceNumber);
 
 
 public:  bool getPeerIsOfferer() const;
@@ -91,16 +91,25 @@ private:
     bool isSettingRemoteDescription = false;
 
 //    const QByteArray &buffer;
-    inline uint32_t getCurrentTimeStamp(){
+//    inline uint32_t getCurrentTimeStamp(){
+//        auto now = std::chrono::steady_clock::now();
+//        auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
+
+//        return static_cast<uint32_t>(ms);
+//    }
+    inline uint32_t getCurrentTimeStamp() {
         auto now = std::chrono::steady_clock::now();
         auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
-        return static_cast<uint32_t>(ms);
+        uint32_t samples = static_cast<uint32_t>(ms * 48); // Adjust for 48kHz sample rate
+        return samples;
     }
+
 //    static inline uint16_t                              m_sequenceNumber = 0;
 
     uint16_t sequenceNumber = 0;
     uint32_t timestamp = 0;
     uint32_t ssrc = 2;
+    uint32_t payloadType = 111;
     Q_PROPERTY(bool peerIsOfferer READ getPeerIsOfferer WRITE setPeerIsOfferer RESET resetPeerIsOfferer NOTIFY peerIsOffererChanged)
 };
 

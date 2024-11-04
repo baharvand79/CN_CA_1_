@@ -76,18 +76,13 @@ static constexpr auto qt_meta_stringdata_CLASSWebRTCENDCLASS = QtMocHelpers::str
     "getIsOfferer",
     "createRTPHeader",
     "RTPHeader",
-    "uint8_t",
-    "payloadType",
     "uint16_t",
     "sequenceNumber",
-    "uint32_t",
-    "timestamp",
-    "ssrc",
     "peerIsOfferer"
 );
 #else  // !QT_MOC_HAS_STRING_DATA
 struct qt_meta_stringdata_CLASSWebRTCENDCLASS_t {
-    uint offsetsAndSizes[92];
+    uint offsetsAndSizes[82];
     char stringdata0[7];
     char stringdata1[26];
     char stringdata2[1];
@@ -126,14 +121,9 @@ struct qt_meta_stringdata_CLASSWebRTCENDCLASS_t {
     char stringdata35[13];
     char stringdata36[16];
     char stringdata37[10];
-    char stringdata38[8];
-    char stringdata39[12];
-    char stringdata40[9];
-    char stringdata41[15];
-    char stringdata42[9];
-    char stringdata43[10];
-    char stringdata44[5];
-    char stringdata45[14];
+    char stringdata38[9];
+    char stringdata39[15];
+    char stringdata40[14];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(sizeof(qt_meta_stringdata_CLASSWebRTCENDCLASS_t::offsetsAndSizes) + ofs), len 
@@ -177,14 +167,9 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSWebRTCENDCLASS_t qt_meta_string
         QT_MOC_LITERAL(500, 12),  // "getIsOfferer"
         QT_MOC_LITERAL(513, 15),  // "createRTPHeader"
         QT_MOC_LITERAL(529, 9),  // "RTPHeader"
-        QT_MOC_LITERAL(539, 7),  // "uint8_t"
-        QT_MOC_LITERAL(547, 11),  // "payloadType"
-        QT_MOC_LITERAL(559, 8),  // "uint16_t"
-        QT_MOC_LITERAL(568, 14),  // "sequenceNumber"
-        QT_MOC_LITERAL(583, 8),  // "uint32_t"
-        QT_MOC_LITERAL(592, 9),  // "timestamp"
-        QT_MOC_LITERAL(602, 4),  // "ssrc"
-        QT_MOC_LITERAL(607, 13)   // "peerIsOfferer"
+        QT_MOC_LITERAL(539, 8),  // "uint16_t"
+        QT_MOC_LITERAL(548, 14),  // "sequenceNumber"
+        QT_MOC_LITERAL(563, 13)   // "peerIsOfferer"
     },
     "WebRTC",
     "localDescriptionGenerated",
@@ -224,13 +209,8 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSWebRTCENDCLASS_t qt_meta_string
     "getIsOfferer",
     "createRTPHeader",
     "RTPHeader",
-    "uint8_t",
-    "payloadType",
     "uint16_t",
     "sequenceNumber",
-    "uint32_t",
-    "timestamp",
-    "ssrc",
     "peerIsOfferer"
 };
 #undef QT_MOC_LITERAL
@@ -244,7 +224,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSWebRTCENDCLASS[] = {
        0,       // classname
        0,    0, // classinfo
       29,   14, // methods
-       1,  247, // properties
+       1,  241, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
@@ -283,7 +263,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSWebRTCENDCLASS[] = {
       33,    0,  235,    2, 0x02,   38 /* Public */,
       34,    0,  236,    2, 0x02,   39 /* Public */,
       35,    0,  237,    2, 0x02,   40 /* Public */,
-      36,    4,  238,    2, 0x02,   41 /* Public */,
+      36,    1,  238,    2, 0x02,   41 /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString,    3,
@@ -318,10 +298,10 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSWebRTCENDCLASS[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Bool,
-    0x80000000 | 37, 0x80000000 | 38, 0x80000000 | 40, 0x80000000 | 42, 0x80000000 | 42,   39,   41,   43,   44,
+    0x80000000 | 37, 0x80000000 | 38,   39,
 
  // properties: name, type, flags
-      45, QMetaType::Bool, 0x00015107, uint(9), 0,
+      40, QMetaType::Bool, 0x00015107, uint(9), 0,
 
        0        // eod
 };
@@ -406,10 +386,7 @@ Q_CONSTINIT const QMetaObject WebRTC::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<bool, std::false_type>,
         // method 'createRTPHeader'
         QtPrivate::TypeAndForceComplete<RTPHeader, std::false_type>,
-        QtPrivate::TypeAndForceComplete<uint8_t, std::false_type>,
-        QtPrivate::TypeAndForceComplete<uint16_t, std::false_type>,
-        QtPrivate::TypeAndForceComplete<uint32_t, std::false_type>,
-        QtPrivate::TypeAndForceComplete<uint32_t, std::false_type>
+        QtPrivate::TypeAndForceComplete<uint16_t, std::false_type>
     >,
     nullptr
 } };
@@ -449,7 +426,7 @@ void WebRTC::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         case 26: _t->createAnswer(); break;
         case 27: { bool _r = _t->getIsOfferer();
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
-        case 28: { RTPHeader _r = _t->createRTPHeader((*reinterpret_cast< std::add_pointer_t<uint8_t>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<uint16_t>>(_a[2])),(*reinterpret_cast< std::add_pointer_t<uint32_t>>(_a[3])),(*reinterpret_cast< std::add_pointer_t<uint32_t>>(_a[4])));
+        case 28: { RTPHeader _r = _t->createRTPHeader((*reinterpret_cast< std::add_pointer_t<uint16_t>>(_a[1])));
             if (_a[0]) *reinterpret_cast< RTPHeader*>(_a[0]) = std::move(_r); }  break;
         default: ;
         }

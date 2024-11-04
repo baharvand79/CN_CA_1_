@@ -4,7 +4,7 @@
 #include <QtEndian>
 #include <QJsonDocument>
 
-RTPHeader WebRTC::createRTPHeader(uint8_t payloadType, uint16_t sequenceNumber, uint32_t timestamp, uint32_t ssrc) {
+RTPHeader WebRTC::createRTPHeader(uint16_t sequenceNumber) {
     RTPHeader header;
     header.marker = 0;
     header.payloadType = payloadType;
@@ -69,22 +69,24 @@ void WebRTC::init() {
                                              rtc::Description::Direction::SendOnly : rtc::Description::Direction::RecvOnly);
 
     audio.setBitrate(48000);
-    audio.addOpusCodec(111);
-    audio.addSSRC(2, "shakiba");
+    audio.addOpusCodec(payloadType);
+    audio.addSSRC(ssrc, "shakiba");
 
     audioTrack = peerConnection->addTrack(audio);
 
-    audioTrack->onMessage([this](rtc::message_variant data){
-        Q_EMIT debugMessage("[WebRTC] Data is received in the onMessage.");
-
-        QByteArray audioData;
+    audioTrack->onMessage([this](rtc::message_variant data) {
+        Q_EMIT debugMessage("[WebRTC] Data received in onMessage.");
 
         if (std::holds_alternative<std::vector<std::byte>>(data)) {
             const auto& rawData = std::get<std::vector<std::byte>>(data);
 
-            if (rawData.size() > sizeof(RTPHeader)) {
-                audioData = QByteArray(reinterpret_cast<const char*>(rawData.data() + sizeof(RTPHeader)),
-                                       rawData.size() - sizeof(RTPHeader));
+            // Ensure rawData has enough size to strip the RTP header
+            constexpr size_t rtpHeaderSize = sizeof(RTPHeader); // Adjust this to your RTP header size
+            if (rawData.size() > rtpHeaderSize) {
+                // Create a QByteArray starting from the position after the RTP header
+                QByteArray audioData(reinterpret_cast<const char*>(rawData.data()) + rtpHeaderSize,
+                                     static_cast<int>(rawData.size() - rtpHeaderSize));
+
                 Q_EMIT audioDataReceived(audioData);
                 Q_EMIT debugMessage("[WebRTC] Received audio packet and stripped RTP header. Data size: "
                                     + QString::number(audioData.size()) + " bytes.");
@@ -354,7 +356,7 @@ void WebRTC::sendTrack(const QByteArray &audioData) {
 
     if (audioTrack) {
         // Create the RTP header
-        RTPHeader rtpHeader = createRTPHeader(111, sequenceNumber++, timestamp, ssrc);
+        RTPHeader rtpHeader = createRTPHeader(sequenceNumber++);
 
         // Prepare the RTP packet
         size_t rtpPacketSize = sizeof(RTPHeader) + audioData.size();
@@ -370,7 +372,6 @@ void WebRTC::sendTrack(const QByteArray &audioData) {
             Q_EMIT debugMessage("[WebRTC] Error: Failed to send RTP packet.");
         }
 
-        timestamp += 160; // Assuming 8000 Hz audio, 20 ms per packet = 160 samples
         Q_EMIT debugMessage("[WebRTC] Updated timestamp for next packet: " + QString::number(timestamp));
     } else {
         Q_EMIT debugMessage("[WebRTC] Error: Audio track is not initialized; cannot send audio data.");
