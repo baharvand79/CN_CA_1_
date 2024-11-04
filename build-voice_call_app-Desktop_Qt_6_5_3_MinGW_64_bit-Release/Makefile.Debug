@@ -717,7 +717,6 @@ debug/audioinput.o: ../voice_call_app/audioinput.cpp ../voice_call_app/opus/incl
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiosource.h \
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudio.h \
 		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiodevice.h \
-		../voice_call_app/audioinput.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/QDebug \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qdebug.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qtextstream.h \
@@ -845,6 +844,7 @@ debug/audiooutput.o: ../voice_call_app/audiooutput.cpp ../voice_call_app/opus/in
 		C:/Qt/6.5.3/mingw_64/include/QtCore/QMutex \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qmutex.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qtsan_impl.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/QDebug \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qdebug.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qtextstream.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qstringconverter_base.h \

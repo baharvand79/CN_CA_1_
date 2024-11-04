@@ -16,7 +16,6 @@ public:
 
     Q_INVOKABLE void playAudio(const QByteArray &data);
 
-
 public: Q_SIGNALS:
     void debugMessage(const QString &message);
 

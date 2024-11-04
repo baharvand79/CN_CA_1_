@@ -201,13 +201,7 @@ ApplicationWindow {
 
     AudioInput {
         id: audioInput
-//        function handleCapturedAudio(data) {
-//            console.log("[QML] data is captured.");
-////            console.log("Audio captured data size:", data.length);
-////            audioOutput.playAudio(data);
-//        }
 
-//        onAudioCaptured: handleCapturedAudio
         onAudioCaptured: {
                 console.log("[QML] Audio data captured:", data.length);  // Directly log here
                 audioOutput.playAudio(data);  // Then pass to audioOutput if working
