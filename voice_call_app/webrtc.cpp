@@ -69,6 +69,10 @@ void WebRTC::init() {
     Q_EMIT debugMessage("[WebRTC] ICE servers configured and peer connection created.");
 
     audioTrack = peerConnection->addTrack(rtc::Description::Audio("Audio", rtc::Description::Direction::SendRecv));
+//    if (audioTrack->isOpen()){
+//       Q_EMIT debugMessage("[WebRTC] Is track open.");
+//    }
+
     Q_EMIT debugMessage("[WebRTC] Audio track added to peer connection.");
 
 }
@@ -110,7 +114,7 @@ void WebRTC::callOnRun() {
             Q_EMIT localDescriptionGenerated(QString::fromStdString(description));
             isLocalDescriptionGenerated = true;
             localSDP = QString::fromStdString(description);
-            // Change the version line (v=0 to v=1)
+
                     QStringList sdpLines = localSDP.split('\n');
                     for (int i = 0; i < sdpLines.size(); ++i) {
                         if (sdpLines[i].startsWith("v=")) {
