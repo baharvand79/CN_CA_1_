@@ -61,8 +61,8 @@ The objective of this application is to establish a voice call between two peers
 6. Establish Connection: Once local and remote SDPs are set and ICE gathering is completed, the peer connection is established and sending tracks starts.
 7. Audio Capture and Transmission: The application captures audio from the microphone and sends it as RTP packets to the connected peer. Incoming audio packets from the peer are processed and emitted as signals for playback or further handling.
 8. State Monitoring: The application monitors the state of the peer connection, handling changes and potential errors.
-### Code Overview
-
+## Code Overview
+### WebRTC
 #### 1. Helper Function: `peerConnectionStateToString`
 
 ```cpp
@@ -380,7 +380,7 @@ void WebRTC::createOffer() {
 
 - **`createOffer`**: Initiates the process of creating an SDP offer. When the offer is successfully created, it is converted to a string and sent using the `sendOffer` method. If an error occurs, it emits a debug message with the error details.
 
-#### 14. Adding Remote Candidates
+14. **Adding Remote Candidates**:
 
 ```cpp
 void WebRTC::addRemoteCandidate(const QString& candidate) {
@@ -393,7 +393,7 @@ void WebRTC::addRemoteCandidate(const QString& candidate) {
 
 - **`addRemoteCandidate`**: Converts the received candidate string into an `rtc::Candidate` object and adds it to the peer connection. It emits a debug message confirming the addition.
 
-#### 15. Track Sending
+15. **Track Sending**:
 
 ```cpp
 void WebRTC::sendTrack(const QByteArray &audioData) {
@@ -412,7 +412,7 @@ void WebRTC::sendTrack(const QByteArray &audioData) {
 
 - **`sendTrack`**: This function constructs an RTP packet by creating a header and appending the audio data. It sends the complete packet over the audio track and logs the action with the current sequence number.
 
-#### 16. Timestamp Calculation
+16. **Timestamp Calculation**:
 
 ```cpp
 uint32_t WebRTC::getCurrentTimeStamp() {
@@ -426,7 +426,7 @@ uint32_t WebRTC::getCurrentTimeStamp() {
 
 This code establishes a WebRTC-based audio communication application capable of real-time peer-to-peer audio streaming. It includes mechanisms for signaling, connection management, audio capture, and transmission, making it a robust
 
-#### The WebRTC class implementation:
+**WebRTC class**
 ```
 #ifndef WEBRTC_H
 #define WEBRTC_H
@@ -520,3 +520,347 @@ private:
 #endif // WEBRTC_H
 
 ```
+### QML
+
+It integrates WebRTC for real-time audio communication along with `AudioInput` and `AudioOutput` for capturing and playing audio. 
+```
+import QtQuick
+import QtQuick.Controls.Material
+import QtQuick.Layouts
+import WebRTC
+import AudioInput
+import AudioOutput
+
+Window {
+    width: 1010
+    height: 520
+    visible: true
+    title: qsTr("Voice Call App")
+
+    WebRTC {
+        id: rtc
+        onPeerIsConnected: {
+                if(rtc.peerIsOfferer){
+                    audioInput.startCapture()
+                }
+            }
+        onAudioDataReceived: {
+            if(!rtc.peerIsOfferer){
+                audioOutput.playAudio(data)
+            }
+        }
+    }
+
+    AudioInput {
+        id: audioInput
+
+        onAudioCaptured: {
+                console.log("[QML] Audio data captured:", data.length);
+                rtc.sendTrack(data)
+            }
+
+        Component.onCompleted: {
+            console.log("AudioInput initialized.")
+        }
+
+    }
+
+    AudioOutput {
+        id: audioOutput
+        Component.onCompleted: {
+            console.log("AudioOutput Ready to play audio.")
+        }
+    }
+
+
+    Item {
+        anchors.fill: parent
+
+        ScrollView {
+            id: scrollView
+            width: parent.width * 0.5
+            height: parent.height
+            anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            clip: true
+
+            TextArea {
+                id: logOutput
+                width: parent.width
+                height: parent.height
+                readOnly: true
+                text: ""
+            }
+        }
+
+        ColumnLayout {
+            anchors {
+                top: parent.top
+                left: scrollView.right
+                right: parent.right
+                bottom: callbtn.top
+                margins: 20
+            }
+
+            RowLayout {
+                spacing: 10
+
+                TextField {
+                    id: textfield_callerID
+                    placeholderText: "Caller ID"
+                    Layout.fillWidth: true
+                    enabled: !button_callerID.pushed
+                }
+
+                Button {
+                    id: button_callerID
+                    property bool pushed: false
+                    height: 47
+                    text: "Set IDs"
+                    Material.background: "green"
+                    Material.foreground: "white"
+                    onClicked: {
+                        pushed = !pushed
+                        if (pushed) {
+                            Material.background = "red"
+                            text = "IDs are set"
+                            rtc.setId(textfield_callerID.text)
+                            rtc.setTargetId(textfield_callingID.text)
+
+                            // audioInput.startCapture()
+                            rtc.connectToSignalingServer()
+                            rtc.init()
+                            rtc.callOnRun()
+                            rtc.createOffer()
+                        } else {
+                            Material.background = "green"
+                            text = "Set Caller ID"
+                            textfield_callerID.clear()
+                            // Add disconnection logic here later
+                        }
+                    }
+                }
+            }
+
+            RowLayout {
+                spacing: 10
+
+                TextField {
+                    id: textfield_callingID
+                    placeholderText: "Calling ID"
+                    Layout.fillWidth: true
+                    enabled: !callbtn.pushed
+                }
+
+                Button {
+                    id: callbtn
+                    property bool pushed: false
+                    height: 47
+                    text: "Call"
+                    Material.background: "green"
+                    Material.foreground: "white"
+                    onClicked: {
+                        pushed = !pushed
+                        if (pushed) {
+                            Material.background = "red"
+                            text = "End Call"
+                            rtc.sendOffer()
+                        } else {
+                            Material.background = "green"
+                            text = "Call"
+                            textfield_callingID.clear()
+                            audioInput.stopCapture()
+                        }
+                    }
+                }
+            }
+        }
+
+        Connections {
+            target: rtc
+            onDebugMessage: logOutput.text += message + "\n"
+        }
+
+    }
+}
+```
+1. **Window Setup**:
+   - The main window is set with a title and dimensions. 
+
+2. **WebRTC Component**:
+   - Manages the connection and audio data handling.
+   - Starts audio capture when the peer is connected and is the offerer.
+   - Plays audio data when received, if not the offerer.
+
+3. **AudioInput Component**:
+   - Captures audio and emits signals when audio is captured.
+   - Logs the length of the captured audio data.
+
+4. **AudioOutput Component**:
+   - Prepares to play audio when ready.
+
+5. **Logging Area**:
+   - A `ScrollView` with a `TextArea` is used to log debug messages.
+
+6. **UI Controls**:
+   - Two `RowLayout`s contain text fields for Caller ID and Calling ID, and buttons for setting IDs and making calls.
+   - The button toggles states for setting IDs and making calls.
+
+7. **Connections**:
+   - A `Connections` element listens to signals from the WebRTC object to log debug messages.
+
+### AudioInput
+AudioInput implementation is for handling audio capture and encoding with Opus.
+```
+#include <opus.h>
+#include "AudioInput.h"
+#include <QDebug>
+
+const int OPUS_SAMPLE_RATE = 48000;
+const int OPUS_CHANNELS = 1;
+
+AudioInput::AudioInput(QObject *parent) : QIODevice(parent) {
+    Q_EMIT debugMessage("[AudioInput] Initializing...");
+    qDebug() << "[AudioInput] Initializing...";
+
+    QAudioFormat format;
+    format.setSampleRate(OPUS_SAMPLE_RATE);
+    format.setChannelCount(OPUS_CHANNELS);
+    format.setSampleFormat(QAudioFormat::Int16);
+
+    audioSource = new QAudioSource(format, this);
+
+    int error;
+    opusEncoder = opus_encoder_create(OPUS_SAMPLE_RATE, OPUS_CHANNELS, OPUS_APPLICATION_AUDIO, &error);
+    if (error != OPUS_OK) {
+        Q_EMIT debugMessage("[AudioInput] Failed to initialize Opus encoder");
+        qDebug() << "[AudioInput] Failed to initialize Opus encoder";
+    } else {
+        opus_encoder_ctl(opusEncoder, OPUS_SET_BITRATE(128000));
+        opus_encoder_ctl(opusEncoder, OPUS_SET_COMPLEXITY(10));
+        opus_encoder_ctl(opusEncoder, OPUS_SET_SIGNAL(OPUS_SIGNAL_VOICE));
+        Q_EMIT debugMessage("[AudioInput] Opus encoder initialized successfully");
+        qDebug() << "[AudioInput] Opus encoder initialized successfully";
+    }
+}
+
+AudioInput::~AudioInput() {
+    opus_encoder_destroy(opusEncoder);
+    audioSource->stop();
+}
+
+void AudioInput::stopCapture(){
+    audioSource->stop();
+}
+void AudioInput::startCapture() {
+    Q_EMIT debugMessage("[AudioInput] Starting capture...");
+    qDebug() << "[AudioInput] Starting capture...";
+
+    audioDevice = audioSource->start(); // Start capturing audio
+    if (!audioDevice) {
+        Q_EMIT debugMessage("[AudioInput] Failed to start audio source.");
+        qDebug() << "[AudioInput] Failed to start audio source.";
+        return;
+    }
+
+    // Connect readyRead to the slot or lambda function to handle incoming audio data
+    connect(audioDevice, &QIODevice::readyRead, this, [this]() {
+        QByteArray audioData = audioDevice->readAll();
+        Q_EMIT debugMessage("[AudioInput] Captured raw audio data size: " + QString::number(audioData.size()));
+        qDebug() << "[AudioInput] Captured raw audio data size:" << audioData.size();
+
+        QByteArray encodedData = encodeAudio(audioData);
+        Q_EMIT debugMessage("[AudioInput] Captured processed audio data size: " + QString::number(encodedData.size()));
+        qDebug() << "[AudioInput] Captured processed audio data size:" << encodedData.size();
+
+        if (encodedData.size() > 0) {
+            Q_EMIT audioCaptured(encodedData);
+        }
+    });
+}
+
+qint64 AudioInput::readData(char *data, qint64 maxlen) {
+    Q_UNUSED(data);
+    Q_UNUSED(maxlen);
+    return 0;
+}
+
+qint64 AudioInput::writeData(const char *data, qint64 len) {
+    Q_EMIT audioCaptured(QByteArray(data, len));
+    return len;
+}
+
+QByteArray AudioInput::encodeAudio(const QByteArray &input) {
+    QByteArray output;
+//    int maxEncodedBytes = 4000;
+    //    unsigned char encodedData[maxEncodedBytes];
+    std::vector<unsigned char> encodedData(input.size());    // Frame size calculation based on input data size
+    //    int frameSize = input.size() / (OPUS_CHANNELS * sizeof(int16_t));
+    int frameSize = input.size() / 2;
+    int encodedBytes = opus_encode(opusEncoder, reinterpret_cast<const opus_int16*>(input.constData()), frameSize, encodedData.data(), encodedData.size());
+    if (encodedBytes > 0) {
+        output.append(reinterpret_cast<const char*>(encodedData.data()), encodedBytes);
+    }
+    return output;
+}
+
+```
+1. **Initialization**:
+The constructor initializes the audio format for the Opus encoder.
+A QAudioSource is created with the specified format, and an Opus encoder is instantiated.
+Various Opus encoder controls are set (bitrate, complexity, signal type).
+
+3. **Destructor**:
+The destructor cleans up the Opus encoder and stops the audio source.
+
+5. **Starting and Stopping Capture**:
+startCapture() method begins capturing audio from the source and connects the readyRead signal of the audio device to a lambda function that processes the audio data.
+stopCapture() stops the audio source.
+
+7. **Data Handling**:
+The readData() and writeData() methods are overridden but only writeData() emits the captured audio data.
+encodeAudio() handles the encoding of raw audio data into Opus format.
+
+9. **Encoding Logic**:
+It uses the opus_encode function to encode the captured raw audio data. The function returns the size of the encoded data, which is then emitted if it's greater than zero.
+
+**AudioInput Class**
+```
+#ifndef AUDIOINPUT_H
+#define AUDIOINPUT_H
+
+#include <QIODevice>
+#include <QAudioFormat>
+#include <QAudioSource>
+#include <opus.h>
+
+class AudioInput : public QIODevice {
+    Q_OBJECT
+
+public:
+    explicit AudioInput(QObject *parent = nullptr);
+    ~AudioInput() override;
+    Q_INVOKABLE void startCapture();
+    Q_INVOKABLE void stopCapture();
+
+public: Q_SIGNALS:
+    void audioCaptured(const QByteArray &data);
+    void debugMessage(const QString &message);
+
+protected:
+    qint64 readData(char *data, qint64 maxlen) override;
+    qint64 writeData(const char *data, qint64 len) override;
+
+private:
+    QByteArray encodeAudio(const QByteArray &input);
+
+    QAudioSource *audioSource;
+    QIODevice *audioDevice;
+    OpusEncoder *opusEncoder;
+};
+
+#endif // AUDIOINPUT_H
+```
+### AudioOutput
+
