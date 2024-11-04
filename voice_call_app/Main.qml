@@ -1,140 +1,229 @@
-import QtQuick
-import QtQuick.Controls.Material
-import QtQuick.Layouts
-import WebRTC
+//import QtQuick
+//import QtQuick.Controls.Material
+//import QtQuick.Layouts
+//import WebRTC
+//import AudioInput
+//import AudioOutput
 
-Window {
-    width: 1010
-    height: 520
-    visible: true
-    title: qsTr("CA1")
+//Window {
+//    width: 1010
+//    height: 520
+//    visible: true
+//    title: qsTr("CA1")
 
-    WebRTC {
-        id: rtc
-    }
+//    WebRTC {
+//        id: rtc
+////        onPeerIsConnected: {
+//////            if (rtc.peerIsOfferer){
+////                audioInput.startCapture()
+//////            }
+////        }
+//    }
 
-    Item {
-        anchors.fill: parent
+////    AudioInput {
+////        id: audioInput
+////        onAudioCaptured: (data) => {
+////            rtc.sendTrack(data)
+////        }
+////    }
 
-        ScrollView {
-            id: scrollView
-            width: parent.width * 0.5
-            height: parent.height
-            anchors.left: parent.left
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            clip: true
+////    AudioOutput {
+////        id: audioOutput
 
-            TextArea {
-                id: logOutput
-                width: parent.width
-                height: parent.height
-                readOnly: true
-                text: ""
-            }
-        }
+////    }
+//    AudioInput {
+//            id: audioInput
+//            onAudioCaptured: (data) => {
+//                audioOutput.playAudio(data)  // Send captured audio directly to AudioOutput
+//            }
+////            Component.onCompleted: {
+////                startCapture()  // Start capturing as soon as the application loads
+////            }
+//        }
 
-        ColumnLayout {
-            anchors {
-                top: parent.top
-                left: scrollView.right
-                right: parent.right
-                bottom: callbtn.top
-                margins: 20
-            }
+//        AudioOutput {
+//            id: audioOutput
+//            Component.onCompleted: {
+//                console.log("[AudioOutput] Ready to play audio.")
+//            }
+//        }
 
-            Label {
-                text: "Ip: " + "172.16.142.176"
-                Layout.fillWidth: true
-                Layout.preferredHeight: 40
-            }
-            Label {
-                text: "IceCandidate: " + "172.16.142.176"
-                Layout.fillWidth: true
-                Layout.preferredHeight: 40
-            }
+//    Item {
+//        anchors.fill: parent
 
-            // Row for Caller ID
-            RowLayout {
-                spacing: 10
+//        ScrollView {
+//            id: scrollView
+//            width: parent.width * 0.5
+//            height: parent.height
+//            anchors.left: parent.left
+//            anchors.top: parent.top
+//            anchors.bottom: parent.bottom
+//            clip: true
 
-                TextField {
-                    id: textfield_callerID
-                    placeholderText: "Caller ID"
-                    Layout.fillWidth: true
-                    enabled: !button_callerID.pushed
-                }
+//            TextArea {
+//                id: logOutput
+//                width: parent.width
+//                height: parent.height
+//                readOnly: true
+//                text: ""
+//            }
+//        }
 
-                Button {
-                    id: button_callerID
-                    property bool pushed: false
-                    height: 47
-                    text: "Set IDs"
-                    Material.background: "green"
-                    Material.foreground: "white"
-                    onClicked: {
-                        pushed = !pushed
-                        if (pushed) {
-                            Material.background = "red"
-                            text = "IDs are set"
-                            rtc.setId(textfield_callerID.text)
-                            rtc.setTargetId(textfield_callingID.text)
-                            rtc.connectToSignalingServer()
-                            rtc.init()
-                            rtc.callOnRun()
-                            rtc.createOffer()
-                        } else {
-                            Material.background = "green"
-                            text = "Set Caller ID"
-                            textfield_callerID.clear()
-                            // Add disconnection logic here later
-                        }
-                    }
-                }
-            }
+//        ColumnLayout {
+//            anchors {
+//                top: parent.top
+//                left: scrollView.right
+//                right: parent.right
+//                bottom: callbtn.top
+//                margins: 20
+//            }
 
-            // Row for Calling ID
-            RowLayout {
-                spacing: 10
+//            Label {
+//                text: "Ip: " + "172.16.142.176"
+//                Layout.fillWidth: true
+//                Layout.preferredHeight: 40
+//            }
+//            Label {
+//                text: "IceCandidate: " + "172.16.142.176"
+//                Layout.fillWidth: true
+//                Layout.preferredHeight: 40
+//            }
 
-                TextField {
-                    id: textfield_callingID
-                    placeholderText: "Calling ID"
-                    Layout.fillWidth: true
-                    enabled: !callbtn.pushed
-                }
+//            // Row for Caller ID
+//            RowLayout {
+//                spacing: 10
 
-                Button {
-                    id: callbtn
-                    property bool pushed: false
-                    height: 47
-                    text: "Call"
-                    Material.background: "green"
-                    Material.foreground: "white"
-                    onClicked: {
-                        pushed = !pushed
-                        if (pushed) {
-                            Material.background = "red"
-                            text = "End Call"
-                            rtc.sendOffer()
-                        } else {
-                            Material.background = "green"
-                            text = "Call"
-                            textfield_callingID.clear()
-                        }
-                    }
-                }
-            }
-        }
+//                TextField {
+//                    id: textfield_callerID
+//                    placeholderText: "Caller ID"
+//                    Layout.fillWidth: true
+//                    enabled: !button_callerID.pushed
+//                }
 
-        Connections {
-            target: rtc
-            onDebugMessage: logOutput.text += message + "\n"
-        }
+//                Button {
+//                    id: button_callerID
+//                    property bool pushed: false
+//                    height: 47
+//                    text: "Set IDs"
+//                    Material.background: "green"
+//                    Material.foreground: "white"
+//                    onClicked: {
+//                        pushed = !pushed
+//                        if (pushed) {
+//                            Material.background = "red"
+//                            text = "IDs are set"
+//                            rtc.setId(textfield_callerID.text)
+//                            rtc.setTargetId(textfield_callingID.text)
+//                            audioInput.startCapture()
+//                            rtc.connectToSignalingServer()
+//                            rtc.init()
+//                            rtc.callOnRun()
+//                            rtc.createOffer()
+//                        } else {
+//                            Material.background = "green"
+//                            text = "Set Caller ID"
+//                            textfield_callerID.clear()
+//                            // Add disconnection logic here later
+//                        }
+//                    }
+//                }
+//            }
+
+//            // Row for Calling ID
+//            RowLayout {
+//                spacing: 10
+
+//                TextField {
+//                    id: textfield_callingID
+//                    placeholderText: "Calling ID"
+//                    Layout.fillWidth: true
+//                    enabled: !callbtn.pushed
+//                }
+
+//                Button {
+//                    id: callbtn
+//                    property bool pushed: false
+//                    height: 47
+//                    text: "Call"
+//                    Material.background: "green"
+//                    Material.foreground: "white"
+//                    onClicked: {
+//                        pushed = !pushed
+//                        if (pushed) {
+//                            Material.background = "red"
+//                            text = "End Call"
+//                            rtc.sendOffer()
+//                        } else {
+//                            Material.background = "green"
+//                            text = "Call"
+//                            textfield_callingID.clear()
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
 //        Connections {
 //            target: rtc
-//            onAnswerIsReady: rtc.sendAnswer()
+//            onDebugMessage: logOutput.text += message + "\n"
 //        }
+
+//        Connections {
+
+//        }
+
+////        Connections {
+////            target: audioInput
+////            onDebugMessage: logOutput.text += message + "\n"
+////        }
+
+////        Connections {
+////            target: audioOutput
+////            onDebugMessage: logOutput.text += message + "\n"
+////        }
+//    }
+//}
+
+
+import QtQuick
+import QtQuick.Controls
+import AudioInput
+import AudioOutput
+ApplicationWindow {
+    width: 800
+    height: 600
+    visible: true
+
+    Text {
+        anchors.centerIn: parent
+        text: "Testing Audio Input"
+    }
+
+    AudioInput {
+        id: audioInput
+//        function handleCapturedAudio(data) {
+//            console.log("[QML] data is captured.");
+////            console.log("Audio captured data size:", data.length);
+////            audioOutput.playAudio(data);
+//        }
+
+//        onAudioCaptured: handleCapturedAudio
+        onAudioCaptured: {
+                console.log("[QML] Audio data captured:", data.length);  // Directly log here
+                audioOutput.playAudio(data);  // Then pass to audioOutput if working
+            }
+
+        Component.onCompleted: {
+            console.log("AudioInput initialized.")
+            audioInput.startCapture()
+        }
+    }
+
+    AudioOutput {
+        id: audioOutput
+        Component.onCompleted: {
+            console.log("AudioOutput Ready to play audio.")
+        }
     }
 }
+

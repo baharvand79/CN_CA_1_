@@ -5,8 +5,13 @@
 #include <QWebSocket>
 #include <memory>
 #include <string>
+#include "audioinput.h"
+#include "audiooutput.h"
 #include "rtc/rtc.hpp"
-
+#include <QtEndian>
+#include <QJsonDocument>
+#include <cstdint>
+#include <stdint.h>
 class WebRTC : public QObject {
     Q_OBJECT
 
@@ -24,10 +29,16 @@ public:
     Q_INVOKABLE void setTargetId(QString id);
     Q_INVOKABLE void checkWebSocketState();
     Q_INVOKABLE void createAnswer();
+    AudioInput *audioInput;
+    AudioOutput *audioOutput;
 
 
 
-public: Q_SIGNALS:
+public:  bool getPeerIsOfferer() const;
+    void setPeerIsOfferer(bool newPeerIsOfferer);
+    void resetPeerIsOfferer();
+
+Q_SIGNALS:
     void localDescriptionGenerated(const QString &sdp);
     void localCandidateGenerated(const QString &candidate);
     void audioReceived(const QByteArray &data);
@@ -35,8 +46,12 @@ public: Q_SIGNALS:
     void debugMessage(QString message);
     void clientIsRegistered();
     void answerIsReady();
+    void peerIsConnected();
+//    void incommingPacket(peerId, packet, packet.size());
 
 
+
+    void peerIsOffererChanged();
 
 public Q_SLOTS:
     void onSignalingServerConnected();
@@ -45,6 +60,9 @@ public Q_SLOTS:
 //    void sendOfferHelper();
     void sendOffer();
     void sendAnswer();
+    void onAudioCaptured(const QByteArray &audioData);
+//    void onPeerIsConnected();
+    void sendTrack(const QString &peerId, const QByteArray &buffer);
 
 private:
     std::shared_ptr<rtc::PeerConnection> peerConnection;
@@ -63,6 +81,15 @@ private:
     QStringList remoteIceCandidates; // Store remote ICE candidates
     bool isSettingRemoteDescription = false;
 
+//    const QByteArray &buffer;
+    inline uint32_t getCurrentTimeStamp(){
+        auto now = std::chrono::steady_clock::now();
+        auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
+        return static_cast<uint32_t>(ms);
+    }
+    static inline uint16_t                              m_sequenceNumber = 0;
+    QMap<QString, std::shared_ptr<rtc::DataChannel>> datachannels;
+    Q_PROPERTY(bool peerIsOfferer READ getPeerIsOfferer WRITE setPeerIsOfferer RESET resetPeerIsOfferer NOTIFY peerIsOffererChanged)
 };
 
 #endif // WEBRTC_H

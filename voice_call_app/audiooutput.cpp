@@ -45,17 +45,30 @@ void AudioOutput::playAudio(const QByteArray &data) {
 //    Q_EMIT debugMessage("[AudioOutput] Play audio.");
 }
 
+//QByteArray AudioOutput::decodeAudio(const QByteArray &input) {
+//    QByteArray output;
+//    int maxDecodedSamples = OPUS_FRAME_SIZE * OPUS_CHANNELS;
+//    opus_int16 decodedData[maxDecodedSamples];
+
+//    int decodedSamples = opus_decode(opusDecoder, reinterpret_cast<const unsigned char*>(input.constData()), input.size(), decodedData, maxDecodedSamples, 0);
+////    Q_EMIT debugMessage("[AudioOutput] Decode audio.");
+
+//    if (decodedSamples > 0) {
+//        output.append(reinterpret_cast<const char*>(decodedData), decodedSamples * sizeof(int16_t));
+//    }
+
+//    return output;
+//}
+
+// Decoding in AudioOutput
 QByteArray AudioOutput::decodeAudio(const QByteArray &input) {
     QByteArray output;
     int maxDecodedSamples = OPUS_FRAME_SIZE * OPUS_CHANNELS;
     opus_int16 decodedData[maxDecodedSamples];
 
     int decodedSamples = opus_decode(opusDecoder, reinterpret_cast<const unsigned char*>(input.constData()), input.size(), decodedData, maxDecodedSamples, 0);
-//    Q_EMIT debugMessage("[AudioOutput] Decode audio.");
-
     if (decodedSamples > 0) {
         output.append(reinterpret_cast<const char*>(decodedData), decodedSamples * sizeof(int16_t));
     }
-
     return output;
 }
