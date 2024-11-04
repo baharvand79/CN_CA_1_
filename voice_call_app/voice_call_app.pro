@@ -10,30 +10,31 @@ CXXFLAGS += -fstack-protector
 
 #CONFIG += moc_depends
 
+# Sources
 SOURCES += \
-        audioinput.cpp \
-        audiooutput.cpp \
-        main.cpp \
-        webrtc.cpp
+    Audio/audioinput.cpp \
+    Audio/audiooutput.cpp \
+    WebRTC/webrtc.cpp \
+    main.cpp
 
 #RESOURCES += qml.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
+QML_IMPORT_PATH = $$PWD/UI
 
 # Additional import path used to resolve QML modules just for Qt Quick Designer
-QML_DESIGNER_IMPORT_PATH =
+QML_DESIGNER_IMPORT_PATH = $$PWD/UI
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
+# Headers
 HEADERS += \
-    audioinput.h \
-    audiooutput.h \
-    webrtc.h
-
+    Audio/audioinput.h \
+    Audio/audiooutput.h \
+    WebRTC/webrtc.h
 
 DISTFILES +=
 # Additional libraries

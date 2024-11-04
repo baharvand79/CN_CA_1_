@@ -1,0 +1,11 @@
+release/audioinput.o
+release/audiooutput.o
+release/main.o
+release/webrtc.o
+release/Main_qml.o
+release/server_js.o
+release/qmlcache_loader.o
+release/qrc_qml_qmlcache.o
+release/moc_audioinput.o
+release/moc_audiooutput.o
+release/moc_webrtc.o

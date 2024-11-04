@@ -571,8 +571,6 @@ debug/moc_webrtc.cpp: ../voice_call_app/webrtc.h \
 		../voice_call_app/libdatachannel/include/rtc/rtcpreceivingsession.hpp \
 		../voice_call_app/libdatachannel/include/rtc/rtcpsrreporter.hpp \
 		../voice_call_app/libdatachannel/include/rtc/rtpdepacketizer.hpp \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/QtEndian \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/qendian.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/QJsonDocument \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qjsondocument.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qjsonvalue.h \
@@ -1099,8 +1097,6 @@ debug/main.o: ../voice_call_app/main.cpp C:/Qt/6.5.3/mingw_64/include/QtGui/QGui
 		../voice_call_app/libdatachannel/include/rtc/rtcpreceivingsession.hpp \
 		../voice_call_app/libdatachannel/include/rtc/rtcpsrreporter.hpp \
 		../voice_call_app/libdatachannel/include/rtc/rtpdepacketizer.hpp \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/QtEndian \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/qendian.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/QJsonDocument \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qjsondocument.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qjsonvalue.h \
@@ -1306,8 +1302,6 @@ debug/webrtc.o: ../voice_call_app/webrtc.cpp ../voice_call_app/webrtc.h \
 		../voice_call_app/libdatachannel/include/rtc/rtcpreceivingsession.hpp \
 		../voice_call_app/libdatachannel/include/rtc/rtcpsrreporter.hpp \
 		../voice_call_app/libdatachannel/include/rtc/rtpdepacketizer.hpp \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/QtEndian \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/qendian.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/QJsonDocument \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qjsondocument.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qjsonvalue.h \
@@ -1315,7 +1309,9 @@ debug/webrtc.o: ../voice_call_app/webrtc.cpp ../voice_call_app/webrtc.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qcborcommon.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qregularexpression.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/quuid.h \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/qjsonobject.h
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qjsonobject.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/QtEndian \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/qendian.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/webrtc.o ../voice_call_app/webrtc.cpp
 
 debug/Main_qml.o: debug/Main_qml.cpp 

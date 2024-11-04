@@ -18,16 +18,6 @@ int main(int argc, char *argv[]) {
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed, &app, []() {QCoreApplication::exit(-1);}, Qt::QueuedConnection);
     engine.load(url);
 
-//    QCoreApplication app(argc, argv);
-
-//    AudioInput audioInput;
-//    AudioOutput audioOutput;
-
-//    QObject::connect(&audioInput, &AudioInput::audioCaptured, &audioOutput, &AudioOutput::playAudio);
-
-//    audioInput.startCapture();
-
-
     return app.exec();
 }
 
