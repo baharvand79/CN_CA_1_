@@ -18,6 +18,11 @@ Window {
                     audioInput.startCapture()
                 }
             }
+        onAudioDataReceived: {
+            if(!rtc.peerIsOfferer){
+                audioOutput.playAudio(data)
+            }
+        }
     }
 
     AudioInput {
@@ -26,13 +31,12 @@ Window {
         onAudioCaptured: {
                 console.log("[QML] Audio data captured:", data.length);
                 rtc.sendTrack(data)
-//                audioOutput.playAudio(data);
             }
 
         Component.onCompleted: {
             console.log("AudioInput initialized.")
-//            audioInput.startCapture()
         }
+
     }
 
     AudioOutput {
@@ -41,37 +45,6 @@ Window {
             console.log("AudioOutput Ready to play audio.")
         }
     }
-//    AudioInput {
-//        id: audioInput
-////        onAudioCaptured: (data) => {
-//////            rtc.sendTrack(data)
-////        }
-//    }
-
-//    AudioOutput {
-//        id: audioOutput
-
-//    }
-//        AudioInput {
-//            id: audioInput
-
-//            onAudioCaptured: {
-//                    console.log("[QML] Audio data captured:", data.length);  // Directly log here
-//                    audioOutput.playAudio(data);  // Then pass to audioOutput if working
-//                }
-
-//            Component.onCompleted: {
-//                console.log("AudioInput initialized.")
-//                audioInput.startCapture()
-//            }
-//        }
-
-//        AudioOutput {
-//            id: audioOutput
-//            Component.onCompleted: {
-//                console.log("AudioOutput Ready to play audio.")
-//            }
-//        }
 
 
     Item {
@@ -217,7 +190,7 @@ Window {
 //    AudioInput {
 //        id: audioInput
 
-//        onAudioCaptured: {
+//        onAudioCaptured: (data) => {
 //                console.log("[QML] Audio data captured:", data.length);  // Directly log here
 //                audioOutput.playAudio(data);  // Then pass to audioOutput if working
 //            }

@@ -536,12 +536,6 @@ release/moc_webrtc.cpp: ../voice_call_app/webrtc.h \
 		../voice_call_app/opus/include/opus.h \
 		../voice_call_app/opus/include/opus_types.h \
 		../voice_call_app/opus/include/opus_defines.h \
-		../voice_call_app/audiooutput.h \
-		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioSink \
-		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiosink.h \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/QMutex \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/qmutex.h \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/qtsan_impl.h \
 		../voice_call_app/libdatachannel/include/rtc/rtc.hpp \
 		../voice_call_app/libdatachannel/include/rtc/rtc.h \
 		../voice_call_app/libdatachannel/include/rtc/version.h \
@@ -1070,10 +1064,6 @@ release/main.o: ../voice_call_app/main.cpp C:/Qt/6.5.3/mingw_64/include/QtGui/QG
 		../voice_call_app/opus/include/opus.h \
 		../voice_call_app/opus/include/opus_types.h \
 		../voice_call_app/opus/include/opus_defines.h \
-		../voice_call_app/audiooutput.h \
-		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioSink \
-		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiosink.h \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/QMutex \
 		../voice_call_app/libdatachannel/include/rtc/rtc.hpp \
 		../voice_call_app/libdatachannel/include/rtc/rtc.h \
 		../voice_call_app/libdatachannel/include/rtc/version.h \
@@ -1117,7 +1107,11 @@ release/main.o: ../voice_call_app/main.cpp C:/Qt/6.5.3/mingw_64/include/QtGui/QG
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qcborvalue.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qcborcommon.h \
 		C:/Qt/6.5.3/mingw_64/include/QtCore/qregularexpression.h \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/quuid.h
+		C:/Qt/6.5.3/mingw_64/include/QtCore/quuid.h \
+		../voice_call_app/audiooutput.h \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioSink \
+		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiosink.h \
+		C:/Qt/6.5.3/mingw_64/include/QtCore/QMutex
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release/main.o ../voice_call_app/main.cpp
 
 release/webrtc.o: ../voice_call_app/webrtc.cpp ../voice_call_app/webrtc.h \
@@ -1277,12 +1271,6 @@ release/webrtc.o: ../voice_call_app/webrtc.cpp ../voice_call_app/webrtc.h \
 		../voice_call_app/opus/include/opus.h \
 		../voice_call_app/opus/include/opus_types.h \
 		../voice_call_app/opus/include/opus_defines.h \
-		../voice_call_app/audiooutput.h \
-		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/QAudioSink \
-		C:/Qt/6.5.3/mingw_64/include/QtMultimedia/qaudiosink.h \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/QMutex \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/qmutex.h \
-		C:/Qt/6.5.3/mingw_64/include/QtCore/qtsan_impl.h \
 		../voice_call_app/libdatachannel/include/rtc/rtc.hpp \
 		../voice_call_app/libdatachannel/include/rtc/rtc.h \
 		../voice_call_app/libdatachannel/include/rtc/version.h \
