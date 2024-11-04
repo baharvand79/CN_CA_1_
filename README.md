@@ -3,6 +3,8 @@
 Fatemeh (Shakiba) Baharvand
 ## Explanation
 ### WebRTC
+![image](https://github.com/user-attachments/assets/5ca390de-2b6e-418c-896a-71b92502a722)
+
 - **WebRTC** stands for Web Real-Time Communication, an open-source technology.
 - It allows real-time video, audio, and data sharing directly between web browsers and mobile applications.
 - WebRTC creates a peer-to-peer (P2P) connection, so data can be sent directly between users.
@@ -57,4 +59,9 @@ The objective of this application is to establish a voice call between two peers
   - Each peer sets the remote SDP received from the other peer.
   - ICE (Interactive Connectivity Establishment) candidates are exchanged for connectivity.
 6. Establish Connection: Once local and remote SDPs are set and ICE gathering is completed, the peer connection is established and sending tracks starts.
-
+7. Audio Capture and Transmission: The application captures audio from the microphone and sends it as RTP packets to the connected peer. Incoming audio packets from the peer are processed and emitted as signals for playback or further handling.
+8. State Monitoring: The application monitors the state of the peer connection, handling changes and potential errors.
+### Code Overview
+This function converts the PeerConnection state enumeration into a human-readable string. This is useful for logging and debugging, making it easier to track the connection state during runtime.
+```
+```
