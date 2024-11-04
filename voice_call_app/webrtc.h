@@ -6,7 +6,6 @@
 #include <memory>
 #include <string>
 #include "audioinput.h"
-#include "audiooutput.h"
 #include "rtc/rtc.hpp"
 #include <QtEndian>
 #include <QJsonDocument>
@@ -15,16 +14,12 @@
 
 #pragma pack(push, 1) // Ensure no padding between fields
 struct RTPHeader {
-//    uint8_t version : 2;   // Version (2 bits)
-//    uint8_t padding : 1;   // Padding (1 bit)
-//    uint8_t extension : 1; // Extension (1 bit)
-//    uint8_t csrcCount : 4; // CSRC count (4 bits)
     uint8_t first = 0b10000000;
-    uint8_t marker : 1;    // Marker bit (1 bit)
-    uint8_t payloadType : 7; // Payload type (7 bits)
-    uint16_t sequenceNumber; // Sequence number (16 bits)
-    uint32_t timestamp;      // Timestamp (32 bits)
-    uint32_t ssrc;           // Synchronization source (32 bits)
+    uint8_t marker : 1;
+    uint8_t payloadType : 7;
+    uint16_t sequenceNumber;
+    uint32_t timestamp;
+    uint32_t ssrc;
 };
 #pragma pack(pop)
 
@@ -61,7 +56,7 @@ Q_SIGNALS:
     void clientIsRegistered();
     void answerIsReady();
     void peerIsConnected();
-//    void incommingPacket(peerId, packet, packet.size());
+    void audioDataReceived(const QByteArray &data);
 
 
 
