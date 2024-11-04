@@ -863,4 +863,502 @@ private:
 #endif // AUDIOINPUT_H
 ```
 ### AudioOutput
+The AudioOutput class manages audio playback by decoding Opus-encoded audio data and outputting it through a specified audio sink, ensuring thread-safe operation and resource management.
+```
+#include <opus.h>
+#include "AudioOutput.h"
+#include <QDebug>
 
+const int OPUS_SAMPLE_RATE = 48000;
+const int OPUS_CHANNELS = 1;
+const int OPUS_FRAME_SIZE = 960;
+
+AudioOutput::AudioOutput(QObject *parent) : QObject(parent) {
+    QAudioFormat format;
+    format.setSampleRate(OPUS_SAMPLE_RATE);
+    format.setChannelCount(OPUS_CHANNELS);
+    format.setSampleFormat(QAudioFormat::Int16);
+
+    Q_EMIT debugMessage("AudioOutput initializing...");
+    qDebug() << "AudioOutput initializing...";
+
+    audioSink = new QAudioSink(format, this);
+    outputDevice = audioSink->start();
+
+    if (!outputDevice) {
+        Q_EMIT debugMessage("[AudioOutput] Failed to detect audio output device.");
+        qDebug() << "[AudioOutput] Failed to detect audio output device.";
+    } else {
+        Q_EMIT debugMessage("[AudioOutput] Audio output device detected.");
+        qDebug() << "[AudioOutput] Audio output device detected.";
+    }
+
+    int error;
+    opusDecoder = opus_decoder_create(OPUS_SAMPLE_RATE, OPUS_CHANNELS, &error);
+    if (error != OPUS_OK) {
+        Q_EMIT debugMessage("[AudioOutput] Failed to initialize Opus decoder.");
+        qDebug() << "[AudioOutput] Failed to initialize Opus decoder.";
+    } else {
+        Q_EMIT debugMessage("[AudioOutput] Opus decoder initialized successfully.");
+        qDebug() << "[AudioOutput] Opus decoder initialized successfully.";
+    }
+}
+
+AudioOutput::~AudioOutput() {
+    opus_decoder_destroy(opusDecoder);
+    audioSink->stop();
+}
+
+void AudioOutput::playAudio(const QByteArray &data) {
+    QMutexLocker locker(&mutex);
+
+    QByteArray decodedData = decodeAudio(data);
+    if (!decodedData.isEmpty()) {
+        qint64 writtenBytes = outputDevice->write(decodedData);
+        Q_EMIT debugMessage("[AudioOutput] Playing audio, written bytes: " + QString::number(writtenBytes));
+        qDebug() << "[AudioOutput] Playing audio, written bytes:" << writtenBytes;
+    } else {
+        Q_EMIT debugMessage("[AudioOutput] No data decoded to play.");
+        qDebug() << "[AudioOutput] No data decoded to play.";
+    }
+}
+
+QByteArray AudioOutput::decodeAudio(const QByteArray &input) {
+    QByteArray output;
+    int maxDecodedSamples = OPUS_FRAME_SIZE;
+//    opus_int16 decodedData[maxDecodedSamples];
+
+    std::vector<opus_int16> decodedData(maxDecodedSamples);
+    int decodedSamples = opus_decode(opusDecoder, reinterpret_cast<const unsigned char*>(input.data()), input.size(), decodedData.data(), maxDecodedSamples, 0);
+    if (decodedSamples > 0) {
+        output.append(reinterpret_cast<const char*>(decodedData.data()), decodedSamples * sizeof(int16_t));
+        Q_EMIT debugMessage("[AudioOutput] Decoded audio data size: " + QString::number(decodedSamples * sizeof(int16_t)));
+        qDebug() << "[AudioOutput] Decoded audio data size:" << decodedSamples * sizeof(int16_t);
+    } else {
+        Q_EMIT debugMessage("[AudioOutput] Decoding failed, samples decoded: " + QString::number(decodedSamples));
+        qDebug() << "[AudioOutput] Decoding failed, samples decoded:" << decodedSamples;
+    }
+    return output;
+}
+
+```
+1. **Initialization**:
+  - This section outlines the initialization of the `AudioOutput` class, which includes setting up the audio format using `QAudioFormat`, creating an `audioSink` for output, and starting the audio output device. It also checks for successful device detection and initializes the Opus decoder while logging any errors encountered.
+2. **Destructor**:
+  - The destructor is responsible for cleaning up resources. It destroys the Opus decoder to prevent memory leaks and stops the audio sink to cease audio output.
+3. **Play Audio**:
+  - The `playAudio` method is designed to handle the playback of audio. It locks a mutex to ensure thread safety, decodes the audio data received as a `QByteArray`, and writes it to the audio output device. The method logs the number of bytes written, and if there is no data to play, it logs that no decoded data is available.
+4. **Decode Audio**:
+  - This method performs the actual decoding of audio data. It uses the Opus library to decode the audio from its compressed format. If successful, the decoded samples are appended to an output `QByteArray`. The method also logs the size of the decoded data or reports a failure if decoding does not succeed.
+
+**AudioOutput Class**
+```
+#ifndef AUDIOOUTPUT_H
+#define AUDIOOUTPUT_H
+
+#include <QObject>
+#include <QAudioFormat>
+#include <QAudioSink>
+#include <QMutex>
+#include <opus.h>
+
+class AudioOutput : public QObject {
+    Q_OBJECT
+
+public:
+    explicit AudioOutput(QObject *parent = nullptr);
+    ~AudioOutput() override;
+
+    Q_INVOKABLE void playAudio(const QByteArray &data);
+
+public: Q_SIGNALS:
+    void debugMessage(const QString &message);
+
+private:
+    QByteArray decodeAudio(const QByteArray &input);
+
+    QAudioSink *audioSink;
+    QIODevice *outputDevice;
+    QMutex mutex;
+    OpusDecoder *opusDecoder;
+};
+
+#endif // AUDIOOUTPUT_H
+
+```
+
+### Main
+This code is essential for initializing the application and making the audio capture and playback functionalities accessible within the QML environment, facilitating the development of a voice call application.
+```
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
+#include <QCoreApplication>
+#include <QDebug>
+#include <QObject>
+#include "webrtc.h"
+#include "audioinput.h"
+#include "audiooutput.h"
+int main(int argc, char *argv[]) {
+    QGuiApplication app(argc, argv);
+    QQmlApplicationEngine engine;
+
+    const QUrl url(u"qrc:/Main.qml"_qs);
+    qmlRegisterType<WebRTC>("WebRTC", 1, 0, "WebRTC");
+    qmlRegisterType<AudioInput>("AudioInput", 1, 0, "AudioInput");
+    qmlRegisterType<AudioOutput>("AudioOutput", 1, 0, "AudioOutput");
+    qRegisterMetaType<QByteArray>("QByteArray");
+    QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed, &app, []() {QCoreApplication::exit(-1);}, Qt::QueuedConnection);
+    engine.load(url);
+
+    return app.exec();
+}
+
+//#include "main.moc"
+```
+
+## Signaling Server
+This code sets up a WebSocket signaling server using Node.js for handling WebRTC connections.
+```
+const WebSocket = require('ws');
+
+const wss = new WebSocket.Server({ port: 3000 });
+let clients = {};
+
+wss.on('connection', (ws) => {
+    console.log("[Server] New client connected");
+
+    ws.on('message', (message) => {
+        const data = JSON.parse(message);
+        console.log(`[Server] Received message of type: ${data.type} from client: ${data.id}`);
+
+        switch (data.type) {
+            case 'register':
+                clients[data.id] = ws;
+                console.log(`[Server] Client registered with ID: ${data.id}`);
+                break;
+            case 'offer':
+                handleOffer(data);
+                break;
+            case 'answer':
+                handleAnswer(data);
+                break;
+            case 'candidate':
+                handleCandidate(data);
+                break;
+            case 'disconnect':
+                handleDisconnect(data.id);
+                break;
+            default:
+                console.log(`[Server] Unknown message type: ${data.type}`);
+        }
+    });
+
+    ws.on('close', () => {
+        removeClient(ws);
+    });
+});
+
+function handleOffer(data) {
+    console.log(`[Server] Forwarding offer from ${data.id} to ${data.targetId}`);
+    const offerTarget = clients[data.targetId];
+    if (offerTarget) {
+        offerTarget.send(JSON.stringify(data));
+        console.log(`[Server] Offer sent to ${data.targetId}`);
+    } else {
+        console.log(`[Server] Target client ${data.targetId} not found`);
+    }
+}
+
+function handleAnswer(data) {
+    console.log(`[Server] Forwarding answer from ${data.id} to ${data.targetId}`);
+    const answerTarget = clients[data.targetId];
+    if (answerTarget) {
+        answerTarget.send(JSON.stringify(data));
+        console.log(`[Server] Answer sent to ${data.targetId}`);
+    } else {
+        console.log(`[Server] Target client ${data.targetId} not found`);
+    }
+}
+
+function handleCandidate(data) {
+    console.log(`[Server] Forwarding candidate from ${data.id} to ${data.targetId}`);
+    const candidateTarget = clients[data.targetId];
+    if (candidateTarget) {
+        candidateTarget.send(JSON.stringify(data));
+        console.log(`[Server] Candidate sent to ${data.targetId}`);
+    } else {
+        console.log(`[Server] Target client ${data.targetId} not found`);
+    }
+}
+
+function handleDisconnect(id) {
+    delete clients[id];
+    console.log(`[Server] Client ${id} disconnected`);
+}
+
+function removeClient(ws) {
+    for (let id in clients) {
+        if (clients[id] === ws) {
+            console.log(`[Server] Client ${id} has disconnected`);
+            delete clients[id];
+            break;
+        }
+    }
+}
+
+console.log('Signaling server running on ws://localhost:3000');
+```
+1. **WebSocket Server Creation**:
+   - The server is created to listen on port `3000` for incoming WebSocket connections.
+2. **Client Management**:
+   - A `clients` object is used to store connected clients by their IDs. This enables the server to route messages between them.
+3. **Connection Handling**:
+   - When a new client connects, a message is logged.
+   - The server listens for incoming messages from clients. Each message is expected to be in JSON format.
+4. **Message Handling**:
+   - The server handles different message types:
+     - **`register`**: Registers a client with a unique ID and stores the WebSocket connection.
+     - **`offer`**: Forwards the WebRTC offer to the target client specified in the message.
+     - **`answer`**: Forwards the WebRTC answer to the specified target client.
+     - **`candidate`**: Forwards ICE candidates for connection establishment to the target client.
+     - **`disconnect`**: Removes the client from the list of connected clients.
+   - If an unknown message type is received, it logs a message indicating the issue.
+5. **Client Disconnection**:
+   - When a client disconnects, the server removes them from the `clients` object and logs the event.
+6. **Logging**:
+   - Various logs provide insights into the server’s activity, such as when clients connect, send messages, or disconnect.
+
+## Output
+
+![image](https://github.com/user-attachments/assets/95219579-505e-448a-82dd-081696896aee)
+
+### Caller
+```
+[WebRTC] Peer ID set to: 1
+[WebRTC] Target ID set to: 2
+[WebRTC] Attempting to connect to signaling server at ws://localhost:3000.
+[WebRTC] Initialization started.
+[WebRTC] ICE servers configured and peer connection created.
+[WebRTC] callOnRun initiated.
+[WebRTC] Creating new SDP offer.
+[WebRTC] Local SDP offer being created.
+[WebRTC] Local SDP generated and emitted
+v=2
+o=rtc 354418570 0 IN IP4 127.0.0.1
+s=-
+t=0 0
+a=group:BUNDLE Audio
+a=group:LS Audio
+a=msid-semantic:WMS *
+a=ice-options:ice2,trickle
+a=fingerprint:sha-256 0A:08:80:FC:41:87:5C:1A:9F:C7:18:A0:D3:2A:AB:F3:31:C1:CC:2F:1F:58:CE:91:1B:C6:F7:92:62:D4:E0:5F
+m=audio 9 UDP/TLS/RTP/SAVPF 111
+c=IN IP4 0.0.0.0
+b=AS:48000
+a=mid:Audio
+a=recvonly
+a=ssrc:2 cname:shakiba
+a=rtcp-mux
+a=rtpmap:111 opus/48000/2
+a=fmtp:111 minptime=10;maxaveragebitrate=96000;stereo=1;sprop-stereo=1;useinbandfec=1
+a=setup:actpass
+a=ice-ufrag:p80O
+a=ice-pwd:6DuBZhzc8mK0Md1Ld0Y+DA
+
+[WebRTC] Local ICE candidate generated and emitted: a=candidate:1 1 UDP 2122317823 192.168.167.59 65179 typ host
+[WebRTC] PeerConnection state changed: Connecting
+[WebRTC] Successfully connected to signaling server.
+[WebRTC] Registration message sent for Peer ID: 1
+[WebRTC] Current WebSocket state: ConnectedState
+[WebRTC] Local ICE candidate generated and emitted: a=candidate:2 1 UDP 1686109951 204.18.183.224 65179 typ srflx raddr 0.0.0.0 rport 0
+[WebRTC] The peer is set to offerer.
+[WebRTC] SDP Offer sent to signaling server: v=1
+o=rtc 354418570 0 IN IP4 127.0.0.1
+s=-
+t=0 0
+a=group:BUNDLE Audio
+a=group:LS Audio
+a=msid-semantic:WMS *
+a=ice-options:ice2,trickle
+a=fingerprint:sha-256 0A:08:80:FC:41:87:5C:1A:9F:C7:18:A0:D3:2A:AB:F3:31:C1:CC:2F:1F:58:CE:91:1B:C6:F7:92:62:D4:E0:5F
+m=audio 9 UDP/TLS/RTP/SAVPF 111
+c=IN IP4 0.0.0.0
+b=AS:48000
+a=mid:Audio
+a=recvonly
+a=ssrc:2 cname:shakiba
+a=rtcp-mux
+a=rtpmap:111 opus/48000/2
+a=fmtp:111 minptime=10;maxaveragebitrate=96000;stereo=1;sprop-stereo=1;useinbandfec=1
+a=setup:actpass
+a=ice-ufrag:p80O
+a=ice-pwd:6DuBZhzc8mK0Md1Ld0Y+DA
+
+[WebRTC] Signaling message received from server: {"id":"2","sdp":"v=2\no=rtc 3807741146 0 IN IP4 127.0.0.1\r\ns=-\r\nt=0 0\r\na=group:BUNDLE Audio\r\na=group:LS Audio\r\na=msid-semantic:WMS *\r\na=ice-options:ice2,trickle\r\na=fingerprint:sha-256 A1:97:9E:78:EB:85:F3:0A:A3:F4:DB:40:33:7E:81:BF:23:25:52:C6:7C:C3:0A:56:08:C7:FF:49:A4:F4:22:93\r\nm=audio 9 UDP/TLS/RTP/SAVPF 111\r\nc=IN IP4 0.0.0.0\r\nb=AS:48000\r\na=mid:Audio\r\na=recvonly\r\na=ssrc:2 cname:shakiba\r\na=rtcp-mux\r\na=rtpmap:111 opus/48000/2\r\na=fmtp:111 minptime=10;maxaveragebitrate=96000;stereo=1;sprop-stereo=1;useinbandfec=1\r\na=setup:active\r\na=ice-ufrag:gRak\r\na=ice-pwd:DZSn7h1/Z+xslstfI/zgjA\r\na=candidate:1 1 UDP 2122317823 192.168.167.59 65182 typ host\r\na=candidate:2 1 UDP 1686109951 204.18.183.224 65182 typ srflx raddr 0.0.0.0 rport 0\r\n","targetId":"1","type":"answer"}
+[WebRTC] Remote SDP set for answer.
+[WebRTC] PeerConnection state changed: Connected
+[WebRTC] Success: Connection is set!
+[WebRTC] Track is not open.
+[WebRTC] Preparing to send track data. Size: 3 bytes.
+[WebRTC] Created RTP header: Version: 2, Payload Type: 111, Sequence Number: 0, Timestamp: 1622764614
+***************************************************************
+[WebRTC] RTP packet sent successfully. Size: 15 bytes. Sequence Number: 0
+[WebRTC] Updated timestamp for next packet: 1622764614
+[WebRTC] Preparing to send track data. Size: 3 bytes.
+[WebRTC] Created RTP header: Version: 2, Payload Type: 111, Sequence Number: 256, Timestamp: 1086221382
+***************************************************************
+[WebRTC] RTP packet sent successfully. Size: 15 bytes. Sequence Number: 256
+[WebRTC] Updated timestamp for next packet: 1086221382
+[WebRTC] Preparing to send track data. Size: 3 bytes.
+[WebRTC] Created RTP header: Version: 2, Payload Type: 111, Sequence Number: 512, Timestamp: 1891920966
+***************************************************************
+[WebRTC] RTP packet sent successfully. Size: 15 bytes. Sequence Number: 512
+[WebRTC] Updated timestamp for next packet: 1891920966
+[WebRTC] Preparing to send track data. Size: 3 bytes.
+[WebRTC] Created RTP header: Version: 2, Payload Type: 111, Sequence Number: 768, Timestamp: 1623747654
+***************************************************************
+[WebRTC] RTP packet sent successfully. Size: 15 bytes. Sequence Number: 768
+[WebRTC] Updated timestamp for next packet: 1623747654
+[WebRTC] Preparing to send track data. Size: 3 bytes.
+[WebRTC] Created RTP header: Version: 2, Payload Type: 111, Sequence Number: 1024, Timestamp: 2966187078
+***************************************************************
+```
+### Callee
+```
+[WebRTC] Peer ID set to: 2
+[WebRTC] Target ID set to: 
+[WebRTC] Attempting to connect to signaling server at ws://localhost:3000.
+[WebRTC] Initialization started.
+[WebRTC] ICE servers configured and peer connection created.
+[WebRTC] callOnRun initiated.
+[WebRTC] Creating new SDP offer.
+[WebRTC] Local SDP offer being created.
+[WebRTC] Local SDP generated and emitted
+v=2
+o=rtc 1830082462 0 IN IP4 127.0.0.1
+s=-
+t=0 0
+a=group:BUNDLE Audio
+a=group:LS Audio
+a=msid-semantic:WMS *
+a=ice-options:ice2,trickle
+a=fingerprint:sha-256 A1:97:9E:78:EB:85:F3:0A:A3:F4:DB:40:33:7E:81:BF:23:25:52:C6:7C:C3:0A:56:08:C7:FF:49:A4:F4:22:93
+m=audio 9 UDP/TLS/RTP/SAVPF 111
+c=IN IP4 0.0.0.0
+b=AS:48000
+a=mid:Audio
+a=recvonly
+a=ssrc:2 cname:shakiba
+a=rtcp-mux
+a=rtpmap:111 opus/48000/2
+a=fmtp:111 minptime=10;maxaveragebitrate=96000;stereo=1;sprop-stereo=1;useinbandfec=1
+a=setup:actpass
+a=ice-ufrag:gRak
+a=ice-pwd:DZSn7h1/Z+xslstfI/zgjA
+
+[WebRTC] Local ICE candidate generated and emitted: a=candidate:1 1 UDP 2122317823 192.168.167.59 65182 typ host
+[WebRTC] PeerConnection state changed: Connecting
+[WebRTC] Successfully connected to signaling server.
+[WebRTC] Registration message sent for Peer ID: 2
+[WebRTC] Current WebSocket state: ConnectedState
+[WebRTC] Local ICE candidate generated and emitted: a=candidate:2 1 UDP 1686109951 204.18.183.224 65182 typ srflx raddr 0.0.0.0 rport 0
+[WebRTC] Signaling message received from server: {"id":"1","sdp":"v=1\no=rtc 354418570 0 IN IP4 127.0.0.1\r\ns=-\r\nt=0 0\r\na=group:BUNDLE Audio\r\na=group:LS Audio\r\na=msid-semantic:WMS *\r\na=ice-options:ice2,trickle\r\na=fingerprint:sha-256 0A:08:80:FC:41:87:5C:1A:9F:C7:18:A0:D3:2A:AB:F3:31:C1:CC:2F:1F:58:CE:91:1B:C6:F7:92:62:D4:E0:5F\r\nm=audio 9 UDP/TLS/RTP/SAVPF 111\r\nc=IN IP4 0.0.0.0\r\nb=AS:48000\r\na=mid:Audio\r\na=recvonly\r\na=ssrc:2 cname:shakiba\r\na=rtcp-mux\r\na=rtpmap:111 opus/48000/2\r\na=fmtp:111 minptime=10;maxaveragebitrate=96000;stereo=1;sprop-stereo=1;useinbandfec=1\r\na=setup:actpass\r\na=ice-ufrag:p80O\r\na=ice-pwd:6DuBZhzc8mK0Md1Ld0Y+DA\r\n","targetId":"2","type":"offer"}
+[WebRTC] Received offer with SDP: v=1
+o=rtc 354418570 0 IN IP4 127.0.0.1
+s=-
+t=0 0
+a=group:BUNDLE Audio
+a=group:LS Audio
+a=msid-semantic:WMS *
+a=ice-options:ice2,trickle
+a=fingerprint:sha-256 0A:08:80:FC:41:87:5C:1A:9F:C7:18:A0:D3:2A:AB:F3:31:C1:CC:2F:1F:58:CE:91:1B:C6:F7:92:62:D4:E0:5F
+m=audio 9 UDP/TLS/RTP/SAVPF 111
+c=IN IP4 0.0.0.0
+b=AS:48000
+a=mid:Audio
+a=recvonly
+a=ssrc:2 cname:shakiba
+a=rtcp-mux
+a=rtpmap:111 opus/48000/2
+a=fmtp:111 minptime=10;maxaveragebitrate=96000;stereo=1;sprop-stereo=1;useinbandfec=1
+a=setup:actpass
+a=ice-ufrag:p80O
+a=ice-pwd:6DuBZhzc8mK0Md1Ld0Y+DA
+
+[WebRTC] Remote SDP set for offer.
+[WebRTC] Creating new SDP answer.
+[WebRTC] SDP Answer sent to signaling server: v=2
+o=rtc 3807741146 0 IN IP4 127.0.0.1
+s=-
+t=0 0
+a=group:BUNDLE Audio
+a=group:LS Audio
+a=msid-semantic:WMS *
+a=ice-options:ice2,trickle
+a=fingerprint:sha-256 A1:97:9E:78:EB:85:F3:0A:A3:F4:DB:40:33:7E:81:BF:23:25:52:C6:7C:C3:0A:56:08:C7:FF:49:A4:F4:22:93
+m=audio 9 UDP/TLS/RTP/SAVPF 111
+c=IN IP4 0.0.0.0
+b=AS:48000
+a=mid:Audio
+a=recvonly
+a=ssrc:2 cname:shakiba
+a=rtcp-mux
+a=rtpmap:111 opus/48000/2
+a=fmtp:111 minptime=10;maxaveragebitrate=96000;stereo=1;sprop-stereo=1;useinbandfec=1
+a=setup:active
+a=ice-ufrag:gRak
+a=ice-pwd:DZSn7h1/Z+xslstfI/zgjA
+a=candidate:1 1 UDP 2122317823 192.168.167.59 65182 typ host
+a=candidate:2 1 UDP 1686109951 204.18.183.224 65182 typ srflx raddr 0.0.0.0 rport 0
+
+[WebRTC] Local SDP offer being created.
+[WebRTC] Local SDP generated and emitted
+v=2
+o=rtc 3807741146 0 IN IP4 127.0.0.1
+s=-
+t=0 0
+a=group:BUNDLE Audio
+a=group:LS Audio
+a=msid-semantic:WMS *
+a=ice-options:ice2,trickle
+a=fingerprint:sha-256 A1:97:9E:78:EB:85:F3:0A:A3:F4:DB:40:33:7E:81:BF:23:25:52:C6:7C:C3:0A:56:08:C7:FF:49:A4:F4:22:93
+m=audio 9 UDP/TLS/RTP/SAVPF 111
+c=IN IP4 0.0.0.0
+b=AS:48000
+a=mid:Audio
+a=recvonly
+a=ssrc:2 cname:shakiba
+a=rtcp-mux
+a=rtpmap:111 opus/48000/2
+a=fmtp:111 minptime=10;maxaveragebitrate=96000;stereo=1;sprop-stereo=1;useinbandfec=1
+a=setup:active
+a=ice-ufrag:gRak
+a=ice-pwd:DZSn7h1/Z+xslstfI/zgjA
+a=candidate:1 1 UDP 2122317823 192.168.167.59 65182 typ host
+a=candidate:2 1 UDP 1686109951 204.18.183.224 65182 typ srflx raddr 0.0.0.0 rport 0
+
+[WebRTC] PeerConnection state changed: Connected
+[WebRTC] Success: Connection is set!
+[WebRTC] Track is not open.
+[WebRTC] Data received in onMessage.
+[WebRTC] Received audio packet and stripped RTP header. Data size: 3 bytes.
+[WebRTC] Track is open now ================================================
+[WebRTC] Audio track added to peer connection.
+[WebRTC] Data received in onMessage.
+[WebRTC] Received audio packet and stripped RTP header. Data size: 3 bytes.
+[WebRTC] Audio track added to peer connection.
+[WebRTC] Data received in onMessage.
+[WebRTC] Received audio packet and stripped RTP header. Data size: 3 bytes.
+[WebRTC] Audio track added to peer connection.
+[WebRTC] Data received in onMessage.
+[WebRTC] Received audio packet and stripped RTP header. Data size: 3 bytes.
+[WebRTC] Audio track added to peer connection.
+[WebRTC] Data received in onMessage.
+```
+
+## Challenges and Suggestions
+I faced several challenges while building the voice call app. One big issue was sending audio tracks. I needed to break the audio into smaller pieces and encode it to make it easier to send, but this was difficult.
+Choosing the right signaling server was also a problem. I had trouble using `socket.io` because it gave errors about wrong parenthesis. This made it hard to connect Qt with Node.js.
+Receiving audio tracks was tricky too. The audio features were not set up correctly, which caused issues. When I connected the audio input and output locally (like with headphones), the sound was clear. But when sending and receiving audio through peers, the quality dropped.
+Right now, audio can only be captured and played through headphones.
+In the future, I want to add better error handling to stop the app from crashing. For example, if a peer disconnects while sending audio or if the server goes down, the app should handle it smoothly. Also, improving the graphic interface to allow users to start or stop audio from the window would make the app better.
