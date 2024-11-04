@@ -863,7 +863,7 @@ private:
 #endif // AUDIOINPUT_H
 ```
 ### AudioOutput
-
+The AudioOutput class manages audio playback by decoding Opus-encoded audio data and outputting it through a specified audio sink, ensuring thread-safe operation and resource management.
 ```
 #include <opus.h>
 #include "AudioOutput.h"
@@ -986,3 +986,146 @@ private:
 #endif // AUDIOOUTPUT_H
 
 ```
+
+### Main
+This code is essential for initializing the application and making the audio capture and playback functionalities accessible within the QML environment, facilitating the development of a voice call application.
+```
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
+#include <QCoreApplication>
+#include <QDebug>
+#include <QObject>
+#include "webrtc.h"
+#include "audioinput.h"
+#include "audiooutput.h"
+int main(int argc, char *argv[]) {
+    QGuiApplication app(argc, argv);
+    QQmlApplicationEngine engine;
+
+    const QUrl url(u"qrc:/Main.qml"_qs);
+    qmlRegisterType<WebRTC>("WebRTC", 1, 0, "WebRTC");
+    qmlRegisterType<AudioInput>("AudioInput", 1, 0, "AudioInput");
+    qmlRegisterType<AudioOutput>("AudioOutput", 1, 0, "AudioOutput");
+    qRegisterMetaType<QByteArray>("QByteArray");
+    QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed, &app, []() {QCoreApplication::exit(-1);}, Qt::QueuedConnection);
+    engine.load(url);
+
+    return app.exec();
+}
+
+//#include "main.moc"
+```
+
+## Signaling Server
+This code sets up a WebSocket signaling server using Node.js for handling WebRTC connections.
+```
+const WebSocket = require('ws');
+
+const wss = new WebSocket.Server({ port: 3000 });
+let clients = {};
+
+wss.on('connection', (ws) => {
+    console.log("[Server] New client connected");
+
+    ws.on('message', (message) => {
+        const data = JSON.parse(message);
+        console.log(`[Server] Received message of type: ${data.type} from client: ${data.id}`);
+
+        switch (data.type) {
+            case 'register':
+                clients[data.id] = ws;
+                console.log(`[Server] Client registered with ID: ${data.id}`);
+                break;
+            case 'offer':
+                handleOffer(data);
+                break;
+            case 'answer':
+                handleAnswer(data);
+                break;
+            case 'candidate':
+                handleCandidate(data);
+                break;
+            case 'disconnect':
+                handleDisconnect(data.id);
+                break;
+            default:
+                console.log(`[Server] Unknown message type: ${data.type}`);
+        }
+    });
+
+    ws.on('close', () => {
+        removeClient(ws);
+    });
+});
+
+function handleOffer(data) {
+    console.log(`[Server] Forwarding offer from ${data.id} to ${data.targetId}`);
+    const offerTarget = clients[data.targetId];
+    if (offerTarget) {
+        offerTarget.send(JSON.stringify(data));
+        console.log(`[Server] Offer sent to ${data.targetId}`);
+    } else {
+        console.log(`[Server] Target client ${data.targetId} not found`);
+    }
+}
+
+function handleAnswer(data) {
+    console.log(`[Server] Forwarding answer from ${data.id} to ${data.targetId}`);
+    const answerTarget = clients[data.targetId];
+    if (answerTarget) {
+        answerTarget.send(JSON.stringify(data));
+        console.log(`[Server] Answer sent to ${data.targetId}`);
+    } else {
+        console.log(`[Server] Target client ${data.targetId} not found`);
+    }
+}
+
+function handleCandidate(data) {
+    console.log(`[Server] Forwarding candidate from ${data.id} to ${data.targetId}`);
+    const candidateTarget = clients[data.targetId];
+    if (candidateTarget) {
+        candidateTarget.send(JSON.stringify(data));
+        console.log(`[Server] Candidate sent to ${data.targetId}`);
+    } else {
+        console.log(`[Server] Target client ${data.targetId} not found`);
+    }
+}
+
+function handleDisconnect(id) {
+    delete clients[id];
+    console.log(`[Server] Client ${id} disconnected`);
+}
+
+function removeClient(ws) {
+    for (let id in clients) {
+        if (clients[id] === ws) {
+            console.log(`[Server] Client ${id} has disconnected`);
+            delete clients[id];
+            break;
+        }
+    }
+}
+
+console.log('Signaling server running on ws://localhost:3000');
+```
+1. **WebSocket Server Creation**:
+   - The server is created to listen on port `3000` for incoming WebSocket connections.
+2. **Client Management**:
+   - A `clients` object is used to store connected clients by their IDs. This enables the server to route messages between them.
+3. **Connection Handling**:
+   - When a new client connects, a message is logged.
+   - The server listens for incoming messages from clients. Each message is expected to be in JSON format.
+4. **Message Handling**:
+   - The server handles different message types:
+     - **`register`**: Registers a client with a unique ID and stores the WebSocket connection.
+     - **`offer`**: Forwards the WebRTC offer to the target client specified in the message.
+     - **`answer`**: Forwards the WebRTC answer to the specified target client.
+     - **`candidate`**: Forwards ICE candidates for connection establishment to the target client.
+     - **`disconnect`**: Removes the client from the list of connected clients.
+   - If an unknown message type is received, it logs a message indicating the issue.
+5. **Client Disconnection**:
+   - When a client disconnects, the server removes them from the `clients` object and logs the event.
+6. **Logging**:
+   - Various logs provide insights into the server’s activity, such as when clients connect, send messages, or disconnect.
+
+## Output
