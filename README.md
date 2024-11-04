@@ -33,3 +33,7 @@ Advantages of CoTURN:
 - Reliability: CoTURN ensures reliable connections when direct peer-to-peer isn’t possible.
 - Security: It supports encryption, helping protect data.
 - Enterprise-Friendly: CoTURN works well with enterprise firewall policies, allowing controlled WebRTC connections.
+
+## App
+![image](https://github.com/user-attachments/assets/72a73bce-7787-4277-b5af-4dbd1bd6f660)
+The objective is to make a call between two peers using WebRTC. One is an offerer which is sending audio and one is the sender which plays audio. First, we need to run the server.js file. Second, we need to open two windows of the exe file. Then set the caller and calling IDs for the offerer and the caller ID for the offerer. Then click on the call button for the offerer. When you set IDs, peers will be registered on the signaling server. The signaling server will show, which peer is registered. Then, a SDP will generate as an answerer. After clicking on the call button, the type of the registered peer will be changed and it changes the sdp type before sending to the server, the server will show 
