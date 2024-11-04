@@ -1129,3 +1129,228 @@ console.log('Signaling server running on ws://localhost:3000');
    - Various logs provide insights into the server’s activity, such as when clients connect, send messages, or disconnect.
 
 ## Output
+
+![Uploading image.png…]()
+### Caller
+```
+[WebRTC] Peer ID set to: 1
+[WebRTC] Target ID set to: 2
+[WebRTC] Attempting to connect to signaling server at ws://localhost:3000.
+[WebRTC] Initialization started.
+[WebRTC] ICE servers configured and peer connection created.
+[WebRTC] callOnRun initiated.
+[WebRTC] Creating new SDP offer.
+[WebRTC] Local SDP offer being created.
+[WebRTC] Local SDP generated and emitted
+v=2
+o=rtc 354418570 0 IN IP4 127.0.0.1
+s=-
+t=0 0
+a=group:BUNDLE Audio
+a=group:LS Audio
+a=msid-semantic:WMS *
+a=ice-options:ice2,trickle
+a=fingerprint:sha-256 0A:08:80:FC:41:87:5C:1A:9F:C7:18:A0:D3:2A:AB:F3:31:C1:CC:2F:1F:58:CE:91:1B:C6:F7:92:62:D4:E0:5F
+m=audio 9 UDP/TLS/RTP/SAVPF 111
+c=IN IP4 0.0.0.0
+b=AS:48000
+a=mid:Audio
+a=recvonly
+a=ssrc:2 cname:shakiba
+a=rtcp-mux
+a=rtpmap:111 opus/48000/2
+a=fmtp:111 minptime=10;maxaveragebitrate=96000;stereo=1;sprop-stereo=1;useinbandfec=1
+a=setup:actpass
+a=ice-ufrag:p80O
+a=ice-pwd:6DuBZhzc8mK0Md1Ld0Y+DA
+
+[WebRTC] Local ICE candidate generated and emitted: a=candidate:1 1 UDP 2122317823 192.168.167.59 65179 typ host
+[WebRTC] PeerConnection state changed: Connecting
+[WebRTC] Successfully connected to signaling server.
+[WebRTC] Registration message sent for Peer ID: 1
+[WebRTC] Current WebSocket state: ConnectedState
+[WebRTC] Local ICE candidate generated and emitted: a=candidate:2 1 UDP 1686109951 204.18.183.224 65179 typ srflx raddr 0.0.0.0 rport 0
+[WebRTC] The peer is set to offerer.
+[WebRTC] SDP Offer sent to signaling server: v=1
+o=rtc 354418570 0 IN IP4 127.0.0.1
+s=-
+t=0 0
+a=group:BUNDLE Audio
+a=group:LS Audio
+a=msid-semantic:WMS *
+a=ice-options:ice2,trickle
+a=fingerprint:sha-256 0A:08:80:FC:41:87:5C:1A:9F:C7:18:A0:D3:2A:AB:F3:31:C1:CC:2F:1F:58:CE:91:1B:C6:F7:92:62:D4:E0:5F
+m=audio 9 UDP/TLS/RTP/SAVPF 111
+c=IN IP4 0.0.0.0
+b=AS:48000
+a=mid:Audio
+a=recvonly
+a=ssrc:2 cname:shakiba
+a=rtcp-mux
+a=rtpmap:111 opus/48000/2
+a=fmtp:111 minptime=10;maxaveragebitrate=96000;stereo=1;sprop-stereo=1;useinbandfec=1
+a=setup:actpass
+a=ice-ufrag:p80O
+a=ice-pwd:6DuBZhzc8mK0Md1Ld0Y+DA
+
+[WebRTC] Signaling message received from server: {"id":"2","sdp":"v=2\no=rtc 3807741146 0 IN IP4 127.0.0.1\r\ns=-\r\nt=0 0\r\na=group:BUNDLE Audio\r\na=group:LS Audio\r\na=msid-semantic:WMS *\r\na=ice-options:ice2,trickle\r\na=fingerprint:sha-256 A1:97:9E:78:EB:85:F3:0A:A3:F4:DB:40:33:7E:81:BF:23:25:52:C6:7C:C3:0A:56:08:C7:FF:49:A4:F4:22:93\r\nm=audio 9 UDP/TLS/RTP/SAVPF 111\r\nc=IN IP4 0.0.0.0\r\nb=AS:48000\r\na=mid:Audio\r\na=recvonly\r\na=ssrc:2 cname:shakiba\r\na=rtcp-mux\r\na=rtpmap:111 opus/48000/2\r\na=fmtp:111 minptime=10;maxaveragebitrate=96000;stereo=1;sprop-stereo=1;useinbandfec=1\r\na=setup:active\r\na=ice-ufrag:gRak\r\na=ice-pwd:DZSn7h1/Z+xslstfI/zgjA\r\na=candidate:1 1 UDP 2122317823 192.168.167.59 65182 typ host\r\na=candidate:2 1 UDP 1686109951 204.18.183.224 65182 typ srflx raddr 0.0.0.0 rport 0\r\n","targetId":"1","type":"answer"}
+[WebRTC] Remote SDP set for answer.
+[WebRTC] PeerConnection state changed: Connected
+[WebRTC] Success: Connection is set!
+[WebRTC] Track is not open.
+[WebRTC] Preparing to send track data. Size: 3 bytes.
+[WebRTC] Created RTP header: Version: 2, Payload Type: 111, Sequence Number: 0, Timestamp: 1622764614
+***************************************************************
+[WebRTC] RTP packet sent successfully. Size: 15 bytes. Sequence Number: 0
+[WebRTC] Updated timestamp for next packet: 1622764614
+[WebRTC] Preparing to send track data. Size: 3 bytes.
+[WebRTC] Created RTP header: Version: 2, Payload Type: 111, Sequence Number: 256, Timestamp: 1086221382
+***************************************************************
+[WebRTC] RTP packet sent successfully. Size: 15 bytes. Sequence Number: 256
+[WebRTC] Updated timestamp for next packet: 1086221382
+[WebRTC] Preparing to send track data. Size: 3 bytes.
+[WebRTC] Created RTP header: Version: 2, Payload Type: 111, Sequence Number: 512, Timestamp: 1891920966
+***************************************************************
+[WebRTC] RTP packet sent successfully. Size: 15 bytes. Sequence Number: 512
+[WebRTC] Updated timestamp for next packet: 1891920966
+[WebRTC] Preparing to send track data. Size: 3 bytes.
+[WebRTC] Created RTP header: Version: 2, Payload Type: 111, Sequence Number: 768, Timestamp: 1623747654
+***************************************************************
+[WebRTC] RTP packet sent successfully. Size: 15 bytes. Sequence Number: 768
+[WebRTC] Updated timestamp for next packet: 1623747654
+[WebRTC] Preparing to send track data. Size: 3 bytes.
+[WebRTC] Created RTP header: Version: 2, Payload Type: 111, Sequence Number: 1024, Timestamp: 2966187078
+***************************************************************
+```
+### Callee
+```
+[WebRTC] Peer ID set to: 2
+[WebRTC] Target ID set to: 
+[WebRTC] Attempting to connect to signaling server at ws://localhost:3000.
+[WebRTC] Initialization started.
+[WebRTC] ICE servers configured and peer connection created.
+[WebRTC] callOnRun initiated.
+[WebRTC] Creating new SDP offer.
+[WebRTC] Local SDP offer being created.
+[WebRTC] Local SDP generated and emitted
+v=2
+o=rtc 1830082462 0 IN IP4 127.0.0.1
+s=-
+t=0 0
+a=group:BUNDLE Audio
+a=group:LS Audio
+a=msid-semantic:WMS *
+a=ice-options:ice2,trickle
+a=fingerprint:sha-256 A1:97:9E:78:EB:85:F3:0A:A3:F4:DB:40:33:7E:81:BF:23:25:52:C6:7C:C3:0A:56:08:C7:FF:49:A4:F4:22:93
+m=audio 9 UDP/TLS/RTP/SAVPF 111
+c=IN IP4 0.0.0.0
+b=AS:48000
+a=mid:Audio
+a=recvonly
+a=ssrc:2 cname:shakiba
+a=rtcp-mux
+a=rtpmap:111 opus/48000/2
+a=fmtp:111 minptime=10;maxaveragebitrate=96000;stereo=1;sprop-stereo=1;useinbandfec=1
+a=setup:actpass
+a=ice-ufrag:gRak
+a=ice-pwd:DZSn7h1/Z+xslstfI/zgjA
+
+[WebRTC] Local ICE candidate generated and emitted: a=candidate:1 1 UDP 2122317823 192.168.167.59 65182 typ host
+[WebRTC] PeerConnection state changed: Connecting
+[WebRTC] Successfully connected to signaling server.
+[WebRTC] Registration message sent for Peer ID: 2
+[WebRTC] Current WebSocket state: ConnectedState
+[WebRTC] Local ICE candidate generated and emitted: a=candidate:2 1 UDP 1686109951 204.18.183.224 65182 typ srflx raddr 0.0.0.0 rport 0
+[WebRTC] Signaling message received from server: {"id":"1","sdp":"v=1\no=rtc 354418570 0 IN IP4 127.0.0.1\r\ns=-\r\nt=0 0\r\na=group:BUNDLE Audio\r\na=group:LS Audio\r\na=msid-semantic:WMS *\r\na=ice-options:ice2,trickle\r\na=fingerprint:sha-256 0A:08:80:FC:41:87:5C:1A:9F:C7:18:A0:D3:2A:AB:F3:31:C1:CC:2F:1F:58:CE:91:1B:C6:F7:92:62:D4:E0:5F\r\nm=audio 9 UDP/TLS/RTP/SAVPF 111\r\nc=IN IP4 0.0.0.0\r\nb=AS:48000\r\na=mid:Audio\r\na=recvonly\r\na=ssrc:2 cname:shakiba\r\na=rtcp-mux\r\na=rtpmap:111 opus/48000/2\r\na=fmtp:111 minptime=10;maxaveragebitrate=96000;stereo=1;sprop-stereo=1;useinbandfec=1\r\na=setup:actpass\r\na=ice-ufrag:p80O\r\na=ice-pwd:6DuBZhzc8mK0Md1Ld0Y+DA\r\n","targetId":"2","type":"offer"}
+[WebRTC] Received offer with SDP: v=1
+o=rtc 354418570 0 IN IP4 127.0.0.1
+s=-
+t=0 0
+a=group:BUNDLE Audio
+a=group:LS Audio
+a=msid-semantic:WMS *
+a=ice-options:ice2,trickle
+a=fingerprint:sha-256 0A:08:80:FC:41:87:5C:1A:9F:C7:18:A0:D3:2A:AB:F3:31:C1:CC:2F:1F:58:CE:91:1B:C6:F7:92:62:D4:E0:5F
+m=audio 9 UDP/TLS/RTP/SAVPF 111
+c=IN IP4 0.0.0.0
+b=AS:48000
+a=mid:Audio
+a=recvonly
+a=ssrc:2 cname:shakiba
+a=rtcp-mux
+a=rtpmap:111 opus/48000/2
+a=fmtp:111 minptime=10;maxaveragebitrate=96000;stereo=1;sprop-stereo=1;useinbandfec=1
+a=setup:actpass
+a=ice-ufrag:p80O
+a=ice-pwd:6DuBZhzc8mK0Md1Ld0Y+DA
+
+[WebRTC] Remote SDP set for offer.
+[WebRTC] Creating new SDP answer.
+[WebRTC] SDP Answer sent to signaling server: v=2
+o=rtc 3807741146 0 IN IP4 127.0.0.1
+s=-
+t=0 0
+a=group:BUNDLE Audio
+a=group:LS Audio
+a=msid-semantic:WMS *
+a=ice-options:ice2,trickle
+a=fingerprint:sha-256 A1:97:9E:78:EB:85:F3:0A:A3:F4:DB:40:33:7E:81:BF:23:25:52:C6:7C:C3:0A:56:08:C7:FF:49:A4:F4:22:93
+m=audio 9 UDP/TLS/RTP/SAVPF 111
+c=IN IP4 0.0.0.0
+b=AS:48000
+a=mid:Audio
+a=recvonly
+a=ssrc:2 cname:shakiba
+a=rtcp-mux
+a=rtpmap:111 opus/48000/2
+a=fmtp:111 minptime=10;maxaveragebitrate=96000;stereo=1;sprop-stereo=1;useinbandfec=1
+a=setup:active
+a=ice-ufrag:gRak
+a=ice-pwd:DZSn7h1/Z+xslstfI/zgjA
+a=candidate:1 1 UDP 2122317823 192.168.167.59 65182 typ host
+a=candidate:2 1 UDP 1686109951 204.18.183.224 65182 typ srflx raddr 0.0.0.0 rport 0
+
+[WebRTC] Local SDP offer being created.
+[WebRTC] Local SDP generated and emitted
+v=2
+o=rtc 3807741146 0 IN IP4 127.0.0.1
+s=-
+t=0 0
+a=group:BUNDLE Audio
+a=group:LS Audio
+a=msid-semantic:WMS *
+a=ice-options:ice2,trickle
+a=fingerprint:sha-256 A1:97:9E:78:EB:85:F3:0A:A3:F4:DB:40:33:7E:81:BF:23:25:52:C6:7C:C3:0A:56:08:C7:FF:49:A4:F4:22:93
+m=audio 9 UDP/TLS/RTP/SAVPF 111
+c=IN IP4 0.0.0.0
+b=AS:48000
+a=mid:Audio
+a=recvonly
+a=ssrc:2 cname:shakiba
+a=rtcp-mux
+a=rtpmap:111 opus/48000/2
+a=fmtp:111 minptime=10;maxaveragebitrate=96000;stereo=1;sprop-stereo=1;useinbandfec=1
+a=setup:active
+a=ice-ufrag:gRak
+a=ice-pwd:DZSn7h1/Z+xslstfI/zgjA
+a=candidate:1 1 UDP 2122317823 192.168.167.59 65182 typ host
+a=candidate:2 1 UDP 1686109951 204.18.183.224 65182 typ srflx raddr 0.0.0.0 rport 0
+
+[WebRTC] PeerConnection state changed: Connected
+[WebRTC] Success: Connection is set!
+[WebRTC] Track is not open.
+[WebRTC] Data received in onMessage.
+[WebRTC] Received audio packet and stripped RTP header. Data size: 3 bytes.
+[WebRTC] Track is open now ================================================
+[WebRTC] Audio track added to peer connection.
+[WebRTC] Data received in onMessage.
+[WebRTC] Received audio packet and stripped RTP header. Data size: 3 bytes.
+[WebRTC] Audio track added to peer connection.
+[WebRTC] Data received in onMessage.
+[WebRTC] Received audio packet and stripped RTP header. Data size: 3 bytes.
+[WebRTC] Audio track added to peer connection.
+[WebRTC] Data received in onMessage.
+[WebRTC] Received audio packet and stripped RTP header. Data size: 3 bytes.
+[WebRTC] Audio track added to peer connection.
+[WebRTC] Data received in onMessage.
+```
