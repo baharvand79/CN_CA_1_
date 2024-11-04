@@ -1130,7 +1130,8 @@ console.log('Signaling server running on ws://localhost:3000');
 
 ## Output
 
-![Uploading image.png…]()
+![image](https://github.com/user-attachments/assets/95219579-505e-448a-82dd-081696896aee)
+
 ### Caller
 ```
 [WebRTC] Peer ID set to: 1
