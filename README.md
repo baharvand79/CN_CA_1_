@@ -1355,3 +1355,10 @@ a=candidate:2 1 UDP 1686109951 204.18.183.224 65182 typ srflx raddr 0.0.0.0 rpor
 [WebRTC] Audio track added to peer connection.
 [WebRTC] Data received in onMessage.
 ```
+
+## Challenges and Suggestions
+I faced several challenges while building the voice call app. One big issue was sending audio tracks. I needed to break the audio into smaller pieces and encode it to make it easier to send, but this was difficult.
+Choosing the right signaling server was also a problem. I had trouble using `socket.io` because it gave errors about wrong parenthesis. This made it hard to connect Qt with Node.js.
+Receiving audio tracks was tricky too. The audio features were not set up correctly, which caused issues. When I connected the audio input and output locally (like with headphones), the sound was clear. But when sending and receiving audio through peers, the quality dropped.
+Right now, audio can only be captured and played through headphones.
+In the future, I want to add better error handling to stop the app from crashing. For example, if a peer disconnects while sending audio or if the server goes down, the app should handle it smoothly. Also, improving the graphic interface to allow users to start or stop audio from the window would make the app better.
