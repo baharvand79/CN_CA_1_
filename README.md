@@ -41,4 +41,19 @@ Advantages of CoTURN:
 
 ## App
 ![image](https://github.com/user-attachments/assets/72a73bce-7787-4277-b5af-4dbd1bd6f660)
-The objective is to make a call between two peers using WebRTC. One is an offerer which is sending audio and one is the sender which plays audio. First, we need to run the server.js file. Second, we need to open two windows of the exe file. Then set the caller and calling IDs for the offerer and the caller ID for the offerer. Then click on the call button for the offerer. When you set IDs, peers will be registered on the signaling server. The signaling server will show, which peer is registered. Then, a SDP will generate as an answerer. After clicking on the call button, the type of the registered peer will be changed and it changes the sdp type before sending to the server, the server will show that it recieves some messages from the peer and it will be informed with the target id. it sends the local sdp of offerer to the target peer id. Then, when the target receives, it will generate and answer which is its new local sdp, then send it to signaling server. Also, it sets the remote sdp. signaling server will route the answer to the caller. The caller sets its remote sdp. The ICE gathering started and when both local and remote sdps are set, the peer connection will be connected.
+The objective is to make a call between two peers using WebRTC. One is an offerer which is sending audio and one is the sender which plays audio.
+### Call Flow Outline
+1. Initialize the Server: Start by running server.js, which acts as the signaling server, facilitating message exchange between peers.
+2. Open Application Instances: Open two instances of the application (the exe file), one for each peer (offerer and answerer).
+3. Set IDs and Start Call:
+  - Set caller ID and target ID for each peer.
+  - Click the call button on the offerer's side to initiate the connection.
+  - Upon setting IDs, the peers will register with the signaling server.
+4. Exchange SDP (Session Description Protocol):
+  - Once registered, the offerer will create an SDP offer, which is sent to the signaling server.
+  - The signaling server routes the offer SDP to the answerer.
+  - The answerer generates an SDP answer and returns it to the offerer through the signaling server.
+5. Set Local and Remote SDP:
+  - Each peer sets the remote SDP received from the other peer.
+  - ICE (Interactive Connectivity Establishment) candidates are exchanged for connectivity.
+6. Establish Connection: Once local and remote SDPs are set and ICE gathering is completed, the peer connection is established.
