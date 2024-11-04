@@ -3,7 +3,7 @@
 #include <QDebug>
 
 const int OPUS_SAMPLE_RATE = 48000;
-const int OPUS_CHANNELS = 2;
+const int OPUS_CHANNELS = 1;
 const int OPUS_FRAME_SIZE = 960;
 
 AudioOutput::AudioOutput(QObject *parent) : QObject(parent) {
@@ -58,12 +58,13 @@ void AudioOutput::playAudio(const QByteArray &data) {
 
 QByteArray AudioOutput::decodeAudio(const QByteArray &input) {
     QByteArray output;
-    int maxDecodedSamples = OPUS_FRAME_SIZE * OPUS_CHANNELS;
-    opus_int16 decodedData[maxDecodedSamples];
+    int maxDecodedSamples = OPUS_FRAME_SIZE;
+//    opus_int16 decodedData[maxDecodedSamples];
 
-    int decodedSamples = opus_decode(opusDecoder, reinterpret_cast<const unsigned char*>(input.constData()), input.size(), decodedData, maxDecodedSamples, 0);
+    std::vector<opus_int16> decodedData(maxDecodedSamples);
+    int decodedSamples = opus_decode(opusDecoder, reinterpret_cast<const unsigned char*>(input.data()), input.size(), decodedData.data(), maxDecodedSamples, 0);
     if (decodedSamples > 0) {
-        output.append(reinterpret_cast<const char*>(decodedData), decodedSamples * sizeof(int16_t));
+        output.append(reinterpret_cast<const char*>(decodedData.data()), decodedSamples * sizeof(int16_t));
         Q_EMIT debugMessage("[AudioOutput] Decoded audio data size: " + QString::number(decodedSamples * sizeof(int16_t)));
         qDebug() << "[AudioOutput] Decoded audio data size:" << decodedSamples * sizeof(int16_t);
     } else {

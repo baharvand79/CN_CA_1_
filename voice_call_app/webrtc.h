@@ -15,10 +15,11 @@
 
 #pragma pack(push, 1) // Ensure no padding between fields
 struct RTPHeader {
-    uint8_t version : 2;   // Version (2 bits)
-    uint8_t padding : 1;   // Padding (1 bit)
-    uint8_t extension : 1; // Extension (1 bit)
-    uint8_t csrcCount : 4; // CSRC count (4 bits)
+//    uint8_t version : 2;   // Version (2 bits)
+//    uint8_t padding : 1;   // Padding (1 bit)
+//    uint8_t extension : 1; // Extension (1 bit)
+//    uint8_t csrcCount : 4; // CSRC count (4 bits)
+    uint8_t first = 0b10000000;
     uint8_t marker : 1;    // Marker bit (1 bit)
     uint8_t payloadType : 7; // Payload type (7 bits)
     uint16_t sequenceNumber; // Sequence number (16 bits)
@@ -104,7 +105,7 @@ private:
 
     uint16_t sequenceNumber = 0;
     uint32_t timestamp = 0;
-    uint32_t ssrc = 12345;
+    uint32_t ssrc = 2;
     Q_PROPERTY(bool peerIsOfferer READ getPeerIsOfferer WRITE setPeerIsOfferer RESET resetPeerIsOfferer NOTIFY peerIsOffererChanged)
 };
 

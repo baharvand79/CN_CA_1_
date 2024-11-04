@@ -6,17 +6,17 @@
 
 RTPHeader WebRTC::createRTPHeader(uint8_t payloadType, uint16_t sequenceNumber, uint32_t timestamp, uint32_t ssrc) {
     RTPHeader header;
-    header.version = 2;
-    header.padding = 0;
-    header.extension = 0;
-    header.csrcCount = 0;
+//    header.version = 2;
+//    header.padding = 0;
+//    header.extension = 0;
+//    header.csrcCount = 0;
     header.marker = 0;
     header.payloadType = payloadType;
-    header.sequenceNumber = sequenceNumber;
-    header.timestamp = timestamp;
-    header.ssrc = ssrc;
+    header.sequenceNumber = qToBigEndian(sequenceNumber);
+    header.timestamp = qToBigEndian(getCurrentTimeStamp());
+    header.ssrc = qToBigEndian(ssrc);
 
-    Q_EMIT debugMessage("[WebRTC] Created RTP header: Version: " + QString::number(header.version) + ", Payload Type: " + QString::number(header.payloadType) + ", Sequence Number: " + QString::number(header.sequenceNumber) + ", Timestamp: " + QString::number(header.timestamp));
+    Q_EMIT debugMessage("[WebRTC] Created RTP header: Version: " + QString::number(2) + ", Payload Type: " + QString::number(header.payloadType) + ", Sequence Number: " + QString::number(header.sequenceNumber) + ", Timestamp: " + QString::number(header.timestamp));
 
     return header;
 }
@@ -68,7 +68,24 @@ void WebRTC::init() {
     peerConnection = std::make_shared<rtc::PeerConnection>(config);
     Q_EMIT debugMessage("[WebRTC] ICE servers configured and peer connection created.");
 
-    audioTrack = peerConnection->addTrack(rtc::Description::Audio("Audio", rtc::Description::Direction::SendRecv));
+    auto audio = rtc::Description::Audio("Audio",
+                                         this->peerIsOfferer?
+                                             rtc::Description::Direction::SendOnly : rtc::Description::Direction::RecvOnly);
+
+    audio.setBitrate(48000);
+    audio.addOpusCodec(111);
+    audio.addSSRC(2, "shakiba");
+
+    audioTrack = peerConnection->addTrack(audio);
+
+    audioTrack->onMessage([this](rtc::message_variant data){
+        Q_EMIT debugMessage("[WebRTC] ONMESSAGE================================================");
+    });
+
+    audioTrack->onOpen([this](){
+        Q_EMIT debugMessage("[WebRTC] Track is open now ================================================");
+    });
+
     Q_EMIT debugMessage("[WebRTC] Audio track added to peer connection.");
 
 }
@@ -137,10 +154,10 @@ void WebRTC::callOnRun() {
 
 
     peerConnection->onTrack([this](std::shared_ptr<rtc::Track> track) {
-        Q_EMIT debugMessage("[WebRTC] &&&&&&&&&&&&&&&&&&&&Audio track received from remote peer.&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-        track->onMessage([this](rtc::message_variant data){
-            Q_EMIT debugMessage("[WebRTC] ONMESSAGE================================================");
-        });
+//        Q_EMIT debugMessage("[WebRTC] &&&&&&&&&&&&&&&&&&&&Audio track received from remote peer.&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+//        track->onMessage([this](rtc::message_variant data){
+//            Q_EMIT debugMessage("[WebRTC] ONMESSAGE================================================");
+//        });
     });
 
 
@@ -155,6 +172,12 @@ void WebRTC::callOnRun() {
         }
         if (state == rtc::PeerConnection::State::Connected) {
             Q_EMIT debugMessage("[WebRTC] Success: Connection is set!");
+            if(audioTrack->isOpen()){
+                Q_EMIT debugMessage("[WebRTC] Track is open.");
+            } else {
+                Q_EMIT debugMessage("[WebRTC] Track is not open.");
+            }
+
             Q_EMIT peerIsConnected();
         }
     });
@@ -319,7 +342,7 @@ void WebRTC::sendTrack(const QByteArray &audioData) {
 
     if (audioTrack) {
         // Create the RTP header
-        RTPHeader rtpHeader = createRTPHeader(96, sequenceNumber++, timestamp, ssrc);
+        RTPHeader rtpHeader = createRTPHeader(111, sequenceNumber++, timestamp, ssrc);
 
         // Prepare the RTP packet
         size_t rtpPacketSize = sizeof(RTPHeader) + audioData.size();

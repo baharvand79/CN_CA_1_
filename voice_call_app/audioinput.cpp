@@ -3,7 +3,7 @@
 #include <QDebug>
 
 const int OPUS_SAMPLE_RATE = 48000;
-const int OPUS_CHANNELS = 2;
+const int OPUS_CHANNELS = 1;
 
 AudioInput::AudioInput(QObject *parent) : QIODevice(parent) {
     Q_EMIT debugMessage("[AudioInput] Initializing...");
@@ -78,15 +78,14 @@ qint64 AudioInput::writeData(const char *data, qint64 len) {
 
 QByteArray AudioInput::encodeAudio(const QByteArray &input) {
     QByteArray output;
-    int maxEncodedBytes = 4000;
-    unsigned char encodedData[maxEncodedBytes];
-
-    // Frame size calculation based on input data size
-    int frameSize = input.size() / (OPUS_CHANNELS * sizeof(int16_t));
-
-    int encodedBytes = opus_encode(opusEncoder, reinterpret_cast<const opus_int16*>(input.constData()), frameSize, encodedData, maxEncodedBytes);
+//    int maxEncodedBytes = 4000;
+    //    unsigned char encodedData[maxEncodedBytes];
+    std::vector<unsigned char> encodedData(input.size());    // Frame size calculation based on input data size
+    //    int frameSize = input.size() / (OPUS_CHANNELS * sizeof(int16_t));
+    int frameSize = input.size() / 2;
+    int encodedBytes = opus_encode(opusEncoder, reinterpret_cast<const opus_int16*>(input.constData()), frameSize, encodedData.data(), encodedData.size());
     if (encodedBytes > 0) {
-        output.append(reinterpret_cast<const char*>(encodedData), encodedBytes);
+        output.append(reinterpret_cast<const char*>(encodedData.data()), encodedBytes);
     }
     return output;
 }
